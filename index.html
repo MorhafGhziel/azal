@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>AZAL — Maison de Parfum</title>
+  <meta name="description" content="AZAL is a fictional perfume house. Built by SIMA." />
+  <meta name="theme-color" content="#F4EFE7" />
+  <style>
+    /* first paint, before the stylesheet: no flash of raw SVG or white */
+    html { background: #6f7fa0; } body { margin: 0; }
+    .js .loader { position: fixed; inset: 0; z-index: 100; background: #f4efe7; }
+    .loader__emblem, .nav svg { width: 17px; height: 24px; fill: none; stroke: currentColor; }
+    .loader__emblem { width: 34px; height: 48px; }
+    .capture .loader { display: none; }
+  </style>
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  <link rel="preload" as="image" href="/assets/sky/d/dawn_sky.webp" media="(min-aspect-ratio: 1/1)" />
+  <link rel="preload" as="image" href="/assets/sky/m/dawn_sky.webp" media="(max-aspect-ratio: 1/1)" />
+  <script>
+    // before paint: language, capture mode, repeat-visit loader, motion preference
+    (function () {
+      var d = document.documentElement, q = new URLSearchParams(location.search);
+      var lang = q.get('lang') || (function () { try { return localStorage.getItem('azal-lang'); } catch (e) { return null; } })() || 'en';
+      if (lang === 'ar') { d.lang = 'ar'; d.dir = 'rtl'; }
+      if (q.get('capture') === '1') d.classList.add('capture');
+      try { if (sessionStorage.getItem('azal-seen')) d.classList.add('seen'); } catch (e) {}
+      d.classList.add('js');
+    })();
+  </script>
+</head>
+<body>
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <symbol id="emblem" viewBox="0 0 40 56">
+      <!-- an arch (the bottle, a window at dawn), the sun inside it, the horizon under it -->
+      <path class="e-arch" d="M7 52V22a13 13 0 0 1 26 0v30" />
+      <circle class="e-sun" cx="20" cy="23" r="4.2" />
+      <path class="e-line" d="M1 52h38" />
+    </symbol>
+  </svg>
+
+  <div class="grain" aria-hidden="true"></div>
+
+  <div id="loader" class="loader" aria-hidden="true">
+    <div class="loader__veil loader__veil--top"></div>
+    <div class="loader__veil loader__veil--bottom"></div>
+    <div class="loader__center">
+      <svg class="loader__emblem" viewBox="0 0 40 56"><use href="#emblem" /></svg>
+      <span class="loader__count" data-count>0</span>
+    </div>
+  </div>
+
+  <header class="nav" data-nav>
+    <nav class="nav__pill" aria-label="Main">
+      <span class="nav__side nav__side--start">
+      <a class="nav__link nav__wide" href="/#story" data-t="nav.story">Story</a>
+      <a class="nav__link nav__wide" href="/#notes" data-t="nav.notes">Notes</a>
+      <button class="nav__link nav__menu" type="button" data-menu-open aria-expanded="false" aria-controls="menu" data-t="nav.menu">Menu</button>
+      </span>
+      <a class="nav__mark" href="/" data-t-aria="nav.home" aria-label="AZAL, back to the sky">
+        <svg viewBox="0 0 40 56" aria-hidden="true"><use href="#emblem" /></svg>
+      </a>
+      <span class="nav__side nav__side--end">
+      <a class="nav__link nav__wide" href="/shop" data-t="nav.shop">Shop</a>
+      <button class="nav__link nav__bag" type="button" data-bag aria-label="Bag (0)"><span data-t="nav.bag">Bag</span> <span class="nav__count">(<span class="tick" data-bag-count></span>)</span></button>
+      <button class="nav__link nav__lang nav__wide" type="button" data-lang-toggle data-t="nav.toggle" data-t-aria="nav.toggleLabel" aria-label="العربية">ع</button>
+      </span>
+    </nav>
+  </header>
+  <div class="menu" id="menu" data-menu hidden>
+    <button class="menu__x nav__link" type="button" data-menu-close data-t="nav.close">Close</button>
+    <nav class="menu__list" aria-label="Menu">
+      <a href="/#story" data-t="nav.story">Story</a>
+      <a href="/#notes" data-t="nav.notes">Notes</a>
+      <a href="/shop" data-t="nav.shop">Shop</a>
+      <button type="button" data-lang-toggle data-t="nav.toggleLabel">العربية</button>
+    </nav>
+  </div>
+  <div class="veil" data-veil aria-hidden="true"><svg viewBox="0 0 40 56"><use href="#emblem" /></svg></div>
+
+  <main id="top">
+    <!-- 01 + 02 share one sticky stage: the sky, the descent, the bottle -->
+    <section class="sky" id="sky" data-sky>
+      <div class="stage" data-stage>
+        <div class="layer layer--sky" data-layer="sky" data-depth="4">
+          <div class="layer__in"><picture><source media="(max-aspect-ratio: 1/1)" srcset="/assets/sky/m/dawn_sky.webp" /><img src="/assets/sky/d/dawn_sky.webp" alt="" decoding="async" fetchpriority="high" /></picture></div>
+        </div>
+        <div class="layer layer--far" data-layer="far" data-depth="7">
+          <div class="layer__in"><picture><source media="(max-aspect-ratio: 1/1)" srcset="/assets/sky/m/dawn_far.webp" /><img src="/assets/sky/d/dawn_far.webp" alt="" decoding="async" /></picture></div>
+        </div>
+        <div class="petals petals--back" data-petals="back" aria-hidden="true"></div>
+        <div class="layer layer--mid" data-layer="mid" data-depth="12">
+          <div class="layer__in"><picture><source media="(max-aspect-ratio: 1/1)" srcset="/assets/sky/m/dawn_mid.webp" /><img src="/assets/sky/d/dawn_mid.webp" alt="" decoding="async" /></picture></div>
+        </div>
+        <div class="dusken" data-dusken aria-hidden="true"></div>
+
+        <div class="hero-copy" data-hero-copy>
+          <p class="eyebrow"><span class="ln"><span class="ln__in" data-t="hero.eyebrow">Maison de Parfum</span></span></p>
+          <h1 class="hero-copy__title">
+            <span class="hero-copy__word"><span class="ln"><span class="ln__in" data-t="hero.word">AZAL</span></span></span>
+            <span class="hero-copy__tag"><span class="ln"><span class="ln__in" data-t="hero.tagline">Scent, remembered.</span></span></span>
+          </h1>
+          <div class="hero-copy__cta"><a class="pill" href="#manifesto" data-begin data-t="hero.cta">Begin the journey</a></div>
+        </div>
+
+        <!-- the ground below the clouds: wine space with its own low clouds -->
+        <div class="ground" data-ground>
+          <div class="ground__wine">
+            <picture class="ground__clouds"><source media="(max-aspect-ratio: 1/1)" srcset="/assets/sky/m/wine_back.webp" /><img src="/assets/sky/d/wine_back.webp" alt="" decoding="async" loading="lazy" /></picture>
+          </div>
+          <div class="layer layer--near" data-layer="near" data-depth="18">
+            <div class="layer__in"><picture><source media="(max-aspect-ratio: 1/1)" srcset="/assets/sky/m/dawn_near.webp" /><img src="/assets/sky/d/dawn_near.webp" alt="" decoding="async" /></picture></div>
+          </div>
+        </div>
+
+        <div class="bottle" data-bottle>
+          <div class="bottle__glow" aria-hidden="true"></div>
+          <div class="bottle__frame">
+            <canvas class="bottle__seq" data-bottle-seq width="1000" height="1286" role="img" data-t-aria="bottleAlt" aria-label=""></canvas>
+            <div class="bottle__sweep" data-sweep aria-hidden="true"></div>
+          </div>
+          <div class="bottle__shadow" aria-hidden="true"></div>
+        </div>
+
+        <div class="petals petals--front" data-petals="front" aria-hidden="true"></div>
+
+        <div class="layer layer--front" data-layer="front" data-depth="26">
+          <div class="layer__in"><picture><source media="(max-aspect-ratio: 1/1)" srcset="/assets/sky/m/dawn_front.webp" /><img src="/assets/sky/d/dawn_front.webp" alt="" decoding="async" /></picture></div>
+        </div>
+        <div class="mist" data-mist aria-hidden="true">
+          <div class="mist__card mist__card--a"><img src="/assets/sky/mist_a.webp" alt="" decoding="async" /></div>
+          <div class="mist__card mist__card--b"><img src="/assets/sky/mist_b.webp" alt="" decoding="async" /></div>
+        </div>
+
+        <div class="manifesto" id="manifesto" data-manifesto>
+          <p class="eyebrow manifesto__label" data-t="manifesto.label">Manifesto</p>
+          <p class="manifesto__text" data-lines="manifesto.lines"></p>
+        </div>
+
+        <div class="corner corner--start" data-scroll-cue><span class="corner__tick"></span><span data-t="hero.scroll">Scroll</span></div>
+      </div>
+    </section>
+
+    <section class="origins" id="story" data-origins aria-labelledby="origins-label"></section>
+    <section class="notes" id="notes" data-notes aria-labelledby="notes-title"></section>
+    <section class="collection" id="collection" data-collection aria-labelledby="collection-title"></section>
+    <section class="finale" id="finale" data-finale aria-labelledby="finale-title"></section>
+  </main>
+  <div class="view" data-pageview hidden></div>
+  <footer class="footer" data-footer></footer>
+
+  <div class="petal" data-petal aria-hidden="true"></div>
+  <div class="cursor" data-cursor aria-hidden="true"><span class="cursor__dot"></span><span class="cursor__ring"><span class="cursor__label">Drag</span></span></div>
+
+  <script type="module" src="/src/main.ts"></script>
+</body>
+</html>
