@@ -474,3 +474,6 @@ body:has(.buybar.is-on) .toast { bottom: calc(84px + var(--safe-b)); }
 .nav__side--start { justify-content: flex-end; }
 .nav__side--end { justify-content: flex-start; }
 .footer__note a { text-decoration: none; } .footer__note a:hover { text-decoration: underline; text-underline-offset: 4px; }
+
+/* cursor parts are placed from the top-left in both directions (in RTL an unanchored absolute box hangs off the right edge) */
+.cursor__dot, .cursor__ring { left: 0; top: 0; }

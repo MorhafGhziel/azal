@@ -30,10 +30,14 @@ export function initCursor() {
     label.textContent = view ? copy.cursor.view : copy.cursor.drag;
     if (!raf) raf = requestAnimationFrame(loop);
   }, { passive: true });
+  // at the moment of a click the ring is exactly on the pointer
+  addEventListener('pointerdown', () => { rx = x; ry = y; ring.style.transform = `translate3d(${x}px, ${y}px, 0)`; }, { passive: true });
   document.addEventListener('pointerleave', () => el.classList.add('is-hidden'));
   document.addEventListener('pointerenter', () => { if (seen) el.classList.remove('is-hidden'); });
   function loop() {
-    rx += (x - rx) * 0.2; ry += (y - ry) * 0.2;
+    // big discs (drag / view / link) sit almost on the pointer so the click point is always their centre
+    const k = el.classList.contains('is-drag') || el.classList.contains('is-view') || el.classList.contains('is-link') ? 0.65 : 0.35;
+    rx += (x - rx) * k; ry += (y - ry) * k;
     ring.style.transform = `translate3d(${rx}px, ${ry}px, 0)`;
     raf = Math.abs(x - rx) + Math.abs(y - ry) > 0.1 ? requestAnimationFrame(loop) : 0;
   }
