@@ -1,0 +1,11 @@
+node_modules/
+dist/
+_ref/
+blender/out/
+blender/src_photos/
+blender/__pycache__/
+*.log
+# unused full-size PNG copies (the site serves the WebP versions)
+public/assets/bottle/*.png
+public/assets/petal/petal_sheet.png
+.env*

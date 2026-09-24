@@ -1,0 +1,23 @@
+{
+  "name": "azal",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite --port 4100",
+    "build": "tsc --noEmit && vite build",
+    "preview": "vite preview --port 4101"
+  },
+  "devDependencies": {
+    "typescript": "^7.0.2",
+    "vite": "^8.3.1"
+  },
+  "dependencies": {
+    "@fontsource-variable/cormorant": "^5.3.0",
+    "@fontsource-variable/hanken-grotesk": "^5.3.0",
+    "@fontsource/amiri": "^5.3.0",
+    "@fontsource/ibm-plex-sans-arabic": "^5.3.0",
+    "gsap": "^3.15.0",
+    "lenis": "^1.3.26"
+  }
+}
