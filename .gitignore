@@ -9,3 +9,6 @@ blender/__pycache__/
 public/assets/bottle/*.png
 public/assets/petal/petal_sheet.png
 .env*
+
+.vercel
+.vercel
