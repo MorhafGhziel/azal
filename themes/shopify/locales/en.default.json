@@ -440,7 +440,8 @@
       "empty": "This collection is waiting for its first fragrance.",
       "no_matches": "No products match these filters.",
       "clear_filters": "Clear all filters",
-      "browse_all": "Browse all fragrances"
+      "browse_all": "Browse all fragrances",
+      "tabs_label": "Product categories"
     },
     "collections": {
       "empty": "There are no collections yet.",

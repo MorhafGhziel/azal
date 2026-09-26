@@ -11,7 +11,10 @@
   "sections": {
     "main": {
       "type": "collection",
-      "settings": {}
+      "settings": {
+        "eyebrow": "The collection",
+        "tag_tabs": "Floral, Woody, Amber, Musk"
+      }
     }
   },
   "order": [

@@ -342,3 +342,6 @@ a.acct__item-title:hover { text-decoration: underline; text-underline-offset: 3p
   .gift__actions, .gift__copy, .skip-link { display: none !important; }
   .gift-body, .gift { color: #000 !important; background: #fff !important; }
 }
+
+/* collection tag tabs (the original AZAL shop filter row) */
+.collection-tabs { margin: 0 0 32px; }

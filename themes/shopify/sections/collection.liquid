@@ -42,6 +42,44 @@
         {%- endif -%}
       </header>
 
+      {%- liquid
+        assign tab_tags = section.settings.tag_tabs | split: ','
+        assign tab_count = 0
+        for raw in tab_tags
+          assign t = raw | strip | downcase
+          if collection.all_tags contains t
+            assign tab_count = tab_count | plus: 1
+          endif
+        endfor
+      -%}
+      {%- if tab_count > 0 -%}
+        <nav class="collection-tabs" aria-label="{{ 'store.collection.tabs_label' | t }}">
+          <ul class="blog__tag-list" role="list">
+            <li>
+              <a class="filters__b{% if current_tags == blank %} is-on{% endif %}" href="{{ collection.url }}"{% if current_tags == blank %} aria-current="page"{% endif %}>
+                {{- 'store.blog.all' | t -}}
+              </a>
+            </li>
+            {%- for raw in tab_tags -%}
+              {%- assign t = raw | strip | downcase -%}
+              {%- if collection.all_tags contains t -%}
+                {%- liquid
+                  assign active = false
+                  if current_tags contains t
+                    assign active = true
+                  endif
+                -%}
+                <li>
+                  <a class="filters__b{% if active %} is-on{% endif %}" href="{{ collection.url }}/{{ t | handleize }}"{% if active %} aria-current="page"{% endif %}>
+                    {{- raw | strip | escape -}}
+                  </a>
+                </li>
+              {%- endif -%}
+            {%- endfor -%}
+          </ul>
+        </nav>
+      {%- endif -%}
+
       {%- if section.settings.enable_filtering or section.settings.enable_sorting -%}
         {%- render 'facets',
           results: collection,
@@ -98,6 +136,12 @@
       "id": "eyebrow",
       "label": "Eyebrow",
       "info": "Small text above the collection title."
+    },
+    {
+      "type": "text",
+      "id": "tag_tabs",
+      "label": "Tag tabs",
+      "info": "Comma-separated product tags shown as quick links under the title, for example Floral, Woody. Tags not used in the collection are hidden."
     },
     {
       "type": "checkbox",
