@@ -68,18 +68,19 @@ const AZAL_COMPONENTS = [
     {
       id: 'chapters', type: 'collection', format: 'collection', required: true, minLength: 1, maxLength: 6, label: 'الفصول', item_label: 'فصل',
       value: [
-        { 'chapters.name': 'الأرض', 'chapters.title': 'حيث تستيقظ الوردة', 'chapters.text': 'حقول في المرتفعات، والضباب ما زال في الأودية، وأول ضوء على البتلات.', 'chapters.image': null },
-        { 'chapters.name': 'اليد', 'chapters.title': 'تُقطف قبل الشمس', 'chapters.text': 'باليد، عند الفجر، والعطر ما زال محفوظًا داخل البتلة.', 'chapters.image': null },
-        { 'chapters.name': 'الصنعة', 'chapters.title': 'قطرةً قطرة', 'chapters.text': 'نحاس وبخار ووقت — حتى تبقى قطرة زيت واحدة.', 'chapters.image': null },
-        { 'chapters.name': 'الزمن', 'chapters.title': 'العود لا يستعجل', 'chapters.text': 'راتنج يحتاج سنوات ليتكوّن، ودخان يأخذ وقته ليصعد.', 'chapters.image': null },
+        { 'chapters.name': 'الأرض', 'chapters.title': 'حيث تستيقظ الوردة', 'chapters.text': 'حقول في المرتفعات، والضباب ما زال في الأودية، وأول ضوء على البتلات.' },
+        { 'chapters.name': 'اليد', 'chapters.title': 'تُقطف قبل الشمس', 'chapters.text': 'باليد، عند الفجر، والعطر ما زال محفوظًا داخل البتلة.' },
+        { 'chapters.name': 'الصنعة', 'chapters.title': 'قطرةً قطرة', 'chapters.text': 'نحاس وبخار ووقت — حتى تبقى قطرة زيت واحدة.' },
+        { 'chapters.name': 'الزمن', 'chapters.title': 'العود لا يستعجل', 'chapters.text': 'راتنج يحتاج سنوات ليتكوّن، ودخان يأخذ وقته ليصعد.' },
       ],
+      // images live outside the list: Salla treats an image inside a repeating list as required
       fields: [
-        image('chapters.image', 'الصورة', 'المقاس 2560×1440'),
         text('chapters.name', 'اسم الفصل', null),
         text('chapters.title', 'العنوان', null),
         text('chapters.text', 'النص', null, 'textarea'),
       ],
     },
+    ...[1, 2, 3, 4, 5, 6].map((n) => image(`image_${n}`, `صورة الفصل ${n} (اختياري)`, 'المقاس 2560×1440 — اتركها فارغة لاستخدام صور الثيم')),
   ]),
   C('a2a1f0c1-0003-4a7a-9a01-000000000003', 'home.azal-notes', L('أزل — نوتات العطر', 'AZAL — Fragrance notes'), 'sicon-drop', [
     note('azal-notes-desc', '<p>تمتلئ القارورة طبقة بعد طبقة (القمة، القلب، القاعدة) وتصعد المكونات خلفها.</p>'),

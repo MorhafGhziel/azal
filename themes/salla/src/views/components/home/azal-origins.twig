@@ -1,6 +1,6 @@
 {#
   AZAL 03 — Origins: a pinned stage, one chapter per item. Images wipe up, lines rise in their masks.
-  Fields (twilight.json → home.azal-origins): label, chapters[ image, name, title, text ].
+  Fields (twilight.json → home.azal-origins): label, chapters[ name, title, text ], image_1…image_6.
 #}
 {% set defaults = ['land', 'hand', 'craft', 'time'] %}
 {% set chapters = component.chapters ?: [] %}
@@ -11,10 +11,11 @@
     <div class="origins__media">
       {% for ch in chapters %}
         {% set key = defaults[loop.index0 % 4] %}
+        {% set img = attribute(component, 'image_' ~ loop.index) %}
         <figure class="origins__img" data-ch-img="{{ loop.index0 }}">
           <picture>
-            {% if ch.image %}
-              <img src="{{ ch.image }}" alt="{{ ch.title }}" loading="lazy">
+            {% if img %}
+              <img src="{{ img }}" alt="{{ ch.title }}" loading="lazy">
             {% else %}
               <source media="(max-aspect-ratio: 1/1)" srcset="{{ ('azal/origins-' ~ key ~ '_m.webp')|asset }}">
               <img src="{{ ('azal/origins-' ~ key ~ '_d.webp')|asset }}" alt="{{ ch.title }}" loading="lazy" width="2560" height="1440">

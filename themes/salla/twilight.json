@@ -624,39 +624,25 @@
                         {
                             "chapters.name": "الأرض",
                             "chapters.title": "حيث تستيقظ الوردة",
-                            "chapters.text": "حقول في المرتفعات، والضباب ما زال في الأودية، وأول ضوء على البتلات.",
-                            "chapters.image": null
+                            "chapters.text": "حقول في المرتفعات، والضباب ما زال في الأودية، وأول ضوء على البتلات."
                         },
                         {
                             "chapters.name": "اليد",
                             "chapters.title": "تُقطف قبل الشمس",
-                            "chapters.text": "باليد، عند الفجر، والعطر ما زال محفوظًا داخل البتلة.",
-                            "chapters.image": null
+                            "chapters.text": "باليد، عند الفجر، والعطر ما زال محفوظًا داخل البتلة."
                         },
                         {
                             "chapters.name": "الصنعة",
                             "chapters.title": "قطرةً قطرة",
-                            "chapters.text": "نحاس وبخار ووقت — حتى تبقى قطرة زيت واحدة.",
-                            "chapters.image": null
+                            "chapters.text": "نحاس وبخار ووقت — حتى تبقى قطرة زيت واحدة."
                         },
                         {
                             "chapters.name": "الزمن",
                             "chapters.title": "العود لا يستعجل",
-                            "chapters.text": "راتنج يحتاج سنوات ليتكوّن، ودخان يأخذ وقته ليصعد.",
-                            "chapters.image": null
+                            "chapters.text": "راتنج يحتاج سنوات ليتكوّن، ودخان يأخذ وقته ليصعد."
                         }
                     ],
                     "fields": [
-                        {
-                            "type": "string",
-                            "icon": "sicon-image",
-                            "id": "chapters.image",
-                            "label": "الصورة",
-                            "format": "image",
-                            "required": false,
-                            "value": null,
-                            "description": "المقاس 2560×1440"
-                        },
                         {
                             "type": "string",
                             "icon": "sicon-format-text-alt",
@@ -688,6 +674,66 @@
                             "value": null
                         }
                     ]
+                },
+                {
+                    "type": "string",
+                    "icon": "sicon-image",
+                    "id": "image_1",
+                    "label": "صورة الفصل 1 (اختياري)",
+                    "format": "image",
+                    "required": false,
+                    "value": null,
+                    "description": "المقاس 2560×1440 — اتركها فارغة لاستخدام صور الثيم"
+                },
+                {
+                    "type": "string",
+                    "icon": "sicon-image",
+                    "id": "image_2",
+                    "label": "صورة الفصل 2 (اختياري)",
+                    "format": "image",
+                    "required": false,
+                    "value": null,
+                    "description": "المقاس 2560×1440 — اتركها فارغة لاستخدام صور الثيم"
+                },
+                {
+                    "type": "string",
+                    "icon": "sicon-image",
+                    "id": "image_3",
+                    "label": "صورة الفصل 3 (اختياري)",
+                    "format": "image",
+                    "required": false,
+                    "value": null,
+                    "description": "المقاس 2560×1440 — اتركها فارغة لاستخدام صور الثيم"
+                },
+                {
+                    "type": "string",
+                    "icon": "sicon-image",
+                    "id": "image_4",
+                    "label": "صورة الفصل 4 (اختياري)",
+                    "format": "image",
+                    "required": false,
+                    "value": null,
+                    "description": "المقاس 2560×1440 — اتركها فارغة لاستخدام صور الثيم"
+                },
+                {
+                    "type": "string",
+                    "icon": "sicon-image",
+                    "id": "image_5",
+                    "label": "صورة الفصل 5 (اختياري)",
+                    "format": "image",
+                    "required": false,
+                    "value": null,
+                    "description": "المقاس 2560×1440 — اتركها فارغة لاستخدام صور الثيم"
+                },
+                {
+                    "type": "string",
+                    "icon": "sicon-image",
+                    "id": "image_6",
+                    "label": "صورة الفصل 6 (اختياري)",
+                    "format": "image",
+                    "required": false,
+                    "value": null,
+                    "description": "المقاس 2560×1440 — اتركها فارغة لاستخدام صور الثيم"
                 }
             ]
         },

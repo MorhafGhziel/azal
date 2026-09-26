@@ -83,3 +83,11 @@ body.azal-house {
 
 // a home page that starts with the sky: the header floats over it
 .is-home body .app-inner { padding-top: 0; }
+
+// a home page that does not open with the sky: ink header on the light ground
+.is-home:not(:has(.az [data-sky])) .azal-header .nav { color: var(--ink); }
+.is-home:not(:has(.az [data-sky])) .azal-header .nav__pill {
+  border-color: color-mix(in srgb, var(--ink) 16%, transparent);
+  background: color-mix(in srgb, var(--ivory) 88%, transparent);
+  backdrop-filter: blur(10px);
+}
