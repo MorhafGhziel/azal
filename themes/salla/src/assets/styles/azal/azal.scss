@@ -91,3 +91,80 @@ body.azal-house {
   background: color-mix(in srgb, var(--ivory) 88%, transparent);
   backdrop-filter: blur(10px);
 }
+
+// ================= header: Salla components inside the AZAL pill =================
+.azal-header .nav__pill { height: 48px; align-items: center; overflow: visible; }
+.azal-header .nav__side { height: 100%; min-width: 0; gap: clamp(12px, 1.6vw, 24px); }
+.azal-header .nav__link { line-height: 1; }
+.azal-header .azal-desktop-menu { display: none; height: 100%; align-items: center; }
+@media (min-width: 1024px) {
+  .azal-header .azal-desktop-menu { display: flex; }
+  .azal-header .azal-desktop-menu custom-main-menu { display: flex; height: 100%; align-items: center; }
+  .azal-header .nav__menu { display: none; }
+}
+// Raed gives the desktop menu pt-8 and each link pb-8: that pushed the links under the pill
+.azal-header .main-menu {
+  display: flex !important; flex-wrap: nowrap; align-items: center; height: 100%;
+  gap: clamp(14px, 1.8vw, 28px); margin: 0 !important; padding: 0 !important; list-style: none;
+}
+.azal-header .main-menu > li.root-level { display: flex !important; align-items: center; height: 100%; position: relative; }
+.azal-header .main-menu > li.root-level:nth-child(n + 4), .azal-header #more-menu-dropdown { display: none !important; } // three links fit the pill; the rest live in the phone menu
+.azal-header .main-menu > li > a {
+  padding: 6px 0 !important; color: inherit !important; white-space: nowrap;
+  font-size: 11px !important; font-weight: 500 !important; letter-spacing: 0.2em; text-transform: uppercase; background: none !important;
+}
+:root[lang='ar'] .azal-header .main-menu > li > a { letter-spacing: 0; font-size: 13px !important; }
+.azal-header .main-menu .has-children.root-level > a::after { display: none; }
+.azal-header .main-menu .sub-menu { top: calc(100% + 12px); color: var(--ink); text-transform: none; letter-spacing: 0; border-radius: 14px; }
+
+// bag: icon + a small count, no running total
+.azal-header .s-cart-summary-wrapper { color: inherit !important; font-weight: 500; gap: 6px; }
+.azal-header .s-cart-summary-total, .azal-header .s-cart-summary-content { display: none !important; }
+.azal-header .s-cart-summary-count {
+  position: static !important; width: auto; min-width: 18px; height: 18px; padding: 0 5px;
+  background: transparent !important; color: inherit !important; border: 1px solid currentColor; font-size: 10px; line-height: 1;
+}
+.azal-header .nav__icon { font-size: 17px; }
+
+// account: a 28px ring instead of Salla's 40px avatar
+.azal-header salla-user-menu { display: inline-flex; align-items: center; }
+.azal-header .s-user-menu-trigger, .azal-header .s-user-menu-toggler {
+  width: 28px; height: 28px; padding: 0 !important; border-radius: 50%; background: transparent !important;
+  border: 1px solid color-mix(in srgb, currentColor 45%, transparent) !important; display: grid; place-items: center; color: inherit !important;
+}
+.azal-header .s-user-menu-trigger img, .azal-header .s-user-menu-avatar-wrap img, .azal-header .s-user-menu-trigger-avatar { width: 26px !important; height: 26px !important; border-radius: 50%; }
+.azal-header .s-user-menu-dropdown { color: var(--ink); }
+
+// language / currency: plain text like the other links
+.azal-header .s-localization-modal-trigger-btn {
+  width: auto !important; padding: 4px 0 !important; background: transparent !important; color: inherit !important;
+  font-size: 11px; font-weight: 500; letter-spacing: 0.14em;
+}
+:root[lang='ar'] .azal-header .s-localization-modal-trigger-btn { letter-spacing: 0; font-size: 13px; }
+.azal-header .s-localization-modal-trigger-separator { opacity: 0.45; }
+@media (max-width: 1023px) { .azal-header salla-localization-modal { display: none; } }
+
+// ================= footer =================
+.az .footer--salla { gap: 30px; padding-top: 80px; }
+.az .footer--salla .footer__top { display: grid; justify-items: center; gap: 14px; }
+.az .footer--salla .footer__mark { width: 26px; stroke-width: 1.3; opacity: 0.9; }
+.az .footer__brand { margin: 0; font-family: var(--serif); font-size: clamp(30px, 3vw, 44px); font-weight: 300; letter-spacing: 0.12em; color: var(--cream); }
+:root[lang='ar'] .az .footer__brand { font-family: 'Amiri', var(--serif); letter-spacing: 0; }
+.az .footer--salla .footer__text { max-width: 34rem; opacity: 0.7; }
+.az .footer--salla .footer__links { width: 100%; max-width: 60rem; padding: 20px 0; border-block: 1px solid color-mix(in srgb, var(--cream) 14%, transparent); }
+.az .footer--salla .s-menu-footer-list { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px 30px; margin: 0; padding: 0; }
+.az .footer--salla .s-menu-footer-item a { color: inherit; font-size: 11px; font-weight: 500; letter-spacing: 0.2em; text-transform: uppercase; text-decoration: none; }
+:root[lang='ar'] .az .footer--salla .s-menu-footer-item a { letter-spacing: 0; font-size: 13px; }
+.az .footer__row { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 18px 44px; font-size: 13px; }
+.az .footer__row a, .az .footer__row span, .az .footer__row i { color: inherit !important; }
+.az .footer__row .s-contacts-list, .az .footer__row ul { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px 26px; margin: 0; padding: 0; }
+.az .footer__legal {
+  display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 16px 30px;
+  width: 100%; max-width: 60rem; padding-top: 22px; border-top: 1px solid color-mix(in srgb, var(--cream) 10%, transparent);
+  font-size: 12px; opacity: 0.85;
+}
+.az .footer__legal img { max-height: 28px; width: auto; }
+.az .footer__tax { display: flex; align-items: center; gap: 10px; }
+.az .footer--salla .footer__note { font-size: 12px; opacity: 0.55; }
+.is-page .az .footer__brand { color: var(--ink); }
+.is-page .az .footer--salla .footer__links, .is-page .az .footer__legal { border-color: color-mix(in srgb, var(--ink) 12%, transparent); }

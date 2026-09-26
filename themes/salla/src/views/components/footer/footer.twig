@@ -1,27 +1,33 @@
 {#
-  AZAL footer: the emblem, the footer menu, contacts, social links, trust badges, tax number, payment
-  methods and the copyright hook — every Salla requirement, in the house style.
+  AZAL footer: the emblem and the house name, the footer menu in one line, contacts and social in one
+  row, then the legal row (trust badges, tax number, payments, apps) and the copyright.
+  Every Salla requirement stays: salla-menu, salla-contacts, salla-social, salla-trust-badges,
+  the tax certificate, salla-payments, salla-apps-icons and the copyright hook.
 #}
 <footer data-testid="store-footer" class="store-footer az">
-  <div class="footer" data-footer>
-    <svg class="footer__mark" viewBox="0 0 40 56" aria-hidden="true"><use href="#emblem" /></svg>
-    <p class="eyebrow">{{ store.name }}</p>
-    {% if store.description %}<div class="footer__text">{{ store.description|raw }}</div>{% endif %}
+  <div class="footer footer--salla" data-footer>
+    <div class="footer__top">
+      <svg class="footer__mark" viewBox="0 0 40 56" aria-hidden="true"><use href="#emblem" /></svg>
+      <p class="footer__brand">{{ store.name }}</p>
+      {% if store.description %}<div class="footer__text">{{ store.description|raw }}</div>{% endif %}
+    </div>
 
     <nav class="footer__links" aria-label="{{ trans('blocks.footer.pages_links') }}">
       <salla-menu data-testid="store-footer-menu" source="footer" with-cookie-preferences></salla-menu>
     </nav>
 
-    <salla-contacts data-testid="store-footer-contacts"></salla-contacts>
-    <salla-social data-testid="store-footer-social"></salla-social>
+    <div class="footer__row">
+      <salla-contacts data-testid="store-footer-contacts" horizontal hide-title></salla-contacts>
+      <salla-social data-testid="store-footer-social"></salla-social>
+    </div>
 
-    <div class="footer__trust">
+    <div class="footer__legal">
       <salla-trust-badges data-testid="store-footer-trust-badges" {{ theme.settings.get('azal_footer_light') ? '' : 'dark' }}></salla-trust-badges>
       {% if store.settings.tax.number %}
         <div class="footer__tax">
           {% if store.settings.tax.certificate %}
             <a class="load-img-onclick" data-modal-id="modal-value-tax" href="#/" aria-label="{{ trans('common.elements.tax_number') }}">
-              <img width="40" height="50" src="{{ 'images/tax.png'|cdn(70, 70) }}" loading="lazy" alt="value added tax">
+              <img width="32" height="40" src="{{ 'images/tax.png'|cdn(70, 70) }}" loading="lazy" alt="value added tax">
             </a>
           {% endif %}
           <span>{{ trans('common.elements.tax_number') }} · <b>{{ store.settings.tax.number }}</b></span>
@@ -32,10 +38,10 @@
           </salla-modal>
         {% endif %}
       {% endif %}
+      <salla-payments data-testid="store-footer-payments"></salla-payments>
+      <salla-apps-icons data-testid="store-footer-apps" hide-title></salla-apps-icons>
     </div>
 
-    <salla-apps-icons data-testid="store-footer-apps"></salla-apps-icons>
-    <salla-payments data-testid="store-footer-payments"></salla-payments>
     <p class="footer__note">{% hook copyright %}</p>
   </div>
 </footer>
