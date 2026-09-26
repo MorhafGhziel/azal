@@ -11,7 +11,7 @@
     <div class="origins__media">
       {% for ch in chapters %}
         {% set key = defaults[loop.index0 % 4] %}
-        {% set img = attribute(component, 'image_' ~ loop.index) %}
+        {% set img = attribute(component, 'image_' ~ loop.index) ?: ch.image %}{# new layout or the one saved at import #}
         <figure class="origins__img" data-ch-img="{{ loop.index0 }}">
           <picture>
             {% if img %}
