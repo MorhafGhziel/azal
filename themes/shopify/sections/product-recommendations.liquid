@@ -1,32 +1,97 @@
-{%- comment -%} "You may also like" — loaded through the Product Recommendations API. {%- endcomment -%}
-<section class="also" data-recommendations data-url="{{ routes.product_recommendations_url }}?section_id={{ section.id }}&product_id={{ product.id }}&limit={{ section.settings.limit }}" aria-labelledby="AlsoTitle-{{ section.id }}">
+{%- comment -%}
+  Product recommendations, loaded after the page through the Product Recommendations API.
+  "Related" shows products Shopify finds similar; "Complementary" shows the products set up to pair with this
+  one in the Shopify Search and Discovery app. The section stays hidden when there is nothing to show.
+{%- endcomment -%}
+{%- liquid
+  assign heading_id = 'RecsTitle-' | append: section.id
+  assign columns = section.settings.columns
+  assign recs_url = routes.product_recommendations_url | append: '?section_id=' | append: section.id | append: '&product_id=' | append: product.id | append: '&limit=' | append: section.settings.limit | append: '&intent=' | append: section.settings.intent
+-%}
+<div
+  class="recs recs--{{ section.settings.intent }} color-{{ section.settings.color_scheme }}"
+  data-recommendations
+  data-url="{{ recs_url }}"
+  {% if section.settings.heading != blank %}
+    role="region"
+    aria-labelledby="{{ heading_id }}"
+  {% endif %}
+>
   {%- if recommendations.performed? and recommendations.products_count > 0 -%}
-    <h2 class="eyebrow" id="AlsoTitle-{{ section.id }}">{{ section.settings.heading | escape }}</h2>
-    <ul class="also__row" role="list">
-      {%- for p in recommendations.products -%}
-        {%- assign bg = p.metafields.custom.background_color.value | default: settings.color_card_bg -%}
-        <li style="--bg: {{ bg }};">
-          <a href="{{ p.url }}" data-view>
-            <span class="also__img">
-              {%- if p.featured_media -%}{{ p.featured_media.preview_image | image_url: width: 900 | image_tag: loading: 'lazy', widths: '300, 600, 900', sizes: '(min-width: 900px) 30vw, 100vw', alt: '' }}{%- endif -%}
-            </span>
-            <span class="also__name">{{ p.title | escape }}</span>
-            <span class="also__price">{% render 'price', product: p, from: true %}</span>
-          </a>
-        </li>
-      {%- endfor -%}
-    </ul>
+    <div class="recs__in" data-recommendations-loaded>
+      {%- if section.settings.heading != blank -%}
+        <h2 class="recs__title eyebrow" id="{{ heading_id }}">{{ section.settings.heading | escape }}</h2>
+      {%- endif -%}
+      <ul class="grid recs__grid" role="list" style="--recs-cols: {{ columns }};">
+        {%- for rec in recommendations.products -%}
+          {%- render 'card-product', product: rec, index: 10, heading_tag: 'h3', show_quick_add: section.settings.show_quick_add -%}
+        {%- endfor -%}
+      </ul>
+    </div>
   {%- endif -%}
-</section>
+</div>
 
 {% schema %}
 {
-  "name": "t:sections.product-recommendations.name",
-  "class": "section-recs",
+  "name": "Product recommendations",
+  "tag": "section",
+  "class": "section-recommendations",
   "settings": [
-    { "type": "text", "id": "heading", "default": "You may also like", "label": "t:sections.product-recommendations.settings.heading.label" },
-    { "type": "range", "id": "limit", "min": 2, "max": 6, "step": 1, "default": 3, "label": "t:sections.product-recommendations.settings.limit.label" }
+    {
+      "type": "select",
+      "id": "intent",
+      "label": "Recommendation type",
+      "default": "related",
+      "options": [
+        { "value": "related", "label": "Related products" },
+        { "value": "complementary", "label": "Complementary products" }
+      ],
+      "info": "Complementary products are set up in the Shopify Search and Discovery app."
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "You may also like"
+    },
+    {
+      "type": "range",
+      "id": "limit",
+      "label": "Maximum products to show",
+      "min": 2,
+      "max": 10,
+      "step": 1,
+      "default": 4
+    },
+    {
+      "type": "range",
+      "id": "columns",
+      "label": "Columns on desktop",
+      "min": 2,
+      "max": 5,
+      "step": 1,
+      "default": 4
+    },
+    {
+      "type": "checkbox",
+      "id": "show_quick_add",
+      "label": "Show quick add",
+      "default": true
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    }
   ],
-  "enabled_on": { "templates": ["product"] }
+  "presets": [
+    {
+      "name": "Product recommendations"
+    }
+  ],
+  "enabled_on": {
+    "templates": ["product"]
+  }
 }
 {% endschema %}

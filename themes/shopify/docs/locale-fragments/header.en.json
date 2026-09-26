@@ -1,0 +1,99 @@
+{
+  "header": {
+    "nav": {
+      "label": "Main",
+      "menu": "Menu",
+      "close": "Close",
+      "search": "Search",
+      "account": "Account",
+      "bag": "Bag",
+      "bag_count": {
+        "one": "Bag, {{ count }} item",
+        "other": "Bag, {{ count }} items"
+      },
+      "view_all": "View all {{ title }}"
+    },
+    "announcement": {
+      "label": "Announcements",
+      "pause": "Pause announcements"
+    },
+    "search": {
+      "dialog_label": "Search the store",
+      "label": "Search",
+      "placeholder": "Search perfumes, notes, pages",
+      "submit": "Search",
+      "close": "Close search",
+      "results_status": "Results available: {{ count }}. Use the up and down arrows to browse.",
+      "no_results": "Nothing found for “{{ terms }}”",
+      "suggestions": "Suggestions",
+      "collections": "Collections",
+      "pages": "Pages",
+      "articles": "Articles",
+      "products": "Products",
+      "price_from": "From {{ price }}",
+      "regular_price": "Regular price",
+      "search_for": "Search for “{{ terms }}”"
+    }
+  },
+  "localization": {
+    "country_label": "Country/region",
+    "language_label": "Language",
+    "search_countries": "Search countries",
+    "no_countries": "No country found"
+  },
+  "footer": {
+    "payment_methods": "Payment methods",
+    "newsletter": {
+      "label": "Email",
+      "placeholder": "Your email",
+      "submit": "Subscribe",
+      "success": "Thank you. You are on the list."
+    },
+    "social": {
+      "new_window": "(opens in a new window)",
+      "instagram": "Instagram",
+      "tiktok": "TikTok",
+      "facebook": "Facebook",
+      "x": "X",
+      "pinterest": "Pinterest",
+      "snapchat": "Snapchat",
+      "youtube": "YouTube",
+      "whatsapp": "WhatsApp"
+    }
+  },
+  "facets": {
+    "filter": "Filter",
+    "sort_by": "Sort by",
+    "close": "Close filters",
+    "apply": "Show results",
+    "clear_all": "Clear all",
+    "remove": "Remove filter",
+    "active_label": "Active filters",
+    "from": "From",
+    "to": "To",
+    "max_price": "The highest price is {{ price }}",
+    "product_count": {
+      "zero": "No products",
+      "one": "{{ count }} product",
+      "other": "{{ count }} products"
+    },
+    "value_count": {
+      "one": "{{ count }} product",
+      "other": "{{ count }} products"
+    }
+  },
+  "search": {
+    "title": "Search",
+    "heading": "What are you looking for?",
+    "results_title": "Results for “{{ terms }}”",
+    "label": "Search",
+    "placeholder": "Search perfumes, notes, pages",
+    "submit": "Search",
+    "no_results": "Nothing found for “{{ terms }}”",
+    "no_results_hint": "Check the spelling or try a shorter word, a note or a collection name.",
+    "no_matches": "No products match these filters.",
+    "browse_all": "Browse all perfumes",
+    "type_article": "Journal",
+    "type_page": "Page"
+  }
+}

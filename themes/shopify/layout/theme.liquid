@@ -16,37 +16,28 @@
   class="no-js {% if is_home %}is-home{% else %}is-page{% endif %} template-{{ template.name }}{% if template.suffix %} template-{{ template.name }}--{{ template.suffix }}{% endif %}"
 >
   <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-    <meta name="theme-color" content="{{ settings.color_ivory }}">
-    <link rel="canonical" href="{{ canonical_url }}">
+    {% render 'meta-tags' %}
+    <meta name="theme-color" content="{{ settings.color_schemes['scheme-1'].settings.background }}">
     {%- if settings.favicon != blank -%}
       <link rel="icon" type="image/png" href="{{ settings.favicon | image_url: width: 64, height: 64 }}">
     {%- endif -%}
 
-    <title>
-      {{ page_title }}
-      {%- if current_tags %} &ndash; {{ 'general.meta.tags' | t: tags: current_tags.first }}{% endif -%}
-      {%- if current_page != 1 %} &ndash; {{ 'general.meta.page' | t: page: current_page }}{% endif -%}
-      {%- unless page_title contains shop.name %} &ndash; {{ shop.name }}{% endunless -%}
-    </title>
-    {%- if page_description -%}
-      <meta name="description" content="{{ page_description | escape }}">
-    {%- endif -%}
-
-    {% render 'meta-tags' %}
 
     <style>
-      html { background: {{ settings.color_wine_deep }}; } body { margin: 0; }
-      .js .loader { position: fixed; inset: 0; z-index: 100; background: {{ settings.color_ivory }}; }
+      html { background: {{ settings.color_schemes['scheme-2'].settings.background }}; } body { margin: 0; }
+      .js .loader { position: fixed; inset: 0; z-index: 100; background: {{ settings.color_schemes['scheme-1'].settings.background }}; }
       .loader__emblem, .nav__mark svg { width: 17px; height: 24px; fill: none; stroke: currentColor; }
       .loader__emblem { width: 34px; height: 48px; }
     </style>
 
-    {% render 'theme-styles' %}
+    {% render 'css-variables' %}
+    {{ 'critical.css' | asset_url | stylesheet_tag: preload: true }}
+    {%- unless settings.type_body_font.system? -%}<link rel="preconnect" href="https://fonts.shopifycdn.com" crossorigin>{%- endunless -%}
     {{ 'azal.css' | asset_url | stylesheet_tag: preload: true }}
     {{ 'azal-shop.css' | asset_url | stylesheet_tag }}
+    {{ 'azal-header.css' | asset_url | stylesheet_tag }}
+    {{ 'azal-product.css' | asset_url | stylesheet_tag }}
+    {{ 'azal-store.css' | asset_url | stylesheet_tag }}
 
     <script>
       (function () {
@@ -63,7 +54,8 @@
           cartAdd: {{ routes.cart_add_url | json }},
           cartChange: {{ routes.cart_change_url | json }},
           cartUpdate: {{ routes.cart_update_url | json }},
-          search: {{ routes.search_url | json }}
+          search: {{ routes.search_url | json }},
+          predictiveSearch: {{ routes.predictive_search_url | json }}
         },
         settings: {
           cartType: {{ settings.cart_type | json }},
@@ -71,7 +63,8 @@
           smooth: {{ settings.enable_smooth_scroll | json }},
           cursor: {{ settings.enable_cursor | json }},
           petals: {{ settings.enable_petals | json }},
-          transitions: {{ settings.enable_page_transitions | json }}
+          transitions: {{ settings.enable_page_transitions | json }},
+          predictiveSearch: {{ settings.predictive_search_enabled | json }}
         },
         strings: {
           added: {{ 'products.product.added' | t | json }},
@@ -102,9 +95,9 @@
     {%- if is_home or request.design_mode -%}
       <script src="{{ 'azal-home.js' | asset_url }}" defer></script>
     {%- endif -%}
-    {%- if template.name == 'product' -%}
-      <script src="{{ 'azal-product.js' | asset_url }}" defer></script>
-    {%- endif -%}
+    <script src="{{ 'azal-product.js' | asset_url }}" defer></script>
+    <script src="{{ 'azal-store.js' | asset_url }}" defer></script>
+    <script src="{{ 'azal-search.js' | asset_url }}" defer></script>
 
     {{ content_for_header }}
   </head>

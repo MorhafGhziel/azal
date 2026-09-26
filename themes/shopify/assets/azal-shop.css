@@ -37,7 +37,7 @@ body { font-family: var(--sans); }
 .nav__link[aria-current='page']::after { transform: scaleX(1); }
 .nav .lang-form, .menu .lang-form { display: contents; }
 .nav__bag { text-decoration: none; }
-.menu__lang { font-family: 'IBM Plex Sans Arabic', var(--sans); font-size: 22px; margin-top: 14px; opacity: 0.7; }
+.menu__lang { font-size: 22px; margin-top: 14px; opacity: 0.7; }
 .menu .country-form { display: grid; gap: 6px; margin-top: 18px; font-family: var(--sans); font-size: 14px; }
 .menu .country-form select { font: inherit; padding: 8px 10px; background: transparent; border: 1px solid color-mix(in srgb, var(--ink) 25%, transparent); border-radius: 8px; color: inherit; }
 .section-header { position: relative; z-index: 60; }
@@ -68,11 +68,8 @@ body { font-family: var(--sans); }
 
 /* ---------- section colour schemes (rich text, image with text, newsletter) ---------- */
 .block-sec { position: relative; }
-.scheme-ivory { background: var(--ivory); color: var(--ink); }
-.scheme-wine { background: var(--wine-deep); color: var(--cream); }
-.scheme-blush { background: color-mix(in srgb, var(--blush) 45%, var(--ivory)); color: var(--ink); }
-.scheme-wine .pill:hover { color: var(--ink); }
-.scheme-ivory .pill:hover, .scheme-blush .pill:hover { background: var(--ink); color: var(--cream); border-color: var(--ink); }
+[class*="color-scheme-"] .pill:hover { color: var(--ink); }
+.color-scheme-1 .pill:hover, .color-scheme-3 .pill:hover { background: var(--ink); color: var(--cream); border-color: var(--ink); }
 .rich { padding: clamp(90px, 14vh, 160px) var(--gutter); }
 .rich__in { max-width: 52rem; margin: 0 auto; display: grid; gap: 22px; }
 .align-center .rich__in { text-align: center; justify-items: center; }

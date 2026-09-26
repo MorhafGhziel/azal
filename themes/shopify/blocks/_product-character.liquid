@@ -1,0 +1,22 @@
+{%- doc -%}
+  Product block: a short italic line describing the product's character. Optional: reads the product
+  metafield custom.character (single line text) and renders nothing when it is empty.
+{%- enddoc -%}
+{%- assign character = closest.product.metafields.custom.character.value -%}
+{%- if character != blank -%}
+  <p class="pdp__meta" {{ block.shopify_attributes }}>{{ character | escape }}</p>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Character line",
+  "tag": null,
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "Shows the product metafield custom.character (single line text). Hidden when the metafield is empty."
+    }
+  ],
+  "presets": [{ "name": "Character line" }]
+}
+{% endschema %}

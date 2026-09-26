@@ -1,0 +1,124 @@
+{%- comment -%}
+  Main product. AZAL split screen: the product's media floats on its own colour in a sticky panel on the start
+  side; the details (theme blocks and app blocks) scroll on the end side. A buy bar follows on phones.
+  Colour: optional product metafield custom.background_color (color or text), falling back to the scheme's
+  product image background. Behaviour: assets/azal-product.js ([data-product]).
+{%- endcomment -%}
+{%- liquid
+  assign current = product.selected_or_first_available_variant
+  assign form_id = 'ProductForm-' | append: section.id
+  assign product_bg = ''
+  if section.settings.use_product_color
+    assign product_bg = product.metafields.custom.background_color.value
+  endif
+-%}
+<div
+  class="pdp color-{{ section.settings.color_scheme }}"
+  {% if product_bg != blank %}
+    style="--bg: {{ product_bg | escape }};"
+  {% endif %}
+  data-product
+  data-section-id="{{ section.id }}"
+  data-product-url="{{ product.url }}"
+  data-update-url="true"
+  data-form-id="{{ form_id }}"
+>
+  <div class="pdp__visual">
+    {%- render 'product-gallery',
+      product: product,
+      section_id: section.id,
+      variant: current,
+      eager: true,
+      sizes: '(min-width: 990px) 55vw, 100vw',
+      show_thumbs: section.settings.show_thumbs
+    -%}
+  </div>
+
+  <div class="pdp__info">
+    {% content_for 'blocks' %}
+  </div>
+
+  {%- render 'product-variants-json', product: product -%}
+
+  {%- if section.settings.show_buy_bar -%}
+    <div class="buybar pdp-bar" data-buy-bar-wrap aria-hidden="true" inert>
+      <div class="pdp-bar__text">
+        <strong class="pdp-bar__title">{{ product.title | escape }}</strong>
+        <span class="pdp-bar__price" data-bar-price>{{ current.price | money }}</span>
+      </div>
+      <button
+        class="btn btn--solid btn--sm pdp-bar__btn"
+        type="submit"
+        form="{{ form_id }}"
+        data-bar-button
+        {% unless current.available %}
+          disabled
+        {% endunless %}
+      >
+        {%- if current.available -%}
+          {{- 'products.product.add_to_cart' | t -}}
+        {%- else -%}
+          {{- 'products.product.sold_out' | t -}}
+        {%- endif -%}
+      </button>
+    </div>
+  {%- endif -%}
+</div>
+
+<script type="application/ld+json">
+  {{ product | structured_data }}
+</script>
+
+{% schema %}
+{
+  "name": "Product information",
+  "tag": "section",
+  "class": "section-product",
+  "settings": [
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "checkbox",
+      "id": "use_product_color",
+      "label": "Use the product's own color behind its media",
+      "default": true,
+      "info": "Reads the product metafield custom.background_color. Without it, the color scheme's product image background is used."
+    },
+    {
+      "type": "checkbox",
+      "id": "show_thumbs",
+      "label": "Show thumbnails",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_buy_bar",
+      "label": "Show buy bar on mobile when scrolling",
+      "default": true
+    }
+  ],
+  "blocks": [
+    { "type": "@app" },
+    { "type": "@theme" },
+    { "type": "_product-eyebrow" },
+    { "type": "_product-title" },
+    { "type": "_product-character" },
+    { "type": "_product-price" },
+    { "type": "_product-variant-picker" },
+    { "type": "_product-quantity" },
+    { "type": "_product-buy-buttons" },
+    { "type": "_product-pickup" },
+    { "type": "_product-description" },
+    { "type": "_product-notes" },
+    { "type": "_product-collapsible" },
+    { "type": "_product-share" }
+  ],
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  }
+}
+{% endschema %}

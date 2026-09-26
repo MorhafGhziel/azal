@@ -7,7 +7,7 @@
   assign total = section.blocks.size
   assign total_pad = total | prepend: '0' | slice: -2, 2
 -%}
-<section class="origins" id="story" data-origins data-section="origins" aria-labelledby="OriginsLabel-{{ section.id }}" style="--origins-length: {{ total | times: 80 }}svh;">
+<section class="origins color-{{ section.settings.color_scheme }}" id="story" data-origins data-section="origins" aria-labelledby="OriginsLabel-{{ section.id }}" style="--origins-length: {{ total | times: 80 }}svh;">
   <div class="origins__stage" data-light>
     <div class="origins__media">
       {%- for block in section.blocks -%}
@@ -56,6 +56,7 @@
   "class": "section-origins",
   "max_blocks": 6,
   "settings": [
+    { "type": "color_scheme", "id": "color_scheme", "default": "scheme-1", "label": "t:sections.common.scheme.label" },
     { "type": "text", "id": "label", "default": "03 — Origins", "label": "t:sections.azal-origins.settings.label.label" }
   ],
   "blocks": [

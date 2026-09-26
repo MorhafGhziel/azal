@@ -1,0 +1,91 @@
+{%- comment -%} Address book: add, edit (with country and province dropdowns), delete, choose the default. {%- endcomment -%}
+<div class="store-section account-section color-{{ section.settings.color_scheme }} full-width">
+  <div class="page page--narrow store-page account-page" data-addresses>
+    <header class="page__head acct-head">
+      <p class="eyebrow"><a class="link link--quiet" href="{{ routes.account_url }}">{{ 'store.customer.account.return' | t }}</a></p>
+      <h1 class="page__title" tabindex="-1">
+        <span class="ln"><span class="ln__in">{{ 'store.customer.addresses.title' | t }}</span></span>
+      </h1>
+    </header>
+
+    {%- form 'customer_address', customer.new_address -%}
+      {%- assign new_open = false -%}
+      {%- if form.errors -%}{%- assign new_open = true -%}{%- endif -%}
+    {%- endform -%}
+    <details class="acct__new"{% if new_open %} open{% endif %}>
+      <summary class="btn btn--line">{{ 'store.customer.addresses.add' | t }}</summary>
+      <div class="acct__form">
+        <h2 class="eyebrow acct__h">{{ 'store.customer.addresses.add_heading' | t }}</h2>
+        {%- form 'customer_address', customer.new_address -%}
+          {%- render 'store-address-form', form: form, id: 'new', is_default: false -%}
+          <div class="acct__actions">
+            <button class="btn btn--solid" type="submit">{{ 'store.customer.addresses.save' | t }}</button>
+          </div>
+        {%- endform -%}
+      </div>
+    </details>
+
+    {%- paginate customer.addresses by 10 -%}
+      <ul class="acct__addrs" role="list">
+        {%- for address in customer.addresses -%}
+          {%- liquid
+            assign is_default = false
+            if address.id == customer.default_address.id
+              assign is_default = true
+            endif
+          -%}
+          <li class="acct__addr" id="Address_{{ address.id }}">
+            {%- if is_default -%}
+              <p class="eyebrow acct__default">{{ 'store.customer.addresses.default' | t }}</p>
+            {%- endif -%}
+            <address class="acct__address">{{ address | format_address }}</address>
+            <div class="acct__addr-actions">
+              <details class="acct__edit">
+                <summary class="link" aria-label="{{ 'store.customer.addresses.edit_label' | t: address: address.address1 | escape }}">
+                  {{- 'store.customer.addresses.edit' | t -}}
+                </summary>
+                <div class="acct__form">
+                  {%- form 'customer_address', address -%}
+                    {%- render 'store-address-form', form: form, id: address.id, is_default: is_default -%}
+                    <div class="acct__actions">
+                      <button class="btn btn--solid" type="submit">{{ 'store.customer.addresses.update' | t }}</button>
+                    </div>
+                  {%- endform -%}
+                </div>
+              </details>
+              <form
+                class="acct__delete"
+                method="post"
+                action="{{ address.url }}"
+                data-confirm="{{ 'store.customer.addresses.delete_confirm' | t | escape }}"
+              >
+                <input type="hidden" name="_method" value="delete">
+                <button class="link link--quiet" type="submit" aria-label="{{ 'store.customer.addresses.delete_label' | t: address: address.address1 | escape }}">
+                  {{- 'store.customer.addresses.delete' | t -}}
+                </button>
+              </form>
+            </div>
+          </li>
+        {%- else -%}
+          <li class="muted">{{ 'store.customer.addresses.none' | t }}</li>
+        {%- endfor -%}
+      </ul>
+      {%- render 'pagination', paginate: paginate -%}
+    {%- endpaginate -%}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Customer addresses",
+  "class": "section-customers-addresses",
+  "settings": [
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    }
+  ]
+}
+{% endschema %}

@@ -1,9 +1,0 @@
-{%- assign pick = variant.store_availabilities | where: 'pick_up_enabled', true -%}
-{%- if pick.size > 0 -%}
-  {%- assign first = pick.first -%}
-  {%- if first.available -%}
-    <p>{{ 'products.product.pickup_available' | t: location: first.location.name, time: first.pick_up_time }}</p>
-  {%- else -%}
-    <p>{{ 'products.product.pickup_unavailable' | t: location: first.location.name }}</p>
-  {%- endif -%}
-{%- endif -%}

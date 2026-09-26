@@ -1,0 +1,61 @@
+{%- doc -%}
+  Product block: quantity selector. Joins the product form through the form attribute and follows the
+  variant's quantity rules (minimum, maximum, increment).
+{%- enddoc -%}
+{%- liquid
+  assign product = closest.product
+  assign current = product.selected_or_first_available_variant
+  assign form_id = 'ProductForm-' | append: section.id
+  assign min = current.quantity_rule.min | default: 1
+  assign step = current.quantity_rule.increment | default: 1
+  assign max = current.quantity_rule.max
+  assign has_rules = false
+  if min > 1 or step > 1 or max
+    assign has_rules = true
+  endif
+-%}
+<div class="pdp-qty" {{ block.shopify_attributes }}>
+  <label class="field__label" for="Quantity-{{ section.id }}">{{ 'products.product.quantity' | t }}</label>
+  <div class="qty pdp-qty__control" data-qty>
+    <button type="button" class="qty__btn" data-qty-step="-1" aria-label="{{ 'products.product.decrease' | t: product: product.title | escape }}" disabled>&minus;</button>
+    <input
+      class="qty__input"
+      type="number"
+      id="Quantity-{{ section.id }}"
+      name="quantity"
+      value="{{ min }}"
+      min="{{ min }}"
+      step="{{ step }}"
+      {% if max %}
+        max="{{ max }}"
+      {% endif %}
+      inputmode="numeric"
+      form="{{ form_id }}"
+      data-qty-input
+    >
+    <button type="button" class="qty__btn" data-qty-step="1" aria-label="{{ 'products.product.increase' | t: product: product.title | escape }}">+</button>
+  </div>
+  <p
+    class="pdp-qty__rules muted"
+    data-qty-rules
+    data-tpl-step="{{ 'products.product.increments_of' | t: step: '[n]' | escape }}"
+    data-tpl-min="{{ 'products.product.minimum_of' | t: min: '[n]' | escape }}"
+    data-tpl-max="{{ 'products.product.maximum_of' | t: max: '[n]' | escape }}"
+    {% unless has_rules %}
+      hidden
+    {% endunless %}
+  >
+    {%- if step > 1 %}{{ 'products.product.increments_of' | t: step: step }} {% endif -%}
+    {%- if min > 1 %}{{ 'products.product.minimum_of' | t: min: min }} {% endif -%}
+    {%- if max %}{{ 'products.product.maximum_of' | t: max: max }}{% endif -%}
+  </p>
+</div>
+
+{% schema %}
+{
+  "name": "Quantity selector",
+  "tag": null,
+  "settings": [],
+  "presets": [{ "name": "Quantity selector" }]
+}
+{% endschema %}

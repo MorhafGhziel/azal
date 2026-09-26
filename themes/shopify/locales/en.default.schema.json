@@ -1,29 +1,80 @@
 {
-  "sections": {
-    "announcement-bar": {
-      "blocks": {
-        "announcement": {
-          "name": "Announcement",
-          "settings": {
-            "link": {
-              "label": "Link"
-            },
-            "text": {
-              "label": "Text"
-            }
-          }
-        }
-      },
-      "name": "Announcement bar",
-      "settings": {
-        "background": {
-          "label": "Background"
-        },
-        "text_color": {
-          "label": "Text colour"
-        }
-      }
+  "general": {
+    "404": "Not found",
+    "article": "Article",
+    "block": "Block",
+    "blog": "Blog",
+    "cart": "Cart",
+    "collection": "Collection",
+    "collections": "Collections",
+    "collection_card": "Collection card",
+    "collections_grid": "Collections grid",
+    "colors": "Colors",
+    "column": "Column",
+    "content": "Content",
+    "custom_section": "Custom section",
+    "fonts": "Fonts",
+    "footer": "Footer",
+    "group": "Group",
+    "header": "Header",
+    "layout": "Layout",
+    "main": "Main",
+    "page": "Page",
+    "password": "Password",
+    "primary": "Primary",
+    "product": "Product",
+    "row": "Row",
+    "search": "Search",
+    "secondary": "Secondary",
+    "section": "Section",
+    "settings": "Settings",
+    "sidebar": "Sidebar",
+    "text": "Text",
+    "theme": "Theme",
+    "typography": "Typography"
+  },
+  "labels": {
+    "alignment": "Alignment",
+    "background": "Background",
+    "foreground": "Foreground",
+    "grid_gap": "Grid spacing",
+    "grid_item_width": "Grid item width",
+    "input_corner_radius": "Input corner radius",
+    "layout_direction": "Layout direction",
+    "menu": "Menu",
+    "customer_account_menu": "Customer account menu",
+    "padding": "Padding",
+    "page_margin": "Page margin",
+    "page_width": "Page width",
+    "show_payment_icons": "Show payment icons",
+    "text_style": "Text style",
+    "text": "Text"
+  },
+  "options": {
+    "alignment": {
+      "left": "Left",
+      "center": "Center",
+      "right": "Right"
     },
+    "direction": {
+      "horizontal": "Horizontal",
+      "vertical": "Vertical"
+    },
+    "page_width": {
+      "narrow": "Narrow",
+      "wide": "Wide"
+    },
+    "size": {
+      "large": "Large",
+      "small": "Small"
+    },
+    "text_style": {
+      "title": "Title",
+      "subtitle": "Subtitle",
+      "normal": "Normal text"
+    }
+  },
+  "sections": {
     "azal-collection": {
       "name": "Collection slider",
       "presets": {
@@ -89,7 +140,7 @@
           "label": "Bottle — top note"
         },
         "header_art": {
-          "content": "Ingredients and colours"
+          "content": "Ingredients and colors"
         },
         "header_bottle": {
           "content": "Bottle layers"
@@ -187,9 +238,9 @@
       }
     },
     "azal-sky": {
-      "name": "Sky & bottle (hero)",
+      "name": "Sky and bottle (hero)",
       "presets": {
-        "name": "Sky & bottle (hero)"
+        "name": "Sky and bottle (hero)"
       },
       "settings": {
         "bottle_alt": {
@@ -252,9 +303,6 @@
         }
       }
     },
-    "cart-drawer": {
-      "name": "Cart drawer"
-    },
     "common": {
       "align": {
         "label": "Alignment",
@@ -262,11 +310,11 @@
           "label": "Start"
         },
         "options__2": {
-          "label": "Centre"
+          "label": "Center"
         }
       },
       "scheme": {
-        "label": "Colours",
+        "label": "Colors",
         "options__1": {
           "label": "Ivory"
         },
@@ -277,26 +325,6 @@
           "label": "Blush"
         }
       }
-    },
-    "contact-form": {
-      "name": "Contact form",
-      "presets": {
-        "name": "Contact form"
-      },
-      "settings": {
-        "heading": {
-          "label": "Heading"
-        }
-      }
-    },
-    "customers": {
-      "account": "Account",
-      "activate": "Activate account",
-      "addresses": "Addresses",
-      "login": "Login",
-      "order": "Order",
-      "register": "Register",
-      "reset": "Reset password"
     },
     "featured-collection": {
       "name": "Product grid",
@@ -321,82 +349,6 @@
         },
         "title": {
           "label": "Title"
-        }
-      }
-    },
-    "footer": {
-      "blocks": {
-        "menu": {
-          "name": "Menu",
-          "settings": {
-            "menu": {
-              "label": "Menu"
-            }
-          }
-        },
-        "newsletter": {
-          "name": "Email signup",
-          "settings": {
-            "heading": {
-              "label": "Heading"
-            }
-          }
-        },
-        "social": {
-          "name": "Social links",
-          "settings": {
-            "paragraph": {
-              "content": "Add your links in Theme settings → Social media."
-            }
-          }
-        },
-        "text": {
-          "name": "Text",
-          "settings": {
-            "text": {
-              "label": "Text"
-            }
-          }
-        }
-      },
-      "name": "Footer",
-      "settings": {
-        "note": {
-          "label": "Note after the copyright"
-        },
-        "show_payment": {
-          "label": "Show payment icons"
-        },
-        "show_powered_by": {
-          "label": "Show \"Powered by Shopify\""
-        }
-      }
-    },
-    "header": {
-      "name": "Header",
-      "settings": {
-        "ink_on_home": {
-          "info": "Use when your hero image is light.",
-          "label": "Dark text over the home hero"
-        },
-        "menu": {
-          "label": "Menu"
-        },
-        "show_account": {
-          "label": "Show account link"
-        },
-        "show_currency": {
-          "label": "Show country / currency in the menu"
-        },
-        "show_language": {
-          "label": "Show language switch"
-        },
-        "show_search": {
-          "label": "Show search link"
-        },
-        "split_menu": {
-          "info": "Half the links sit on each side of the centred emblem.",
-          "label": "Split the menu around the emblem"
         }
       }
     },
@@ -429,173 +381,6 @@
         }
       }
     },
-    "main-404": {
-      "name": "404 page"
-    },
-    "main-article": {
-      "name": "Blog post"
-    },
-    "main-blog": {
-      "name": "Blog posts"
-    },
-    "main-cart": {
-      "name": "Cart",
-      "settings": {
-        "show_additional": {
-          "label": "Show accelerated checkout buttons"
-        }
-      }
-    },
-    "main-collection": {
-      "name": "Product grid",
-      "settings": {
-        "enable_filtering": {
-          "info": "Set up filters with the Search & Discovery app.",
-          "label": "Enable filtering"
-        },
-        "enable_sorting": {
-          "label": "Enable sorting"
-        },
-        "eyebrow": {
-          "label": "Eyebrow"
-        },
-        "first_wide": {
-          "label": "First product spans two columns"
-        },
-        "footer_heading": {
-          "label": "Note heading"
-        },
-        "footer_text": {
-          "label": "Note under the grid"
-        },
-        "per_page": {
-          "label": "Products per page"
-        },
-        "show_description": {
-          "label": "Show collection description"
-        }
-      }
-    },
-    "main-list-collections": {
-      "name": "Collections list",
-      "settings": {
-        "title": {
-          "label": "Title"
-        }
-      }
-    },
-    "main-page": {
-      "name": "Page"
-    },
-    "main-password": {
-      "name": "Password page",
-      "settings": {
-        "heading": {
-          "label": "Heading"
-        }
-      }
-    },
-    "main-product": {
-      "blocks": {
-        "buy_buttons": {
-          "name": "Buy buttons",
-          "settings": {
-            "show_dynamic_checkout": {
-              "label": "Show dynamic checkout buttons"
-            },
-            "show_pickup": {
-              "label": "Show pickup availability"
-            }
-          }
-        },
-        "character": {
-          "name": "Character",
-          "settings": {
-            "paragraph": {
-              "content": "Shows the product metafield custom.character (for example “Timeless”)."
-            }
-          }
-        },
-        "collapsible": {
-          "name": "Collapsible tab",
-          "settings": {
-            "content": {
-              "label": "Content"
-            },
-            "heading": {
-              "label": "Heading"
-            },
-            "page": {
-              "label": "Page"
-            },
-            "source": {
-              "label": "Content",
-              "options__1": {
-                "label": "Text below"
-              },
-              "options__2": {
-                "label": "Product story (metafield custom.story)"
-              },
-              "options__3": {
-                "label": "How to wear (metafield custom.how_to_wear)"
-              },
-              "options__4": {
-                "label": "A page"
-              }
-            }
-          }
-        },
-        "description": {
-          "name": "Description"
-        },
-        "eyebrow": {
-          "name": "Eyebrow",
-          "settings": {
-            "text": {
-              "info": "Leave empty to show the product type.",
-              "label": "Text"
-            }
-          }
-        },
-        "notes": {
-          "name": "Fragrance notes",
-          "settings": {
-            "heading": {
-              "label": "Heading"
-            },
-            "paragraph": {
-              "content": "Shows the product metafields custom.notes_top, custom.notes_heart and custom.notes_base."
-            }
-          }
-        },
-        "price": {
-          "name": "Price"
-        },
-        "text": {
-          "name": "Text",
-          "settings": {
-            "text": {
-              "label": "Text"
-            }
-          }
-        },
-        "title": {
-          "name": "Title"
-        },
-        "variant_picker": {
-          "name": "Variant picker"
-        }
-      },
-      "name": "Product information",
-      "settings": {
-        "show_thumbs": {
-          "label": "Show image thumbnails"
-        }
-      }
-    },
-    "main-search": {
-      "name": "Search results"
-    },
     "newsletter": {
       "name": "Email signup",
       "presets": {
@@ -610,17 +395,6 @@
         },
         "text": {
           "label": "Text"
-        }
-      }
-    },
-    "product-recommendations": {
-      "name": "Product recommendations",
-      "settings": {
-        "heading": {
-          "label": "Heading"
-        },
-        "limit": {
-          "label": "Products to show"
         }
       }
     },
@@ -668,208 +442,6 @@
       "name": "Rich text",
       "presets": {
         "name": "Rich text"
-      }
-    }
-  },
-  "settings_schema": {
-    "cart": {
-      "name": "Cart",
-      "settings": {
-        "cart_gift_wrap": {
-          "info": "Saved on the order as the attribute “Gift wrapping: Yes”.",
-          "label": "Offer gift wrapping"
-        },
-        "cart_note": {
-          "label": "Enable gift message / order note"
-        },
-        "cart_shipping_note": {
-          "label": "Short note under the totals"
-        },
-        "cart_type": {
-          "label": "Cart type",
-          "options__1": {
-            "label": "Drawer"
-          },
-          "options__2": {
-            "label": "Page"
-          }
-        }
-      }
-    },
-    "colors": {
-      "name": "Colours",
-      "settings": {
-        "color_apricot": {
-          "label": "Apricot"
-        },
-        "color_blush": {
-          "label": "Blush"
-        },
-        "color_card_bg": {
-          "info": "Behind product images when a product has no colour of its own (metafield custom.background_color).",
-          "label": "Product card background"
-        },
-        "color_cream": {
-          "label": "Cream (text on dark)"
-        },
-        "color_error": {
-          "label": "Error"
-        },
-        "color_ink": {
-          "label": "Ink (text)"
-        },
-        "color_ivory": {
-          "label": "Ivory (page background)"
-        },
-        "color_success": {
-          "label": "Success"
-        },
-        "color_wine": {
-          "label": "Wine"
-        },
-        "color_wine_deep": {
-          "label": "Deep wine (dark background)"
-        },
-        "header_accents": {
-          "content": "Accents"
-        },
-        "header_dark": {
-          "content": "Dark grounds"
-        },
-        "header_light": {
-          "content": "Light grounds"
-        }
-      }
-    },
-    "layout": {
-      "name": "Layout",
-      "settings": {
-        "button_radius": {
-          "label": "Button radius"
-        },
-        "page_width": {
-          "label": "Page width"
-        }
-      }
-    },
-    "logo": {
-      "name": "Logo",
-      "settings": {
-        "favicon": {
-          "label": "Favicon"
-        },
-        "logo": {
-          "info": "Leave empty to use the AZAL emblem. The name is always the store name.",
-          "label": "Logo"
-        },
-        "logo_width": {
-          "label": "Logo width"
-        }
-      }
-    },
-    "motion": {
-      "name": "Motion",
-      "settings": {
-        "enable_cursor": {
-          "label": "Custom cursor"
-        },
-        "enable_grain": {
-          "label": "Film grain"
-        },
-        "enable_loader": {
-          "label": "Opening loader on the home page"
-        },
-        "enable_page_transitions": {
-          "label": "Veil between pages"
-        },
-        "enable_petals": {
-          "label": "Floating petals"
-        },
-        "enable_smooth_scroll": {
-          "label": "Smooth scrolling"
-        },
-        "paragraph": {
-          "content": "Visitors who ask their device for reduced motion always get calm, still versions of every scene."
-        }
-      }
-    },
-    "products": {
-      "name": "Product cards",
-      "settings": {
-        "card_image_fit": {
-          "label": "Image fit",
-          "options__1": {
-            "label": "Whole bottle (contain)"
-          },
-          "options__2": {
-            "label": "Fill (cover)"
-          }
-        },
-        "card_quick_add": {
-          "label": "Show quick add"
-        },
-        "card_show_character": {
-          "label": "Show character (metafield custom.character)"
-        },
-        "card_show_vendor": {
-          "label": "Show vendor when there is no character"
-        },
-        "paragraph": {
-          "content": "Each product can carry its own colour and character through metafields — see the setup guide."
-        }
-      }
-    },
-    "social": {
-      "name": "Social media",
-      "settings": {
-        "social_facebook_link": {
-          "label": "Facebook"
-        },
-        "social_instagram_link": {
-          "label": "Instagram"
-        },
-        "social_pinterest_link": {
-          "label": "Pinterest"
-        },
-        "social_snapchat_link": {
-          "label": "Snapchat"
-        },
-        "social_tiktok_link": {
-          "label": "TikTok"
-        },
-        "social_twitter_link": {
-          "label": "X (Twitter)"
-        },
-        "social_whatsapp": {
-          "label": "WhatsApp link"
-        },
-        "social_youtube_link": {
-          "label": "YouTube"
-        }
-      }
-    },
-    "typography": {
-      "name": "Typography",
-      "settings": {
-        "heading_scale": {
-          "label": "Heading scale"
-        },
-        "type_body_font": {
-          "label": "Body font (custom)"
-        },
-        "type_header_font": {
-          "label": "Heading font (custom)"
-        },
-        "type_mode": {
-          "info": "House fonts: Cormorant and Hanken Grotesk, with Amiri and IBM Plex Sans Arabic for Arabic. Custom: pick from the Shopify font library.",
-          "label": "Fonts",
-          "options__1": {
-            "label": "House fonts"
-          },
-          "options__2": {
-            "label": "Custom"
-          }
-        }
       }
     }
   }

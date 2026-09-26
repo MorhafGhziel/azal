@@ -1,0 +1,47 @@
+{%- doc -%}
+  Variant data for assets/azal-product.js: options, availability, featured media, quantity rules and the
+  prices already rendered by snippets/price.liquid (so money formats, unit prices and selling plan prices
+  match the server exactly).
+
+  @param {product} product - The product.
+
+  @example
+  {% render 'product-variants-json', product: product %}
+{%- enddoc -%}
+<script type="application/json" data-product-json>
+  {
+    "id": {{ product.id }},
+    "url": {{ product.url | json }},
+    "requiresSellingPlan": {{ product.requires_selling_plan | json }},
+    "variants": [
+      {%- for v in product.variants -%}
+        {%- capture price_html -%}{%- render 'price', variant: v -%}{%- endcapture -%}
+        {
+          "id": {{ v.id }},
+          "title": {{ v.title | json }},
+          "options": {{ v.options | json }},
+          "available": {{ v.available | json }},
+          "sale": {% if v.compare_at_price > v.price %}true{% else %}false{% endif %},
+          "media": {% if v.featured_media %}{{ v.featured_media.id }}{% else %}null{% endif %},
+          "sku": {{ v.sku | json }},
+          "min": {{ v.quantity_rule.min | default: 1 }},
+          "max": {% if v.quantity_rule.max %}{{ v.quantity_rule.max }}{% else %}null{% endif %},
+          "step": {{ v.quantity_rule.increment | default: 1 }},
+          "priceShort": {{ v.price | money | json }},
+          "priceHtml": {{ price_html | strip | json }},
+          "plans": {
+            {%- for allocation in v.selling_plan_allocations -%}
+              {%- capture plan_html -%}{%- render 'price', variant: v, allocation: allocation -%}{%- endcapture -%}
+              "{{ allocation.selling_plan.id }}": {
+                "short": {{ allocation.price | money | json }},
+                "html": {{ plan_html | strip | json }}
+              }
+              {%- unless forloop.last -%},{%- endunless -%}
+            {%- endfor -%}
+          }
+        }
+        {%- unless forloop.last -%},{%- endunless -%}
+      {%- endfor -%}
+    ]
+  }
+</script>

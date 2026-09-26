@@ -1,0 +1,81 @@
+{%- doc -%}
+  Product block: a collapsible row. Content comes from the block's text, a page, or an optional product
+  metafield (custom.story or custom.how_to_wear, multi-line text or rich text). Hidden when empty.
+{%- enddoc -%}
+{%- liquid
+  assign product = closest.product
+  assign body = block.settings.content
+  assign field = nil
+  case block.settings.source
+    when 'story'
+      assign field = product.metafields.custom.story
+      assign body = ''
+    when 'wear'
+      assign field = product.metafields.custom.how_to_wear
+      assign body = ''
+    when 'page'
+      assign body = block.settings.page.content
+  endcase
+  if field != blank
+    if field.type == 'rich_text_field'
+      assign body = field | metafield_tag
+    elsif field.value != blank
+      assign body = field.value | escape | newline_to_br
+    endif
+  endif
+-%}
+{%- if body != blank -%}
+  <details class="acc__item pdp-acc" {% if block.settings.open %}open{% endif %} {{ block.shopify_attributes }}>
+    <summary class="acc__btn">
+      <span class="pdp-acc__title">{{ block.settings.heading | escape }}</span>
+      <span class="pdp-acc__icon">{%- render 'product-icon', icon: 'plus' -%}</span>
+    </summary>
+    <div class="acc__panel rte">{{ body }}</div>
+  </details>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Collapsible row",
+  "tag": null,
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Shipping and returns"
+    },
+    {
+      "type": "select",
+      "id": "source",
+      "label": "Content",
+      "default": "text",
+      "options": [
+        { "value": "text", "label": "Text" },
+        { "value": "story", "label": "Product story metafield" },
+        { "value": "wear", "label": "How to wear metafield" },
+        { "value": "page", "label": "Page" }
+      ],
+      "info": "Metafields: custom.story and custom.how_to_wear. The row is hidden when its content is empty."
+    },
+    {
+      "type": "richtext",
+      "id": "content",
+      "label": "Text",
+      "default": "<p>Share your shipping times and how customers can return an unopened bottle.</p>"
+    },
+    {
+      "type": "page",
+      "id": "page",
+      "label": "Page"
+    },
+    {
+      "type": "checkbox",
+      "id": "open",
+      "label": "Open by default",
+      "default": false
+    }
+  ],
+  "presets": [{ "name": "Collapsible row" }]
+}
+{% endschema %}

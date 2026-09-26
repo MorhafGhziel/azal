@@ -1,71 +1,315 @@
-<footer class="footer" data-footer>
-  <svg class="footer__mark" viewBox="0 0 40 56" aria-hidden="true"><use href="#emblem" /></svg>
+{%- comment -%}
+  AZAL footer: the emblem, then merchant blocks (menus, text, newsletter, social icons), then the sub-footer
+  with the country/language selectors, Follow on Shop, payment icons and the copyright line.
+  Dark wine on the home page, and a separate color scheme for inner pages.
+{%- endcomment -%}
+{%- liquid
+  assign scheme = section.settings.color_scheme
+  if template.name != 'index'
+    assign scheme = section.settings.color_scheme_inner
+  endif
 
-  {%- for block in section.blocks -%}
-    {%- case block.type -%}
-      {%- when 'menu' -%}
-        <nav class="footer__links" aria-label="{{ block.settings.menu.title | escape }}" {{ block.shopify_attributes }}>
-          {%- for link in block.settings.menu.links -%}
-            <a href="{{ link.url }}">{{ link.title | escape }}</a>
-          {%- endfor -%}
-        </nav>
-      {%- when 'text' -%}
-        <div class="footer__text rte" {{ block.shopify_attributes }}>{{ block.settings.text }}</div>
-      {%- when 'newsletter' -%}
-        <div class="footer__news" {{ block.shopify_attributes }}>
-          {%- if block.settings.heading != blank -%}<p class="eyebrow">{{ block.settings.heading | escape }}</p>{%- endif -%}
-          {%- render 'newsletter-form', id: block.id -%}
-        </div>
-      {%- when 'social' -%}
-        {%- render 'social-links', attrs: block.shopify_attributes -%}
-    {%- endcase -%}
-  {%- endfor -%}
-
-  {%- if section.settings.show_payment -%}
-    <ul class="footer__pay" role="list" aria-label="{{ 'general.payment.methods' | t }}">
-      {%- for type in shop.enabled_payment_types -%}
-        <li>{{ type | payment_type_svg_tag: class: 'footer__pay-icon' }}</li>
-      {%- endfor -%}
-    </ul>
+  assign show_country = false
+  if section.settings.show_country_selector and localization.available_countries.size > 1
+    assign show_country = true
+  endif
+  assign show_language = false
+  if section.settings.show_language_selector and localization.available_languages.size > 1
+    assign show_language = true
+  endif
+-%}
+<footer class="footer azal-footer color-{{ scheme }}" data-footer>
+  {%- if section.settings.show_emblem -%}
+    <svg class="footer__mark" viewBox="0 0 40 56" aria-hidden="true" focusable="false"><use href="#emblem" /></svg>
   {%- endif -%}
 
-  <p class="footer__note">
-    <small>&copy; {{ 'now' | date: '%Y' }} {{ shop.name | link_to: routes.root_url }}</small>
-    {%- if section.settings.note != blank %} · {{ section.settings.note }}{% endif -%}
-    {%- if section.settings.show_powered_by %} · {{ powered_by_link }}{% endif -%}
-  </p>
+  {%- if section.blocks.size > 0 -%}
+    <div class="footer__blocks footer__blocks--{{ section.blocks.size | at_most: 4 }}">
+      {%- for block in section.blocks -%}
+        {%- case block.type -%}
+          {%- when 'menu' -%}
+            <div class="footer__block footer__block--menu" {{ block.shopify_attributes }}>
+              {%- if block.settings.heading != blank -%}
+                <h2 class="footer__heading eyebrow" id="FooterMenu-{{ block.id }}">{{ block.settings.heading | escape }}</h2>
+              {%- endif -%}
+              {%- if block.settings.menu.links.size > 0 -%}
+                <nav
+                  class="footer__nav"
+                  {% if block.settings.heading != blank %}
+                    aria-labelledby="FooterMenu-{{ block.id }}"
+                  {% else %}
+                    aria-label="{{ block.settings.menu.title | escape }}"
+                  {% endif %}
+                >
+                  <ul class="footer__links" role="list">
+                    {%- for link in block.settings.menu.links -%}
+                      <li>
+                        <a
+                          href="{{ link.url }}"
+                          {% if link.current %}
+                            aria-current="page"
+                          {% endif %}
+                        >
+                          {{- link.title | escape -}}
+                        </a>
+                      </li>
+                    {%- endfor -%}
+                  </ul>
+                </nav>
+              {%- endif -%}
+            </div>
+
+          {%- when 'text' -%}
+            <div class="footer__block footer__block--text" {{ block.shopify_attributes }}>
+              {%- if block.settings.heading != blank -%}
+                <h2 class="footer__heading eyebrow">{{ block.settings.heading | escape }}</h2>
+              {%- endif -%}
+              {%- if block.settings.text != blank -%}
+                <div class="footer__text rte">{{ block.settings.text }}</div>
+              {%- endif -%}
+            </div>
+
+          {%- when 'newsletter' -%}
+            <div class="footer__block footer__block--news" {{ block.shopify_attributes }}>
+              {%- if block.settings.heading != blank -%}
+                <h2 class="footer__heading eyebrow">{{ block.settings.heading | escape }}</h2>
+              {%- endif -%}
+              {%- if block.settings.text != blank -%}
+                <div class="footer__text rte">{{ block.settings.text }}</div>
+              {%- endif -%}
+              {%- assign form_id = 'FooterNewsletter-' | append: block.id -%}
+              {%- form 'customer', id: form_id, class: 'news footer__news' -%}
+                <input type="hidden" name="contact[tags]" value="newsletter">
+                {%- if form.posted_successfully? -%}
+                  <p class="news__ok" id="{{ form_id }}-status" role="status" tabindex="-1">
+                    {{- 'footer.newsletter.success' | t -}}
+                  </p>
+                {%- else -%}
+                  <div class="news__row">
+                    <label class="visually-hidden" for="{{ form_id }}-email">{{ 'footer.newsletter.label' | t }}</label>
+                    <input
+                      class="news__input"
+                      id="{{ form_id }}-email"
+                      type="email"
+                      name="contact[email]"
+                      autocomplete="email"
+                      autocapitalize="off"
+                      spellcheck="false"
+                      required
+                      placeholder="{{ 'footer.newsletter.placeholder' | t }}"
+                      value="{{ form.email | escape }}"
+                      {% if form.errors %}
+                        aria-invalid="true"
+                        aria-describedby="{{ form_id }}-error"
+                      {% endif %}
+                    >
+                    <button class="pill news__btn" type="submit">{{ 'footer.newsletter.submit' | t }}</button>
+                  </div>
+                  {%- if form.errors -%}
+                    <div class="news__err" id="{{ form_id }}-error" role="alert">
+                      <p>{{ form.errors.translated_fields.email | capitalize }} {{ form.errors.messages.email }}</p>
+                    </div>
+                  {%- endif -%}
+                {%- endif -%}
+              {%- endform -%}
+            </div>
+
+          {%- when 'social' -%}
+            <div class="footer__block footer__block--social" {{ block.shopify_attributes }}>
+              {%- if block.settings.heading != blank -%}
+                <h2 class="footer__heading eyebrow">{{ block.settings.heading | escape }}</h2>
+              {%- endif -%}
+              {%- render 'social-icons', class: 'footer__social' -%}
+            </div>
+        {%- endcase -%}
+      {%- endfor -%}
+    </div>
+  {%- endif -%}
+
+  <div class="footer__sub">
+    {%- if show_country or show_language -%}
+      <div class="footer__loc">
+        {%- if show_country -%}
+          {%- render 'localization-country', id: 'FooterCountry', class: 'loc--footer', placement: 'up' -%}
+        {%- endif -%}
+        {%- if show_language -%}
+          {%- render 'localization-language', id: 'FooterLanguage', class: 'loc--footer', placement: 'up' -%}
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+
+    {%- if section.settings.show_follow_on_shop and shop.features.follow_on_shop? -%}
+      <div class="footer__follow">
+        {{ shop | login_button: action: 'follow' }}
+      </div>
+    {%- endif -%}
+
+    {%- if section.settings.show_payment_icons and shop.enabled_payment_types.size > 0 -%}
+      <div class="footer__pay-wrap">
+        <h2 class="visually-hidden">{{ 'footer.payment_methods' | t }}</h2>
+        <ul class="footer__pay" role="list">
+          {%- for type in shop.enabled_payment_types -%}
+            <li>{{ type | payment_type_svg_tag: class: 'footer__pay-icon' }}</li>
+          {%- endfor -%}
+        </ul>
+      </div>
+    {%- endif -%}
+
+    <p class="footer__note">
+      <small>
+        &copy; {{ 'now' | date: '%Y' }}
+        {{ shop.name | link_to: routes.root_url -}}
+        {%- if section.settings.copyright_text != blank %} · {{ section.settings.copyright_text | escape }}{% endif %}
+        · {{ powered_by_link }}
+      </small>
+    </p>
+  </div>
 </footer>
 
 {% schema %}
 {
-  "name": "t:sections.footer.name",
+  "name": "Footer",
   "class": "section-footer",
   "enabled_on": { "groups": ["footer"] },
   "max_blocks": 8,
   "settings": [
-    { "type": "richtext", "id": "note", "label": "t:sections.footer.settings.note.label" },
-    { "type": "checkbox", "id": "show_payment", "default": true, "label": "t:sections.footer.settings.show_payment.label" },
-    { "type": "checkbox", "id": "show_powered_by", "default": false, "label": "t:sections.footer.settings.show_powered_by.label" }
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "default": "scheme-2",
+      "label": "Color scheme on the home page"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme_inner",
+      "default": "scheme-1",
+      "label": "Color scheme on other pages"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_emblem",
+      "default": true,
+      "label": "Show emblem"
+    },
+    {
+      "type": "header",
+      "content": "Country, currency and language"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_country_selector",
+      "default": true,
+      "label": "Show country/region selector",
+      "info": "Shown when more than one market country is active. [Manage markets](/admin/settings/markets)"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_language_selector",
+      "default": true,
+      "label": "Show language selector",
+      "info": "Shown when more than one language is published. [Manage languages](/admin/settings/languages)"
+    },
+    {
+      "type": "header",
+      "content": "Utilities"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_follow_on_shop",
+      "default": true,
+      "label": "Show Follow on Shop",
+      "info": "Customers can follow the store in the Shop app. Requires Shop Pay. [Learn more](https://help.shopify.com/manual/online-store/themes/customizing-themes/common-customizations/add-shop-buttons)"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_payment_icons",
+      "default": true,
+      "label": "Show payment icons"
+    },
+    {
+      "type": "text",
+      "id": "copyright_text",
+      "label": "Copyright text",
+      "info": "Shown after the store name, for example a short line about your house."
+    }
   ],
   "blocks": [
-    { "type": "menu", "name": "t:sections.footer.blocks.menu.name", "settings": [
-      { "type": "link_list", "id": "menu", "default": "footer", "label": "t:sections.footer.blocks.menu.settings.menu.label" }
-    ] },
-    { "type": "text", "name": "t:sections.footer.blocks.text.name", "settings": [
-      { "type": "richtext", "id": "text", "default": "<p>Share contact information, store details, and brand content with your customers.</p>", "label": "t:sections.footer.blocks.text.settings.text.label" }
-    ] },
-    { "type": "newsletter", "name": "t:sections.footer.blocks.newsletter.name", "limit": 1, "settings": [
-      { "type": "text", "id": "heading", "default": "Letters from the house", "label": "t:sections.footer.blocks.newsletter.settings.heading.label" }
-    ] },
-    { "type": "social", "name": "t:sections.footer.blocks.social.name", "limit": 1, "settings": [
-      { "type": "paragraph", "content": "t:sections.footer.blocks.social.settings.paragraph.content" }
-    ] }
-  ],
-  "default": {
-    "blocks": [
-      { "type": "menu" },
-      { "type": "social" }
-    ]
-  }
+    {
+      "type": "menu",
+      "name": "Menu",
+      "settings": [
+        {
+          "type": "text",
+          "id": "heading",
+          "default": "The house",
+          "label": "Heading"
+        },
+        {
+          "type": "link_list",
+          "id": "menu",
+          "default": "footer",
+          "label": "Menu",
+          "info": "Shows top-level menu items only."
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "name": "Text",
+      "settings": [
+        {
+          "type": "text",
+          "id": "heading",
+          "default": "About",
+          "label": "Heading"
+        },
+        {
+          "type": "richtext",
+          "id": "text",
+          "default": "<p>Share your store story, contact details or opening hours with customers.</p>",
+          "label": "Text"
+        }
+      ]
+    },
+    {
+      "type": "newsletter",
+      "name": "Email signup",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "text",
+          "id": "heading",
+          "default": "Letters from the house",
+          "label": "Heading"
+        },
+        {
+          "type": "richtext",
+          "id": "text",
+          "default": "<p>New compositions and private releases, a few times a year.</p>",
+          "label": "Text"
+        },
+        {
+          "type": "paragraph",
+          "content": "Subscribers are added to your customer list with the tag \"newsletter\". [Learn more](https://help.shopify.com/manual/customers/manage-customers)"
+        }
+      ]
+    },
+    {
+      "type": "social",
+      "name": "Social media icons",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "Heading"
+        },
+        {
+          "type": "paragraph",
+          "content": "Add your social media links in Theme settings > Social media."
+        }
+      ]
+    }
+  ]
 }
 {% endschema %}

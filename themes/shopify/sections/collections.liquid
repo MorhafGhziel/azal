@@ -1,0 +1,113 @@
+{%- comment -%}
+  Collections list page: every collection as an editorial card (collection image, or the first product's image),
+  title and product count, with pagination.
+{%- endcomment -%}
+<div class="store-section collections-page color-{{ section.settings.color_scheme }} full-width">
+  <div class="page store-page">
+    <header class="page__head">
+      {%- if section.settings.eyebrow != blank -%}
+        <p class="eyebrow">{{ section.settings.eyebrow | escape }}</p>
+      {%- endif -%}
+      <h1 class="page__title" tabindex="-1">
+        <span class="ln"><span class="ln__in">{{ section.settings.title | default: page_title | escape }}</span></span>
+      </h1>
+    </header>
+
+    {%- paginate collections by section.settings.per_page -%}
+      {%- if collections.size == 0 -%}
+        <div class="store-empty" role="status">
+          <p class="store-empty__title">{{ 'store.collections.empty' | t }}</p>
+          <a class="link" href="{{ routes.all_products_collection_url }}">{{ 'store.collection.browse_all' | t }}</a>
+        </div>
+      {%- else -%}
+        <ul class="grid collection-grid collection-grid--{{ section.settings.columns_desktop }}{% if section.settings.first_card_wide and paginate.current_page == 1 %} collection-grid--wide-first{% endif %} collections-list" role="list">
+          {%- for c in collections -%}
+            {%- liquid
+              assign img = c.featured_image
+              if img == blank
+                assign img = c.products.first.featured_media.preview_image
+              endif
+              assign loading = 'lazy'
+              if forloop.index <= 3
+                assign loading = 'eager'
+              endif
+            -%}
+            <li class="card card--collection">
+                <a class="card__img" href="{{ c.url }}" tabindex="-1" aria-hidden="true">
+                  {%- if img -%}
+                    {{
+                      img
+                      | image_url: width: 1600
+                      | image_tag:
+                        loading: loading,
+                        widths: '360, 540, 720, 960, 1200, 1600',
+                        sizes: '(min-width: 900px) 33vw, (min-width: 560px) 50vw, 100vw',
+                        alt: c.title
+                    }}
+                  {%- else -%}
+                    {{ 'collection-1' | placeholder_svg_tag: 'card__ph' }}
+                  {%- endif -%}
+                  <span class="card__sweep"></span>
+                </a>
+                <div class="card__info">
+                  <h2 class="card__name"><a href="{{ c.url }}">{{ c.title | escape }}</a></h2>
+                  <p class="card__price">{{ 'store.collections.count' | t: count: c.all_products_count }}</p>
+                </div>
+            </li>
+          {%- endfor -%}
+        </ul>
+      {%- endif -%}
+      {%- render 'pagination', paginate: paginate -%}
+    {%- endpaginate -%}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Collections list",
+  "class": "section-collections",
+  "settings": [
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "default": "Collections",
+      "label": "Heading"
+    },
+    {
+      "type": "range",
+      "id": "per_page",
+      "min": 6,
+      "max": 48,
+      "step": 3,
+      "default": 12,
+      "label": "Collections per page"
+    },
+    {
+      "type": "range",
+      "id": "columns_desktop",
+      "min": 2,
+      "max": 4,
+      "step": 1,
+      "default": 3,
+      "label": "Columns on desktop"
+    },
+    {
+      "type": "checkbox",
+      "id": "first_card_wide",
+      "default": false,
+      "label": "Make first collection wide"
+    }
+  ]
+}
+{% endschema %}

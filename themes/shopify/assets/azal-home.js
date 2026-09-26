@@ -14,16 +14,24 @@
   function BottleSequence(canvas, urls) {
     this.canvas = canvas; this.urls = urls; this.frames = new Array(urls.length); this.ctx = canvas.getContext('2d'); this.last = -1;
   }
+  // The settled frame loads first; the other frames wait until the page has finished loading and the
+  // browser is idle, so they never compete with the hero images for bandwidth (Lighthouse LCP).
   BottleSequence.prototype.load = function () {
     var self = this, mid = Math.floor(this.urls.length / 2);
-    var order = this.urls.map(function (_, i) { return i; }).sort(function (a, b) { return Math.abs(a - mid) - Math.abs(b - mid); });
-    return Promise.all(order.map(function (i) {
+    var one = function (i) {
       return new Promise(function (res) {
         var im = new Image(); im.decoding = 'async';
         im.onload = function () { self.frames[i] = im; if (self.last < 0 || Math.abs(i - self.last) < 1) self.draw(self.last < 0 ? mid : self.last, true); res(); };
         im.onerror = res; im.src = self.urls[i];
       });
-    }));
+    };
+    var rest = this.urls.map(function (_, i) { return i; }).filter(function (i) { return i !== mid; })
+      .sort(function (a, b) { return Math.abs(a - mid) - Math.abs(b - mid); });
+    var later = new Promise(function (res) {
+      var go = function () { (window.requestIdleCallback || setTimeout)(res, 300); };
+      if (document.readyState === 'complete') go(); else addEventListener('load', go, { once: true });
+    });
+    return one(mid).then(function () { return later; }).then(function () { return Promise.all(rest.map(one)); });
   };
   BottleSequence.prototype.draw = function (f, force) {
     var n = this.urls.length, i = Math.max(0, Math.min(n - 1, Math.round(f)));
@@ -366,7 +374,7 @@
   function initNavTheme() {
     var nav = $('[data-nav]');
     if (!nav) return;
-    $$('[data-origins], [data-collection], .main .scheme-ivory, .main .scheme-blush').forEach(function (el) {
+    $$('[data-origins], [data-collection], .main .color-scheme-1, .main .color-scheme-3').forEach(function (el) {
       ST.create({ trigger: el, start: 'top 60px', end: 'bottom 60px', onToggle: function (s) { nav.classList.toggle('nav--ink', s.isActive); } });
     });
     $$('[data-notes]').forEach(function (el) {

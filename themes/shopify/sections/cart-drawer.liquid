@@ -1,41 +1,81 @@
 {%- comment -%}
-  The bag drawer. Re-rendered through the Section Rendering API after every change (see azal-cart.js).
+  The cart drawer (settings.cart_type == 'drawer'), rendered from layout/theme.liquid with {% section 'cart-drawer' %}.
+  A modal dialog: focus is trapped inside, Escape closes it and focus returns to the opener (assets/azal-cart.js).
+  It slides from the inline end, so from the left in right-to-left languages.
 {%- endcomment -%}
-<div class="drawer" id="CartDrawer" data-drawer hidden>
-  <div class="drawer__dim" data-close></div>
-  <aside class="drawer__panel" role="dialog" aria-modal="true" aria-labelledby="CartDrawerTitle" tabindex="-1">
+<div
+  class="drawer cart-drawer"
+  id="CartDrawer"
+  data-drawer
+  data-cart-empty="{% if cart.item_count == 0 %}true{% else %}false{% endif %}"
+  hidden
+>
+  <div class="drawer__dim" data-close aria-hidden="true"></div>
+  <div
+    class="drawer__panel color-{{ section.settings.color_scheme }}"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="CartDrawerTitle"
+    tabindex="-1"
+  >
     <header class="drawer__head">
-      <h2 class="drawer__title" id="CartDrawerTitle">{{ 'cart.title' | t }} ({{ cart.item_count }})</h2>
-      <button class="drawer__x" type="button" data-close aria-label="{{ 'cart.close' | t }}"><span aria-hidden="true">✕</span></button>
+      <h2 class="drawer__title" id="CartDrawerTitle" data-cart-replace="title">
+        {{- 'store.cart.title' | t }}
+        <span class="drawer__count">({{ cart.item_count }})</span>
+      </h2>
+      <button class="drawer__x" type="button" data-close aria-label="{{ 'store.cart.close' | t }}">
+        {%- render 'cart-icon', icon: 'close' -%}
+      </button>
     </header>
-    <div class="drawer__body" data-lenis-prevent data-cart-body>
-      {%- render 'cart-lines' -%}
+
+    <p
+      class="visually-hidden"
+      role="status"
+      aria-live="polite"
+      data-cart-live
+      data-msg-updated="{{ 'store.cart.updated' | t | escape }}"
+      data-msg-removed="{{ 'store.cart.removed' | t | escape }}"
+      data-msg-max="{{ 'store.cart.max_reached' | t: quantity: '__N__' | escape }}"
+    ></p>
+    <p class="field__err drawer__error" role="alert" data-cart-error></p>
+
+    <form id="CartDrawerForm" action="{{ routes.cart_url }}" method="post" novalidate></form>
+
+    <div class="drawer__body" data-lenis-prevent data-cart-body data-cart-replace="lines">
+      {%- render 'cart-lines', scope: 'drawer' -%}
     </div>
-    {%- if cart.item_count > 0 -%}
-      <footer class="drawer__foot">
-        {%- render 'cart-extras', scope: 'drawer' -%}
-        <dl class="sums">
-          {%- if cart.cart_level_discount_applications.size > 0 -%}
-            {%- for d in cart.cart_level_discount_applications -%}
-              <div><dt>{{ d.title | escape }}</dt><dd>-{{ d.total_allocated_amount | money }}</dd></div>
-            {%- endfor -%}
-          {%- endif -%}
-          <div><dt>{{ 'cart.subtotal' | t }}</dt><dd>{{ cart.total_price | money_with_currency }}</dd></div>
-          <div><dt>{{ 'cart.shipping' | t }}</dt><dd class="muted">{{ 'cart.shipping_at_checkout' | t }}</dd></div>
-        </dl>
-        {%- if settings.cart_shipping_note != blank -%}<p class="sums__vat muted">{{ settings.cart_shipping_note | escape }}</p>{%- endif -%}
-        <form action="{{ routes.cart_url }}" method="post">
-          <button class="btn btn--solid btn--full" type="submit" name="checkout">{{ 'cart.checkout' | t }}</button>
-        </form>
-        <a class="link link--center" href="{{ routes.cart_url }}">{{ 'cart.view_full' | t }}</a>
-      </footer>
-    {%- endif -%}
-  </aside>
+
+    <footer class="drawer__foot cart-drawer__foot"{% if cart.item_count == 0 %} hidden{% endif %}>
+      {%- render 'cart-extras', scope: 'drawer' -%}
+      {%- render 'cart-summary', scope: 'drawer' -%}
+      {%- if additional_checkout_buttons and section.settings.show_additional_checkout -%}
+        <div class="cart-dyn additional-checkout-buttons" data-cart-dyn>
+          {{ content_for_additional_checkout_buttons }}
+        </div>
+      {%- endif -%}
+      <a class="link link--center" href="{{ routes.cart_url }}">{{ 'store.cart.view_cart' | t }}</a>
+    </footer>
+  </div>
 </div>
 
 {% schema %}
 {
-  "name": "t:sections.cart-drawer.name",
-  "settings": []
+  "name": "Cart drawer",
+  "class": "section-cart-drawer",
+  "settings": [
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_additional_checkout",
+      "default": true,
+      "label": "Show accelerated checkout buttons",
+      "info": "Buttons such as Shop Pay and Apple Pay appear when set up in your payment settings."
+    }
+  ]
 }
 {% endschema %}

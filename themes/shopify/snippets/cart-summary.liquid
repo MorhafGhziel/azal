@@ -1,0 +1,49 @@
+{%- doc -%}
+  Cart totals: subtotal, cart-level discounts, total, the taxes/shipping line and the checkout button.
+
+  @param {string} scope - 'page' or 'drawer'
+{%- enddoc -%}
+{%- assign scope = scope | default: 'page' -%}
+<div class="cart-summary" data-cart-replace="summary">
+  <dl class="sums cart-sums">
+    {%- if cart.cart_level_discount_applications.size > 0 -%}
+      <div>
+        <dt>{{ 'store.cart.subtotal' | t }}</dt>
+        <dd>{{ cart.items_subtotal_price | money }}</dd>
+      </div>
+      {%- for discount in cart.cart_level_discount_applications -%}
+        <div class="cart-sums__discount">
+          <dt>
+            {%- render 'cart-icon', icon: 'tag' -%}
+            <span>{{ discount.title | escape }}</span>
+          </dt>
+          <dd>-{{ discount.total_allocated_amount | money }}</dd>
+        </div>
+      {%- endfor -%}
+    {%- endif -%}
+    <div class="sums__total">
+      <dt>{{ 'store.cart.total' | t }}</dt>
+      <dd>{{ cart.total_price | money_with_currency }}</dd>
+    </div>
+  </dl>
+  <p class="sums__vat muted cart-summary__tax">
+    {%- if cart.duties_included and cart.taxes_included -%}
+      {{ 'store.cart.duties_and_taxes_included' | t }}
+    {%- elsif cart.taxes_included -%}
+      {{ 'store.cart.taxes_included' | t }}
+    {%- else -%}
+      {{ 'store.cart.taxes_at_checkout' | t }}
+    {%- endif -%}
+  </p>
+  <button
+    class="btn btn--solid btn--full cart-summary__checkout"
+    type="submit"
+    name="checkout"
+    form="{% if scope == 'drawer' %}CartDrawerForm{% else %}CartForm{% endif %}"
+    {% if cart.item_count == 0 %}
+      disabled
+    {% endif %}
+  >
+    {{- 'store.cart.checkout' | t -}}
+  </button>
+</div>

@@ -1,0 +1,34 @@
+{%- doc -%}
+  Product block: share button. Uses the device share sheet when available, otherwise copies the link.
+{%- enddoc -%}
+{%- assign product = closest.product -%}
+<div class="pdp-share" data-share {{ block.shopify_attributes }}>
+  <button
+    type="button"
+    class="link link--quiet pdp-share__btn"
+    data-share-button
+    data-share-url="{{ request.origin }}{{ product.url }}"
+    data-share-title="{{ product.title | escape }}"
+    data-copied="{{ 'products.share.copied' | t | escape }}"
+  >
+    {%- render 'product-icon', icon: 'share' -%}
+    <span>{{ block.settings.label | escape }}</span>
+  </button>
+  <span class="pdp-share__status muted" role="status" data-share-status></span>
+</div>
+
+{% schema %}
+{
+  "name": "Share",
+  "tag": null,
+  "settings": [
+    {
+      "type": "text",
+      "id": "label",
+      "label": "Label",
+      "default": "Share"
+    }
+  ],
+  "presets": [{ "name": "Share" }]
+}
+{% endschema %}

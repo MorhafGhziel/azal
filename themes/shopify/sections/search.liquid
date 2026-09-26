@@ -1,0 +1,185 @@
+{%- comment -%}
+  Search results page: search form, filters and sorting (snippets/facets), results by type (products via
+  snippets/card-product, articles and pages as text cards), pagination and an empty state.
+{%- endcomment -%}
+{%- liquid
+  assign per_page = section.settings.results_per_page
+  assign terms = search.terms
+-%}
+{%- paginate search.results by per_page -%}
+  <div
+    class="search-page color-{{ section.settings.color_scheme }}"
+    data-section-id="{{ section.id }}"
+  >
+    <div class="page search-page__inner">
+      <header class="search-page__head">
+        <p class="eyebrow search-page__eyebrow">{{ 'search.title' | t }}</p>
+        <h1 class="page__title search-page__title" tabindex="-1">
+          <span class="ln"><span class="ln__in">
+            {%- if search.performed -%}
+              {{- 'search.results_title' | t: terms: terms -}}
+            {%- else -%}
+              {{- 'search.heading' | t -}}
+            {%- endif -%}
+          </span></span>
+        </h1>
+
+        <form class="search-page__form" action="{{ routes.search_url }}" method="get" role="search">
+          <label class="visually-hidden" for="SearchPageInput-{{ section.id }}">{{ 'search.label' | t }}</label>
+          <input
+            class="search-page__input"
+            id="SearchPageInput-{{ section.id }}"
+            type="search"
+            name="q"
+            value="{{ terms | escape }}"
+            placeholder="{{ 'search.placeholder' | t }}"
+            autocomplete="off"
+          >
+          <input type="hidden" name="options[prefix]" value="last">
+          <button class="pill search-page__submit" type="submit">
+            {%- render 'header-icon', icon: 'search' -%}
+            <span>{{ 'search.submit' | t }}</span>
+          </button>
+        </form>
+      </header>
+
+      {%- if search.performed -%}
+        {%- liquid
+          assign has_active_filters = false
+          for filter in search.filters
+            if filter.active_values.size > 0
+              assign has_active_filters = true
+            endif
+            if filter.type == 'price_range'
+              if filter.min_value.value != null or filter.max_value.value != null
+                assign has_active_filters = true
+              endif
+            endif
+          endfor
+        -%}
+        {%- if search.results_count > 0 or has_active_filters -%}
+          {%- if section.settings.enable_filtering or section.settings.enable_sorting -%}
+            {%- render 'facets',
+              results: search,
+              section_id: section.id,
+              enable_filtering: section.settings.enable_filtering,
+              enable_sorting: section.settings.enable_sorting,
+              paginate: paginate
+            -%}
+          {%- endif -%}
+        {%- endif -%}
+
+        <div class="search-page__results" id="SearchResults-{{ section.id }}" data-results>
+          {%- if search.results_count == 0 -%}
+            <div class="search-empty" role="status">
+              {%- if has_active_filters -%}
+                <p class="search-empty__title">{{ 'search.no_matches' | t }}</p>
+                <a
+                  class="link"
+                  href="{{ routes.search_url }}?q={{ terms | url_encode }}&amp;options%5Bprefix%5D=last"
+                  data-facet-link
+                >
+                  {{- 'facets.clear_all' | t -}}
+                </a>
+              {%- else -%}
+                <p class="search-empty__title">{{ 'search.no_results' | t: terms: terms }}</p>
+                <p class="search-empty__hint muted">{{ 'search.no_results_hint' | t }}</p>
+                <a class="link" href="{{ routes.all_products_collection_url }}">{{ 'search.browse_all' | t }}</a>
+              {%- endif -%}
+            </div>
+          {%- else -%}
+            <ul class="search-grid" role="list">
+              {%- for item in search.results -%}
+                {%- case item.object_type -%}
+                  {%- when 'product' -%}
+                    <li class="search-grid__item search-grid__item--product">
+                      {%- render 'card-product', product: item, index: forloop.index0, heading_tag: 'h2' -%}
+                    </li>
+                  {%- when 'article' -%}
+                    <li class="search-grid__item search-grid__item--text">
+                      <article class="search-card">
+                        {%- if item.image -%}
+                          <a class="search-card__media" href="{{ item.url }}" tabindex="-1" aria-hidden="true">
+                            {{
+                              item.image
+                              | image_url: width: 900
+                              | image_tag:
+                                loading: 'lazy',
+                                widths: '300, 450, 600, 900',
+                                sizes: '(min-width: 990px) 25vw, (min-width: 750px) 33vw, 50vw',
+                                class: 'search-card__img',
+                                alt: item.image.alt
+                            }}
+                          </a>
+                        {%- endif -%}
+                        <p class="eyebrow search-card__type">{{ 'search.type_article' | t }}</p>
+                        <h2 class="search-card__title">
+                          <a href="{{ item.url }}">{{ item.title | escape }}</a>
+                        </h2>
+                        {%- assign excerpt = item.excerpt_or_content | strip_html | truncatewords: 22 -%}
+                        {%- if excerpt != blank -%}
+                          <p class="search-card__excerpt">{{ excerpt }}</p>
+                        {%- endif -%}
+                      </article>
+                    </li>
+                  {%- when 'page' -%}
+                    <li class="search-grid__item search-grid__item--text">
+                      <article class="search-card search-card--page">
+                        <p class="eyebrow search-card__type">{{ 'search.type_page' | t }}</p>
+                        <h2 class="search-card__title">
+                          <a href="{{ item.url }}">{{ item.title | escape }}</a>
+                        </h2>
+                        {%- assign excerpt = item.content | strip_html | truncatewords: 22 -%}
+                        {%- if excerpt != blank -%}
+                          <p class="search-card__excerpt">{{ excerpt }}</p>
+                        {%- endif -%}
+                      </article>
+                    </li>
+                {%- endcase -%}
+              {%- endfor -%}
+            </ul>
+          {%- endif -%}
+
+          {%- render 'pagination', paginate: paginate -%}
+        </div>
+      {%- endif -%}
+    </div>
+  </div>
+{%- endpaginate -%}
+
+{% schema %}
+{
+  "name": "Search results",
+  "class": "section-search",
+  "settings": [
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "default": "scheme-1",
+      "label": "Color scheme"
+    },
+    {
+      "type": "range",
+      "id": "results_per_page",
+      "min": 8,
+      "max": 48,
+      "step": 4,
+      "default": 24,
+      "label": "Results per page"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_filtering",
+      "default": true,
+      "label": "Enable filtering",
+      "info": "Filters apply to products. [Customize filters](/admin/menus)"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_sorting",
+      "default": true,
+      "label": "Enable sorting"
+    }
+  ]
+}
+{% endschema %}

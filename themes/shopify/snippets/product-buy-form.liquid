@@ -1,0 +1,124 @@
+{%- doc -%}
+  The product form: variant id, purchase options (selling plans / subscriptions), gift card recipient fields,
+  add to cart and the dynamic checkout buttons. Quantity and option inputs live in their own blocks and join
+  this form through the `form` attribute.
+
+  @param {product} product - The product.
+  @param {string} section_id - Section id, for unique ids.
+  @param {string} form_id - The form id ('ProductForm-' + section id).
+  @param {boolean} [show_dynamic_checkout] - Show accelerated checkout buttons. Default true.
+  @param {boolean} [show_gift_card_recipient] - Show the recipient form on gift cards. Default true.
+
+  @example
+  {% render 'product-buy-form', product: product, section_id: section.id, form_id: form_id %}
+{%- enddoc -%}
+{%- liquid
+  assign current = product.selected_or_first_available_variant
+  assign selected_plan = product.selected_selling_plan
+  if selected_plan == blank and product.requires_selling_plan and product.selling_plan_groups.size > 0
+    assign selected_plan = product.selling_plan_groups.first.selling_plans.first
+  endif
+  assign add_label = 'products.product.add_to_cart' | t
+  assign sold_out_label = 'products.product.sold_out' | t
+  assign unavailable_label = 'products.product.unavailable' | t
+-%}
+{%- form 'product', product, id: form_id, class: 'pdp-form', novalidate: 'novalidate', data-product-form: '' -%}
+  <input type="hidden" name="id" value="{{ current.id }}" data-variant-input>
+
+  {%- if product.selling_plan_groups.size > 0 -%}
+    <fieldset class="plans" data-plans>
+      <legend class="field__label">{{ 'products.selling_plans.legend' | t }}</legend>
+      {%- unless product.requires_selling_plan -%}
+        <div class="plans__option">
+          <input
+            type="radio"
+            class="plans__input"
+            id="Plan-{{ section_id }}-once"
+            name="Plan-{{ section_id }}"
+            value=""
+            data-plan-radio
+            {% if selected_plan == blank %}
+              checked
+            {% endif %}
+          >
+          <label class="plans__label" for="Plan-{{ section_id }}-once">
+            <span class="plans__name">{{ 'products.selling_plans.one_time' | t }}</span>
+            <span class="plans__price" data-plan-price="">{{ current.price | money }}</span>
+          </label>
+        </div>
+      {%- endunless -%}
+      {%- for group in product.selling_plan_groups -%}
+        {%- if product.selling_plan_groups.size > 1 -%}
+          <p class="plans__group">{{ group.name | escape }}</p>
+        {%- endif -%}
+        {%- for plan in group.selling_plans -%}
+          {%- liquid
+            assign allocation = nil
+            for candidate in current.selling_plan_allocations
+              if candidate.selling_plan.id == plan.id
+                assign allocation = candidate
+                break
+              endif
+            endfor
+          -%}
+          <div class="plans__option">
+            <input
+              type="radio"
+              class="plans__input"
+              id="Plan-{{ section_id }}-{{ plan.id }}"
+              name="Plan-{{ section_id }}"
+              value="{{ plan.id }}"
+              data-plan-radio
+              {% if selected_plan.id == plan.id %}
+                checked
+              {% endif %}
+            >
+            <label class="plans__label" for="Plan-{{ section_id }}-{{ plan.id }}">
+              <span class="plans__name">
+                {%- if product.selling_plan_groups.size == 1 and group.selling_plans.size == 1 -%}
+                  {{ group.name | escape }} · {{ plan.name | escape }}
+                {%- else -%}
+                  {{ plan.name | escape }}
+                {%- endif -%}
+                {%- if plan.description != blank -%}
+                  <small class="plans__desc">{{ plan.description | escape }}</small>
+                {%- endif -%}
+              </span>
+              <span class="plans__price" data-plan-price="{{ plan.id }}">
+                {%- if allocation -%}{{ allocation.price | money }}{%- endif -%}
+              </span>
+            </label>
+          </div>
+        {%- endfor -%}
+      {%- endfor -%}
+    </fieldset>
+    <input type="hidden" name="selling_plan" value="{{ selected_plan.id }}" data-selling-plan-input>
+  {%- endif -%}
+
+  {%- if product.gift_card? and show_gift_card_recipient != false -%}
+    {%- render 'product-gift-card-recipient', form: form, section_id: section_id -%}
+  {%- endif -%}
+
+  <div class="pdp-form__buttons">
+    <button
+      type="submit"
+      name="add"
+      class="btn btn--solid btn--full btn--lg pdp-form__add"
+      data-add-button
+      data-label-add="{{ add_label | escape }}"
+      data-label-sold-out="{{ sold_out_label | escape }}"
+      data-label-unavailable="{{ unavailable_label | escape }}"
+      {% unless current.available %}
+        disabled
+      {% endunless %}
+    >
+      <span data-add-label>
+        {%- if current.available -%}{{ add_label }}{%- else -%}{{ sold_out_label }}{%- endif -%}
+      </span>
+    </button>
+    {%- if show_dynamic_checkout != false -%}
+      <div class="pdp-form__dynamic">{{ form | payment_button }}</div>
+    {%- endif -%}
+  </div>
+  <p class="field__err pdp-form__error" role="alert" data-form-error></p>
+{%- endform -%}

@@ -1,0 +1,160 @@
+{%- comment -%} Journal: articles on the editorial grid (wide first card), tag filter, pagination. {%- endcomment -%}
+{%- paginate blog.articles by section.settings.per_page -%}
+  <div class="store-section blog-section color-{{ section.settings.color_scheme }} full-width">
+    <div class="page store-page blog">
+      <header class="page__head">
+        {%- if section.settings.eyebrow != blank -%}
+          <p class="eyebrow">{{ section.settings.eyebrow | escape }}</p>
+        {%- endif -%}
+        <h1 class="page__title" tabindex="-1">
+          <span class="ln"><span class="ln__in">{{ blog.title | escape }}</span></span>
+        </h1>
+      </header>
+
+      {%- if section.settings.show_tags and blog.all_tags.size > 0 -%}
+        <nav class="blog__tags" aria-label="{{ 'store.blog.tags_label' | t }}">
+          <ul class="blog__tag-list" role="list">
+            <li>
+              <a class="filters__b{% if current_tags == blank %} is-on{% endif %}" href="{{ blog.url }}"{% if current_tags == blank %} aria-current="page"{% endif %}>
+                {{- 'store.blog.all' | t -}}
+              </a>
+            </li>
+            {%- for tag in blog.all_tags -%}
+              {%- liquid
+                assign active = false
+                if current_tags contains tag
+                  assign active = true
+                endif
+              -%}
+              <li>
+                <a class="filters__b{% if active %} is-on{% endif %}" href="{{ blog.url }}/tagged/{{ tag | handleize }}"{% if active %} aria-current="page"{% endif %}>
+                  {{- tag | escape -}}
+                </a>
+              </li>
+            {%- endfor -%}
+          </ul>
+        </nav>
+      {%- endif -%}
+
+      {%- if blog.articles.size == 0 -%}
+        <div class="store-empty" role="status">
+          <p class="store-empty__title">{{ 'store.blog.empty' | t }}</p>
+        </div>
+      {%- else -%}
+        <ul class="grid collection-grid collection-grid--{{ section.settings.columns_desktop }}{% if section.settings.first_card_wide and paginate.current_page == 1 %} collection-grid--wide-first{% endif %} blog__grid" role="list">
+          {%- for article in blog.articles -%}
+            {%- liquid
+              assign loading = 'lazy'
+              if forloop.index <= 2
+                assign loading = 'eager'
+              endif
+            -%}
+            <li class="card card--article">
+                {%- if section.settings.show_image -%}
+                  <a class="card__img" href="{{ article.url }}" tabindex="-1" aria-hidden="true">
+                    {%- if article.image -%}
+                      {{
+                        article.image
+                        | image_url: width: 1600
+                        | image_tag:
+                          loading: loading,
+                          widths: '360, 540, 720, 960, 1200, 1600',
+                          sizes: '(min-width: 900px) 50vw, 100vw',
+                          alt: article.image.alt
+                      }}
+                    {%- else -%}
+                      {{ 'blog-apparel-1' | placeholder_svg_tag: 'card__ph' }}
+                    {%- endif -%}
+                    <span class="card__sweep"></span>
+                  </a>
+                {%- endif -%}
+                <div class="card__info">
+                  <p class="eyebrow card__date">
+                    {{- article.published_at | time_tag: format: 'date' -}}
+                    {%- if section.settings.show_author and article.author != blank %} · {{ article.author | escape }}{% endif -%}
+                  </p>
+                  <h2 class="card__name"><a href="{{ article.url }}">{{ article.title | escape }}</a></h2>
+                  {%- if section.settings.show_excerpt -%}
+                    <p class="card__char">{{ article.excerpt_or_content | strip_html | truncatewords: 26 }}</p>
+                  {%- endif -%}
+                  <a class="link card__more" href="{{ article.url }}" aria-label="{{ 'store.blog.read_more_label' | t: title: article.title | escape }}">
+                    {{- 'store.blog.read_more' | t -}}
+                  </a>
+                </div>
+            </li>
+          {%- endfor -%}
+        </ul>
+      {%- endif -%}
+
+      {%- render 'pagination', paginate: paginate -%}
+    </div>
+  </div>
+{%- endpaginate -%}
+
+{% schema %}
+{
+  "name": "Blog",
+  "class": "section-blog",
+  "settings": [
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow"
+    },
+    {
+      "type": "range",
+      "id": "per_page",
+      "min": 4,
+      "max": 24,
+      "step": 1,
+      "default": 9,
+      "label": "Articles per page"
+    },
+    {
+      "type": "range",
+      "id": "columns_desktop",
+      "min": 2,
+      "max": 4,
+      "step": 1,
+      "default": 3,
+      "label": "Columns on desktop"
+    },
+    {
+      "type": "checkbox",
+      "id": "first_card_wide",
+      "default": true,
+      "label": "Make first article wide"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_image",
+      "default": true,
+      "label": "Show featured image"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_excerpt",
+      "default": true,
+      "label": "Show excerpt"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_author",
+      "default": false,
+      "label": "Show author"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_tags",
+      "default": true,
+      "label": "Show tag filter"
+    }
+  ]
+}
+{% endschema %}

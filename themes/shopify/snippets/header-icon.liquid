@@ -1,0 +1,26 @@
+{%- doc -%}
+  Small interface icons used by the header, search, filters and footer. Decorative: always aria-hidden.
+
+  @param {string} icon - search | account | close | chevron | plus | filter | arrow | pause | play
+  @param {string} [class] - Extra class on the svg
+{%- enddoc -%}
+{%- case icon -%}
+  {%- when 'search' -%}
+    <svg class="icon icon--search {{ class }}" viewBox="0 0 20 20" aria-hidden="true" focusable="false"><circle cx="8.6" cy="8.6" r="5.6" fill="none" stroke="currentColor" stroke-width="1.3"/><path d="m12.8 12.8 4.4 4.4" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
+  {%- when 'account' -%}
+    <svg class="icon icon--account {{ class }}" viewBox="0 0 20 20" aria-hidden="true" focusable="false"><circle cx="10" cy="6.6" r="3.1" fill="none" stroke="currentColor" stroke-width="1.3"/><path d="M3.8 17.2c.9-3 3.3-4.8 6.2-4.8s5.3 1.8 6.2 4.8" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
+  {%- when 'close' -%}
+    <svg class="icon icon--close {{ class }}" viewBox="0 0 20 20" aria-hidden="true" focusable="false"><path d="m4.5 4.5 11 11m0-11-11 11" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
+  {%- when 'chevron' -%}
+    <svg class="icon icon--chevron {{ class }}" viewBox="0 0 12 12" aria-hidden="true" focusable="false"><path d="m2.5 4.5 3.5 3.5 3.5-3.5" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  {%- when 'plus' -%}
+    <svg class="icon icon--plus {{ class }}" viewBox="0 0 12 12" aria-hidden="true" focusable="false"><path class="icon__v" d="M6 1.5v9" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/><path d="M1.5 6h9" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
+  {%- when 'filter' -%}
+    <svg class="icon icon--filter {{ class }}" viewBox="0 0 20 20" aria-hidden="true" focusable="false"><path d="M3 6h14M3 14h14" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/><circle cx="7" cy="6" r="1.9" fill="var(--scheme-bg, #fff)" stroke="currentColor" stroke-width="1.3"/><circle cx="13" cy="14" r="1.9" fill="var(--scheme-bg, #fff)" stroke="currentColor" stroke-width="1.3"/></svg>
+  {%- when 'arrow' -%}
+    <svg class="icon icon--arrow {{ class }}" viewBox="0 0 20 20" aria-hidden="true" focusable="false"><path d="M3.5 10h13m-4.5-4.5 4.5 4.5-4.5 4.5" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  {%- when 'pause' -%}
+    <svg class="icon icon--pause {{ class }}" viewBox="0 0 12 12" aria-hidden="true" focusable="false"><path d="M4 2.5v7M8 2.5v7" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
+  {%- when 'play' -%}
+    <svg class="icon icon--play {{ class }}" viewBox="0 0 12 12" aria-hidden="true" focusable="false"><path d="M3.5 2.2v7.6L9.8 6z" fill="currentColor"/></svg>
+{%- endcase -%}

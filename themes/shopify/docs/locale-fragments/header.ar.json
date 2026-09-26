@@ -1,0 +1,110 @@
+{
+  "header": {
+    "nav": {
+      "label": "القائمة الرئيسية",
+      "menu": "القائمة",
+      "close": "إغلاق",
+      "search": "بحث",
+      "account": "الحساب",
+      "bag": "الحقيبة",
+      "bag_count": {
+        "zero": "الحقيبة فارغة",
+        "one": "الحقيبة، منتج واحد",
+        "two": "الحقيبة، منتجان",
+        "few": "الحقيبة، {{ count }} منتجات",
+        "many": "الحقيبة، {{ count }} منتجًا",
+        "other": "الحقيبة، {{ count }} منتج"
+      },
+      "view_all": "عرض كل {{ title }}"
+    },
+    "announcement": {
+      "label": "الإعلانات",
+      "pause": "إيقاف الإعلانات مؤقتًا"
+    },
+    "search": {
+      "dialog_label": "البحث في المتجر",
+      "label": "بحث",
+      "placeholder": "ابحث عن عطر أو نوتة أو صفحة",
+      "submit": "بحث",
+      "close": "إغلاق البحث",
+      "results_status": "النتائج المتاحة: {{ count }}. استخدم مفتاحي الأسهم للأعلى وللأسفل للتنقل.",
+      "no_results": "لا توجد نتائج لـ «{{ terms }}»",
+      "suggestions": "اقتراحات",
+      "collections": "المجموعات",
+      "pages": "الصفحات",
+      "articles": "المقالات",
+      "products": "المنتجات",
+      "price_from": "ابتداءً من {{ price }}",
+      "regular_price": "السعر الأصلي",
+      "search_for": "ابحث عن «{{ terms }}»"
+    }
+  },
+  "localization": {
+    "country_label": "الدولة/المنطقة",
+    "language_label": "اللغة",
+    "search_countries": "ابحث عن دولة",
+    "no_countries": "لم يتم العثور على دولة"
+  },
+  "footer": {
+    "payment_methods": "طرق الدفع",
+    "newsletter": {
+      "label": "البريد الإلكتروني",
+      "placeholder": "بريدك الإلكتروني",
+      "submit": "اشترك",
+      "success": "شكرًا لك، تم تسجيل اشتراكك."
+    },
+    "social": {
+      "new_window": "(يفتح في نافذة جديدة)",
+      "instagram": "إنستغرام",
+      "tiktok": "تيك توك",
+      "facebook": "فيسبوك",
+      "x": "إكس",
+      "pinterest": "بنترست",
+      "snapchat": "سناب شات",
+      "youtube": "يوتيوب",
+      "whatsapp": "واتساب"
+    }
+  },
+  "facets": {
+    "filter": "تصفية",
+    "sort_by": "ترتيب حسب",
+    "close": "إغلاق عوامل التصفية",
+    "apply": "عرض النتائج",
+    "clear_all": "مسح الكل",
+    "remove": "إزالة عامل التصفية",
+    "active_label": "عوامل التصفية المفعّلة",
+    "from": "من",
+    "to": "إلى",
+    "max_price": "أعلى سعر هو {{ price }}",
+    "product_count": {
+      "zero": "لا توجد منتجات",
+      "one": "منتج واحد",
+      "two": "منتجان",
+      "few": "{{ count }} منتجات",
+      "many": "{{ count }} منتجًا",
+      "other": "{{ count }} منتج"
+    },
+    "value_count": {
+      "zero": "لا توجد منتجات",
+      "one": "منتج واحد",
+      "two": "منتجان",
+      "few": "{{ count }} منتجات",
+      "many": "{{ count }} منتجًا",
+      "other": "{{ count }} منتج"
+    }
+  },
+  "search": {
+    "title": "بحث",
+    "heading": "عمّ تبحث؟",
+    "results_title": "نتائج «{{ terms }}»",
+    "label": "بحث",
+    "placeholder": "ابحث عن عطر أو نوتة أو صفحة",
+    "submit": "بحث",
+    "no_results": "لا توجد نتائج لـ «{{ terms }}»",
+    "no_results_hint": "تحقق من الإملاء أو جرّب كلمة أقصر أو اسم نوتة أو مجموعة.",
+    "no_matches": "لا توجد منتجات تطابق عوامل التصفية هذه.",
+    "browse_all": "تصفّح جميع العطور",
+    "type_article": "المجلة",
+    "type_page": "صفحة"
+  }
+}

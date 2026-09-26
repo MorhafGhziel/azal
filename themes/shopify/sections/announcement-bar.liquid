@@ -1,34 +1,109 @@
-{%- if section.blocks.size > 0 -%}
-  <div class="announce" role="region" aria-label="{{ 'accessibility.announcement' | t }}" style="--announce-bg: {{ section.settings.background }}; --announce-fg: {{ section.settings.text_color }};">
-    <div class="announce__track" data-announce>
+{%- comment -%}
+  Announcement bar: one message at a time. With several messages they rotate (assets/azal-search.js) and a
+  pause button is shown; rotation also pauses on hover and keyboard focus, and never runs with reduced motion.
+{%- endcomment -%}
+{%- assign count = section.blocks.size -%}
+{%- if count > 0 -%}
+  <div
+    class="announce color-{{ section.settings.color_scheme }}{% if count > 1 %} announce--multi{% endif %}"
+    role="region"
+    aria-label="{{ 'header.announcement.label' | t }}"
+    {% if count > 1 and section.settings.autorotate %}
+      data-announcement
+      data-speed="{{ section.settings.speed }}"
+    {% endif %}
+  >
+    <div class="announce__track">
       {%- for block in section.blocks -%}
-        <p class="announce__msg{% if forloop.first %} is-on{% endif %}" {{ block.shopify_attributes }}>
+        <p
+          class="announce__msg{% if forloop.first %} is-on{% endif %}"
+          {% unless forloop.first %}
+            aria-hidden="true"
+          {% endunless %}
+          {{ block.shopify_attributes }}
+        >
           {%- if block.settings.link != blank -%}
-            <a href="{{ block.settings.link }}">{{ block.settings.text | escape }}</a>
+            <a
+              class="announce__link"
+              href="{{ block.settings.link }}"
+              {% unless forloop.first %}
+                tabindex="-1"
+              {% endunless %}
+            >
+              {{- block.settings.text | escape -}}
+              {%- render 'header-icon', icon: 'arrow', class: 'announce__arrow' -%}
+            </a>
           {%- else -%}
-            {{ block.settings.text | escape }}
+            {{- block.settings.text | escape -}}
           {%- endif -%}
         </p>
       {%- endfor -%}
     </div>
+    {%- if count > 1 and section.settings.autorotate -%}
+      <button class="announce__pause" type="button" aria-pressed="false" data-announcement-pause>
+        <span class="announce__pause-icon" data-icon="pause">{% render 'header-icon', icon: 'pause' %}</span>
+        <span class="announce__pause-icon" data-icon="play" hidden>{% render 'header-icon', icon: 'play' %}</span>
+        <span class="visually-hidden">{{ 'header.announcement.pause' | t }}</span>
+      </button>
+    {%- endif -%}
   </div>
 {%- endif -%}
 
 {% schema %}
 {
-  "name": "t:sections.announcement-bar.name",
+  "name": "Announcement bar",
+  "class": "section-announcement",
   "enabled_on": { "groups": ["header"] },
   "max_blocks": 6,
   "settings": [
-    { "type": "color", "id": "background", "default": "#2b0a0e", "label": "t:sections.announcement-bar.settings.background.label" },
-    { "type": "color", "id": "text_color", "default": "#fbf3e6", "label": "t:sections.announcement-bar.settings.text_color.label" }
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "default": "scheme-2",
+      "label": "Color scheme"
+    },
+    {
+      "type": "checkbox",
+      "id": "autorotate",
+      "default": true,
+      "label": "Rotate announcements",
+      "info": "Applies when there is more than one announcement."
+    },
+    {
+      "type": "range",
+      "id": "speed",
+      "min": 3,
+      "max": 10,
+      "step": 1,
+      "unit": "s",
+      "default": 5,
+      "label": "Time per announcement"
+    }
   ],
   "blocks": [
-    { "type": "announcement", "name": "t:sections.announcement-bar.blocks.announcement.name", "settings": [
-      { "type": "text", "id": "text", "default": "Complimentary gift wrapping on every order", "label": "t:sections.announcement-bar.blocks.announcement.settings.text.label" },
-      { "type": "url", "id": "link", "label": "t:sections.announcement-bar.blocks.announcement.settings.link.label" }
-    ] }
+    {
+      "type": "announcement",
+      "name": "Announcement",
+      "settings": [
+        {
+          "type": "text",
+          "id": "text",
+          "default": "Complimentary gift wrapping on every order",
+          "label": "Text"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Link"
+        }
+      ]
+    }
   ],
-  "presets": [ { "name": "t:sections.announcement-bar.name", "blocks": [ { "type": "announcement" } ] } ]
+  "presets": [
+    {
+      "name": "Announcement bar",
+      "blocks": [{ "type": "announcement" }]
+    }
+  ]
 }
 {% endschema %}

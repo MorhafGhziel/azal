@@ -1,24 +1,85 @@
 {
   "sections": {
     "main": {
-      "type": "main-product",
+      "type": "product",
       "blocks": {
-        "eyebrow": { "type": "eyebrow", "settings": {} },
-        "title": { "type": "title", "settings": {} },
-        "character": { "type": "character", "settings": {} },
-        "price": { "type": "price", "settings": {} },
-        "picker": { "type": "variant_picker", "settings": {} },
-        "buy": { "type": "buy_buttons", "settings": { "show_dynamic_checkout": true, "show_pickup": true } },
-        "desc": { "type": "description", "settings": {} },
-        "notes": { "type": "notes", "settings": { "heading": "Notes" } },
-        "story": { "type": "collapsible", "settings": { "heading": "The story", "source": "story" } },
-        "wear": { "type": "collapsible", "settings": { "heading": "How to wear", "source": "wear" } },
-        "delivery": { "type": "collapsible", "settings": { "heading": "Delivery & returns", "source": "text" } }
+        "eyebrow": { "type": "_product-eyebrow", "settings": { "source": "type", "text": "Eau de parfum" } },
+        "title": { "type": "_product-title", "settings": {} },
+        "character": { "type": "_product-character", "settings": {} },
+        "price": { "type": "_product-price", "settings": { "show_tax_note": true, "show_installments": true } },
+        "variant_picker": { "type": "_product-variant-picker", "settings": { "show_swatches": true } },
+        "quantity": { "type": "_product-quantity", "settings": {} },
+        "buy_buttons": {
+          "type": "_product-buy-buttons",
+          "settings": { "show_dynamic_checkout": true, "show_gift_card_recipient": true }
+        },
+        "pickup": { "type": "_product-pickup", "settings": {} },
+        "description": { "type": "_product-description", "settings": {} },
+        "notes": { "type": "_product-notes", "settings": { "heading": "Notes" } },
+        "story": {
+          "type": "_product-collapsible",
+          "settings": { "heading": "The story", "source": "story", "open": false }
+        },
+        "how_to_wear": {
+          "type": "_product-collapsible",
+          "settings": { "heading": "How to wear it", "source": "wear", "open": false }
+        },
+        "shipping": {
+          "type": "_product-collapsible",
+          "settings": {
+            "heading": "Shipping and returns",
+            "source": "text",
+            "content": "<p>Share your shipping times and how customers can return an unopened bottle.</p>",
+            "open": false
+          }
+        },
+        "share": { "type": "_product-share", "settings": { "label": "Share" } }
       },
-      "block_order": ["eyebrow", "title", "character", "price", "picker", "buy", "desc", "notes", "story", "wear", "delivery"],
-      "settings": {}
+      "block_order": [
+        "eyebrow",
+        "title",
+        "character",
+        "price",
+        "variant_picker",
+        "quantity",
+        "buy_buttons",
+        "pickup",
+        "description",
+        "notes",
+        "story",
+        "how_to_wear",
+        "shipping",
+        "share"
+      ],
+      "settings": {
+        "color_scheme": "scheme-1",
+        "use_product_color": true,
+        "show_thumbs": true,
+        "show_buy_bar": true
+      }
     },
-    "recs": { "type": "product-recommendations", "settings": {} }
+    "complementary": {
+      "type": "product-recommendations",
+      "settings": {
+        "intent": "complementary",
+        "heading": "Pairs well with",
+        "limit": 3,
+        "columns": 3,
+        "show_quick_add": true,
+        "color_scheme": "scheme-1"
+      }
+    },
+    "related": {
+      "type": "product-recommendations",
+      "settings": {
+        "intent": "related",
+        "heading": "You may also like",
+        "limit": 4,
+        "columns": 4,
+        "show_quick_add": true,
+        "color_scheme": "scheme-1"
+      }
+    }
   },
-  "order": ["main", "recs"]
+  "order": ["main", "complementary", "related"]
 }

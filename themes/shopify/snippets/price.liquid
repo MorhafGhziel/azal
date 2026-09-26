@@ -1,27 +1,69 @@
-{%- comment -%}
-  Accepts: product or variant, from (bool: "From" when prices vary)
-{%- endcomment -%}
+{%- doc -%}
+  Renders a price: the current price, the compare-at price when it is higher (sale), and the unit price.
+  Pass a variant for an exact price (product page), or a product for a card price ("From" when prices vary).
+
+  @param {variant} [variant] - Variant to price. Takes priority over `product`.
+  @param {product} [product] - Product to price when no variant is given. Uses price_min and the first available variant's unit price.
+  @param {object} [allocation] - A selling_plan_allocation; its price replaces the variant price (subscriptions).
+  @param {boolean} [show_from] - Show "From" when the product has several prices. Default true for products.
+  @param {string} [class] - Extra class on the wrapper.
+
+  @example
+  {% render 'price', variant: product.selected_or_first_available_variant %}
+  {% render 'price', product: card_product %}
+{%- enddoc -%}
 {%- liquid
+  assign varies = false
   if variant
     assign price = variant.price
     assign compare = variant.compare_at_price
-    assign varies = false
-  else
+    assign unit_source = variant
+    if allocation
+      assign price = allocation.price
+      assign compare = allocation.compare_at_price
+      assign unit_source = allocation
+    endif
+  elsif product
     assign price = product.price_min
-    assign compare = product.compare_at_price_min
-    assign varies = product.price_varies
+    assign compare = product.compare_at_price
+    assign unit_source = product.selected_or_first_available_variant
+    if show_from != false
+      assign varies = product.price_varies
+    endif
+  endif
+
+  assign on_sale = false
+  if compare > price
+    assign on_sale = true
+  endif
+
+  assign unit_measure = unit_source.unit_price_measurement
+  if allocation
+    assign unit_measure = variant.unit_price_measurement
   endif
 -%}
-<span class="price{% if compare > price %} price--sale{% endif %}">
-  {%- if from and varies -%}
-    {%- assign price_money = price | money -%}{{ 'products.product.from_price' | t: price: price_money }}
+<span class="price{% if on_sale %} price--sale{% endif %}{% if class %} {{ class }}{% endif %}">
+  {%- if on_sale -%}
+    <span class="visually-hidden">{{ 'products.price.sale_price' | t }}</span>
   {%- else -%}
-    <span class="price__now">{{ price | money }}</span>
+    <span class="visually-hidden">{{ 'products.price.regular_price' | t }}</span>
   {%- endif -%}
-  {%- if compare > price -%}
-    <s class="price__was"><span class="visually-hidden">{{ 'products.product.regular_price' | t }}</span>{{ compare | money }}</s>
+  <span class="price__now">
+    {%- if varies -%}
+      {%- assign price_money = price | money -%}
+      {{- 'products.price.from_html' | t: price: price_money -}}
+    {%- else -%}
+      {{- price | money -}}
+    {%- endif -%}
+  </span>
+  {%- if on_sale -%}
+    <span class="visually-hidden">{{ 'products.price.regular_price' | t }}</span>
+    <s class="price__was">{{ compare | money }}</s>
   {%- endif -%}
 </span>
-{%- if variant and variant.unit_price_measurement -%}
-  <small class="price__unit">{{ variant.unit_price | money }}/{% if variant.unit_price_measurement.reference_value != 1 %}{{ variant.unit_price_measurement.reference_value }}{% endif %}{{ variant.unit_price_measurement.reference_unit }}</small>
+{%- if unit_measure and unit_source.unit_price -%}
+  <small class="price__unit">
+    <span class="visually-hidden">{{ 'products.price.unit_price' | t }}</span>
+    {{- unit_source.unit_price | unit_price_with_measurement: unit_measure -}}
+  </small>
 {%- endif -%}

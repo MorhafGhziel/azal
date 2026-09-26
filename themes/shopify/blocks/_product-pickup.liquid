@@ -1,0 +1,21 @@
+{%- doc -%}
+  Product block: local pickup availability for the selected variant, refreshed on variant change.
+{%- enddoc -%}
+{%- assign current = closest.product.selected_or_first_available_variant -%}
+<div class="pdp-pickup" data-pickup data-base-url="{{ routes.root_url }}" {{ block.shopify_attributes }}>
+  {%- render 'product-pickup', variant: current -%}
+</div>
+
+{% schema %}
+{
+  "name": "Pickup availability",
+  "tag": null,
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "Shows whether the selected variant can be picked up at your locations. Set up local pickup in Shopify admin."
+    }
+  ],
+  "presets": [{ "name": "Pickup availability" }]
+}
+{% endschema %}

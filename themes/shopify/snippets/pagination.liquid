@@ -1,23 +1,41 @@
+{%- doc -%}
+  Accessible pagination: previous / numbered pages / next, inside a labelled nav landmark.
+
+  @param {object} paginate - The paginate object from a {% paginate %} tag
+  @param {string} [anchor] - Optional fragment appended to page links (for example '#Comments')
+{%- enddoc -%}
 {%- if paginate.pages > 1 -%}
-  <nav class="pager" aria-label="{{ 'general.pagination.label' | t }}">
+  <nav class="pager" aria-label="{{ 'store.pagination.label' | t }}">
     {%- if paginate.previous -%}
-      <a class="link" href="{{ paginate.previous.url }}" rel="prev">{{ 'general.pagination.previous' | t }}</a>
+      <a class="pager__step" href="{{ paginate.previous.url }}{{ anchor }}" rel="prev">
+        <span class="pager__arrow" aria-hidden="true">&larr;</span>
+        <span>{{ 'store.pagination.previous' | t }}</span>
+      </a>
+    {%- else -%}
+      <span class="pager__step is-disabled" aria-hidden="true"><span class="pager__arrow">&larr;</span><span>{{ 'store.pagination.previous' | t }}</span></span>
     {%- endif -%}
-    <ol class="pager__pages" role="list">
+
+    <ul class="pager__pages" role="list">
       {%- for part in paginate.parts -%}
         <li>
           {%- if part.is_link -%}
-            <a href="{{ part.url }}" aria-label="{{ 'general.pagination.page' | t: number: part.title }}">{{ part.title }}</a>
+            <a class="pager__num" href="{{ part.url }}{{ anchor }}" aria-label="{{ 'store.pagination.page' | t: number: part.title }}">{{ part.title }}</a>
           {%- elsif part.title == paginate.current_page -%}
-            <span aria-current="page">{{ part.title }}</span>
+            <span class="pager__num is-current" aria-current="page" aria-label="{{ 'store.pagination.page' | t: number: part.title }}">{{ part.title }}</span>
           {%- else -%}
-            <span>{{ part.title }}</span>
+            <span class="pager__num pager__gap" aria-hidden="true">{{ part.title }}</span>
           {%- endif -%}
         </li>
       {%- endfor -%}
-    </ol>
+    </ul>
+
     {%- if paginate.next -%}
-      <a class="link" href="{{ paginate.next.url }}" rel="next">{{ 'general.pagination.next' | t }}</a>
+      <a class="pager__step" href="{{ paginate.next.url }}{{ anchor }}" rel="next">
+        <span>{{ 'store.pagination.next' | t }}</span>
+        <span class="pager__arrow" aria-hidden="true">&rarr;</span>
+      </a>
+    {%- else -%}
+      <span class="pager__step is-disabled" aria-hidden="true"><span>{{ 'store.pagination.next' | t }}</span><span class="pager__arrow">&rarr;</span></span>
     {%- endif -%}
   </nav>
 {%- endif -%}

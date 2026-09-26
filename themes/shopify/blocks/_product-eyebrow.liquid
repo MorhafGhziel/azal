@@ -1,0 +1,48 @@
+{%- doc -%}
+  Product block: a small uppercase line above the title (product type, vendor or your own text).
+{%- enddoc -%}
+{%- liquid
+  assign product = closest.product
+  case block.settings.source
+    when 'vendor'
+      assign eyebrow = product.vendor
+    when 'type'
+      assign eyebrow = product.type
+    else
+      assign eyebrow = block.settings.text
+  endcase
+  if eyebrow == blank
+    assign eyebrow = block.settings.text
+  endif
+-%}
+{%- if eyebrow != blank -%}
+  <p class="eyebrow pdp__eyebrow" {{ block.shopify_attributes }}>{{ eyebrow | escape }}</p>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Eyebrow",
+  "tag": null,
+  "settings": [
+    {
+      "type": "select",
+      "id": "source",
+      "label": "Show",
+      "default": "type",
+      "options": [
+        { "value": "type", "label": "Product type" },
+        { "value": "vendor", "label": "Vendor" },
+        { "value": "custom", "label": "Custom text" }
+      ]
+    },
+    {
+      "type": "text",
+      "id": "text",
+      "label": "Text",
+      "default": "Eau de parfum",
+      "info": "Shown when Custom text is selected, or when the product has no type or vendor."
+    }
+  ],
+  "presets": [{ "name": "Eyebrow" }]
+}
+{% endschema %}

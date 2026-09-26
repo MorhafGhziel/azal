@@ -1,0 +1,38 @@
+{%- doc -%}
+  Product block: purchase options (subscriptions), gift card recipient form, add to cart and accelerated
+  checkout buttons.
+{%- enddoc -%}
+{%- assign form_id = 'ProductForm-' | append: section.id -%}
+<div class="pdp-block pdp-block--buy" {{ block.shopify_attributes }}>
+  {%- render 'product-buy-form',
+    product: closest.product,
+    section_id: section.id,
+    form_id: form_id,
+    show_dynamic_checkout: block.settings.show_dynamic_checkout,
+    show_gift_card_recipient: block.settings.show_gift_card_recipient
+  -%}
+</div>
+
+{% schema %}
+{
+  "name": "Buy buttons",
+  "tag": null,
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "show_dynamic_checkout",
+      "label": "Show dynamic checkout buttons",
+      "default": true,
+      "info": "Customers see their preferred payment option, like PayPal or Apple Pay."
+    },
+    {
+      "type": "checkbox",
+      "id": "show_gift_card_recipient",
+      "label": "Show recipient form for gift cards",
+      "default": true,
+      "info": "Gift card buyers can send the card to someone by email with a personal message."
+    }
+  ],
+  "presets": [{ "name": "Buy buttons" }]
+}
+{% endschema %}

@@ -1,0 +1,137 @@
+{%- comment -%}
+  Featured product: the product page's buying experience for one chosen product, anywhere in the store.
+  Same gallery (images, videos, 3D models), the same blocks, app blocks and Custom Liquid.
+{%- endcomment -%}
+{%- liquid
+  assign featured = section.settings.product
+  assign form_id = 'ProductForm-' | append: section.id
+  assign product_bg = ''
+  if featured != blank and section.settings.use_product_color
+    assign product_bg = featured.metafields.custom.background_color.value
+  endif
+-%}
+<div
+  class="pdp pdp--featured pdp--media-{{ section.settings.media_position }} color-{{ section.settings.color_scheme }}"
+  {% if product_bg != blank %}
+    style="--bg: {{ product_bg | escape }};"
+  {% endif %}
+  {% if featured != blank %}
+    data-product
+    data-section-id="{{ section.id }}"
+    data-product-url="{{ featured.url }}"
+    data-update-url="false"
+    data-form-id="{{ form_id }}"
+  {% endif %}
+>
+  {%- if featured != blank -%}
+    {%- assign current = featured.selected_or_first_available_variant -%}
+    <div class="pdp__visual">
+      {%- render 'product-gallery',
+        product: featured,
+        section_id: section.id,
+        variant: current,
+        eager: false,
+        sizes: '(min-width: 990px) 50vw, 100vw',
+        show_thumbs: section.settings.show_thumbs
+      -%}
+    </div>
+    <div class="pdp__info">
+      {% content_for 'blocks', closest.product: featured %}
+    </div>
+    {%- render 'product-variants-json', product: featured -%}
+  {%- else -%}
+    <div class="pdp__visual">
+      <div class="pdp-media pdp-media--single">
+        <div class="pdp-media__stage">
+          <div class="pdp-media__item pdp-media__item--placeholder">
+            <div class="pdp-media__float">{{ 'product-1' | placeholder_svg_tag: 'pdp-media__placeholder' }}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="pdp__info">
+      <p class="eyebrow pdp__eyebrow">{{ 'products.featured.placeholder_eyebrow' | t }}</p>
+      <h2 class="pdp__name pdp__name--featured">{{ 'products.featured.placeholder_title' | t }}</h2>
+      <div class="pdp__price">{{ 4900 | money }}</div>
+      <p class="pdp__desc">{{ 'products.featured.placeholder_text' | t }}</p>
+    </div>
+  {%- endif -%}
+</div>
+
+{% schema %}
+{
+  "name": "Featured product",
+  "tag": "section",
+  "class": "section-featured-product",
+  "settings": [
+    {
+      "type": "product",
+      "id": "product",
+      "label": "Product"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "checkbox",
+      "id": "use_product_color",
+      "label": "Use the product's own color behind its media",
+      "default": true,
+      "info": "Reads the product metafield custom.background_color."
+    },
+    {
+      "type": "select",
+      "id": "media_position",
+      "label": "Media position on desktop",
+      "default": "start",
+      "options": [
+        { "value": "start", "label": "Left" },
+        { "value": "end", "label": "Right" }
+      ]
+    },
+    {
+      "type": "checkbox",
+      "id": "show_thumbs",
+      "label": "Show thumbnails",
+      "default": true
+    }
+  ],
+  "blocks": [
+    { "type": "@app" },
+    { "type": "@theme" },
+    { "type": "_product-eyebrow" },
+    { "type": "_product-title" },
+    { "type": "_product-character" },
+    { "type": "_product-price" },
+    { "type": "_product-variant-picker" },
+    { "type": "_product-quantity" },
+    { "type": "_product-buy-buttons" },
+    { "type": "_product-pickup" },
+    { "type": "_product-description" },
+    { "type": "_product-notes" },
+    { "type": "_product-collapsible" },
+    { "type": "_product-share" }
+  ],
+  "presets": [
+    {
+      "name": "Featured product",
+      "blocks": [
+        { "type": "_product-eyebrow" },
+        { "type": "_product-title" },
+        { "type": "_product-character" },
+        { "type": "_product-price" },
+        { "type": "_product-variant-picker" },
+        { "type": "_product-quantity" },
+        { "type": "_product-buy-buttons" },
+        { "type": "_product-description" }
+      ]
+    }
+  ],
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  }
+}
+{% endschema %}

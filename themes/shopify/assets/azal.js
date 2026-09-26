@@ -53,7 +53,7 @@
       el.classList.toggle('is-drag', drag);
       el.classList.toggle('is-link', !drag && !!t.closest('a, button, [role="button"], label, select'));
       el.classList.toggle('is-hidden', !!t.closest('input, textarea, select, iframe'));
-      var light = (!!t.closest('.is-page main, .origins, .collection, .drawer__panel, .menu, .notes:not(.is-dark), .scheme-ivory, .scheme-blush') && !t.closest('.thanks'))
+      var light = (!!t.closest('.is-page main, .origins, .collection, .drawer__panel, .menu, .notes:not(.is-dark), .color-scheme-1, .color-scheme-3') && !t.closest('.thanks'))
         || (!!t.closest('.footer') && d.classList.contains('is-page'));
       el.classList.toggle('is-ink', light);
       var view = !t.closest('[data-drag]') && !!t.closest('[data-view]');

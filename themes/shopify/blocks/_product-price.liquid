@@ -1,0 +1,80 @@
+{%- doc -%}
+  Product block: the selected variant's price, compare-at price, unit price, Sale / Sold out badges, the tax
+  and shipping note, and the Shop Pay Installments banner. Updated by assets/azal-product.js.
+{%- enddoc -%}
+{%- liquid
+  assign product = closest.product
+  assign current = product.selected_or_first_available_variant
+  assign allocation = product.selected_selling_plan_allocation
+  assign installment_form_id = 'ProductFormInstallment-' | append: section.id
+  assign on_sale = false
+  if current.compare_at_price > current.price and current.available
+    assign on_sale = true
+  endif
+-%}
+<div class="pdp-price" {{ block.shopify_attributes }}>
+  <div class="pdp-price__row">
+    <div class="pdp__price" data-product-price aria-live="polite">
+      {%- if allocation -%}
+        {%- render 'price', variant: current, allocation: allocation -%}
+      {%- else -%}
+        {%- render 'price', variant: current -%}
+      {%- endif -%}
+    </div>
+    <span class="badge badge--sale" data-badge-sale {% unless on_sale %}hidden{% endunless %}>
+      {{- 'products.product.on_sale' | t -}}
+    </span>
+    <span class="badge badge--sold-out" data-badge-sold-out {% if current.available %}hidden{% endif %}>
+      {{- 'products.product.sold_out' | t -}}
+    </span>
+  </div>
+
+  {%- if block.settings.show_tax_note -%}
+    {%- if cart.taxes_included or cart.duties_included or shop.shipping_policy.body != blank -%}
+      <p class="pdp__tax muted">
+        {%- if cart.duties_included and cart.taxes_included -%}
+          {{ 'products.product.duties_and_taxes_included' | t }}
+        {%- elsif cart.taxes_included -%}
+          {{ 'products.product.taxes_included' | t }}
+        {%- elsif cart.duties_included -%}
+          {{ 'products.product.duties_included' | t }}
+        {%- endif -%}
+        {%- if shop.shipping_policy.body != blank %}
+          {{ 'products.product.shipping_policy_html' | t: link: shop.shipping_policy.url }}
+        {%- endif -%}
+      </p>
+    {%- endif -%}
+  {%- endif -%}
+
+  {%- if block.settings.show_installments -%}
+    <div class="pdp-price__terms">
+      {%- form 'product', product, id: installment_form_id, class: 'pdp-price__terms-form' -%}
+        <input type="hidden" name="id" value="{{ current.id }}" data-variant-input>
+        {{ form | payment_terms }}
+      {%- endform -%}
+    </div>
+  {%- endif -%}
+</div>
+
+{% schema %}
+{
+  "name": "Price",
+  "tag": null,
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "show_tax_note",
+      "label": "Show tax and shipping note",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_installments",
+      "label": "Show Shop Pay Installments banner",
+      "default": true,
+      "info": "Appears when Shop Pay Installments is available for the store."
+    }
+  ],
+  "presets": [{ "name": "Price" }]
+}
+{% endschema %}

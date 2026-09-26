@@ -42,8 +42,11 @@
     }
   },
   "localization": {
-    "country_label": "Country / currency",
-    "update": "Update"
+    "country_label": "Country/region",
+    "update": "Update",
+    "language_label": "Language",
+    "search_countries": "Search countries",
+    "no_countries": "No country found"
   },
   "newsletter": {
     "label": "Email",
@@ -52,10 +55,10 @@
   },
   "products": {
     "product": {
-      "add_to_cart": "Add to bag",
-      "adding": "Adding…",
-      "added": "Added ✓",
-      "quick_add": "+ Add",
+      "add_to_cart": "Add to cart",
+      "adding": "Adding",
+      "added": "Added",
+      "quick_add": "Quick add",
       "add_named": "Add {{ title }} to bag",
       "choose": "Choose",
       "sold_out": "Sold out",
@@ -64,19 +67,83 @@
       "from_price": "From {{ price }}",
       "regular_price": "Regular price",
       "quantity": "Quantity",
-      "decrease": "Decrease quantity",
-      "increase": "Increase quantity",
+      "decrease": "Decrease quantity for {{ product }}",
+      "increase": "Increase quantity for {{ product }}",
       "media": "Product images",
       "show_media": "Show image {{ index }}",
       "taxes_included": "Taxes included.",
       "shipping_policy_html": "<a href=\"{{ link }}\">Shipping</a> calculated at checkout.",
       "pickup_available": "Pickup available at {{ location }}. Usually ready in {{ time }}.",
-      "pickup_unavailable": "Pickup currently unavailable at {{ location }}."
+      "pickup_unavailable": "Pickup currently unavailable at {{ location }}.",
+      "increments_of": "Increments of {{ step }}",
+      "minimum_of": "Minimum of {{ min }}",
+      "maximum_of": "Maximum of {{ max }}",
+      "duties_included": "Duties included.",
+      "duties_and_taxes_included": "Duties and taxes included."
     },
     "notes": {
       "top": "Top",
       "heart": "Heart",
       "base": "Base"
+    },
+    "price": {
+      "from_html": "From {{ price }}",
+      "regular_price": "Regular price",
+      "sale_price": "Sale price",
+      "unit_price": "Unit price"
+    },
+    "options": {
+      "unavailable": "Unavailable"
+    },
+    "media": {
+      "gallery": "Media gallery",
+      "thumbnails": "Media thumbnails",
+      "slide": "slide",
+      "position": "{{ index }} of {{ count }}",
+      "show": "Show media {{ index }} in the gallery",
+      "previous": "Previous media",
+      "next": "Next media",
+      "play_video": "Play video: {{ title }}",
+      "load_model": "Load 3D model: {{ title }}",
+      "view_in_space": "View in your space"
+    },
+    "selling_plans": {
+      "legend": "Purchase options",
+      "one_time": "One-time purchase"
+    },
+    "gift_card": {
+      "send_to_recipient": "I want to send this as a gift",
+      "email": "Recipient email",
+      "name": "Recipient name (optional)",
+      "message": "Message (optional)",
+      "message_hint": "{{ max }} characters maximum",
+      "send_on": "Send on (optional)",
+      "send_on_hint": "Leave empty to send it right after checkout."
+    },
+    "pickup": {
+      "available_html": "Pickup available at <strong>{{ location }}</strong>",
+      "unavailable_html": "Pickup currently unavailable at <strong>{{ location }}</strong>",
+      "pick_up_available": "Pickup available",
+      "pick_up_unavailable": "Pickup currently unavailable",
+      "check_other": "Check availability at other stores",
+      "view_details": "View store information",
+      "close": "Close"
+    },
+    "share": {
+      "copied": "Link copied"
+    },
+    "card": {
+      "vendor": "Vendor:",
+      "quick_add": "Add to cart",
+      "add_named": "Add {{ title }} to cart",
+      "choose_options": "Choose options",
+      "choose_named": "Choose options for {{ title }}",
+      "more_options": "{{ count }} more options"
+    },
+    "featured": {
+      "placeholder_eyebrow": "Eau de parfum",
+      "placeholder_title": "Your product's name",
+      "placeholder_text": "Choose a product to feature it here, with its images, options and buy buttons."
     }
   },
   "sections": {
@@ -128,13 +195,21 @@
   },
   "search": {
     "title": "Search",
-    "label": "Search the store",
-    "placeholder": "Rose, oud, amber…",
+    "label": "Search",
+    "placeholder": "Search perfumes, notes, pages",
     "submit": "Search",
     "results": {
       "one": "{{ count }} result for “{{ terms }}”",
       "other": "{{ count }} results for “{{ terms }}”"
-    }
+    },
+    "heading": "What are you looking for?",
+    "results_title": "Results for “{{ terms }}”",
+    "no_results": "Nothing found for “{{ terms }}”",
+    "no_results_hint": "Check the spelling or try a shorter word, a note or a collection name.",
+    "no_matches": "No products match these filters.",
+    "browse_all": "Browse all perfumes",
+    "type_article": "Journal",
+    "type_page": "Page"
   },
   "templates": {
     "404": {
@@ -271,6 +346,329 @@
       "shop_link": "Visit the store",
       "add_to_apple_wallet": "Add to Apple Wallet",
       "print": "Print"
+    }
+  },
+  "header": {
+    "nav": {
+      "label": "Main",
+      "menu": "Menu",
+      "close": "Close",
+      "search": "Search",
+      "account": "Account",
+      "bag": "Bag",
+      "bag_count": {
+        "one": "Bag, {{ count }} item",
+        "other": "Bag, {{ count }} items"
+      },
+      "view_all": "View all {{ title }}"
+    },
+    "announcement": {
+      "label": "Announcements",
+      "pause": "Pause announcements"
+    },
+    "search": {
+      "dialog_label": "Search the store",
+      "label": "Search",
+      "placeholder": "Search perfumes, notes, pages",
+      "submit": "Search",
+      "close": "Close search",
+      "results_status": "Results available: {{ count }}. Use the up and down arrows to browse.",
+      "no_results": "Nothing found for “{{ terms }}”",
+      "suggestions": "Suggestions",
+      "collections": "Collections",
+      "pages": "Pages",
+      "articles": "Articles",
+      "products": "Products",
+      "price_from": "From {{ price }}",
+      "regular_price": "Regular price",
+      "search_for": "Search for “{{ terms }}”"
+    }
+  },
+  "footer": {
+    "payment_methods": "Payment methods",
+    "newsletter": {
+      "label": "Email",
+      "placeholder": "Your email",
+      "submit": "Subscribe",
+      "success": "Thank you. You are on the list."
+    },
+    "social": {
+      "new_window": "(opens in a new window)",
+      "instagram": "Instagram",
+      "tiktok": "TikTok",
+      "facebook": "Facebook",
+      "x": "X",
+      "pinterest": "Pinterest",
+      "snapchat": "Snapchat",
+      "youtube": "YouTube",
+      "whatsapp": "WhatsApp"
+    }
+  },
+  "facets": {
+    "filter": "Filter",
+    "sort_by": "Sort by",
+    "close": "Close filters",
+    "apply": "Show results",
+    "clear_all": "Clear all",
+    "remove": "Remove filter",
+    "active_label": "Active filters",
+    "from": "From",
+    "to": "To",
+    "max_price": "The highest price is {{ price }}",
+    "product_count": {
+      "zero": "No products",
+      "one": "{{ count }} product",
+      "other": "{{ count }} products"
+    },
+    "value_count": {
+      "one": "{{ count }} product",
+      "other": "{{ count }} products"
+    }
+  },
+  "store": {
+    "pagination": {
+      "label": "Pagination",
+      "previous": "Previous",
+      "next": "Next",
+      "page": "Page {{ number }}"
+    },
+    "forms": {
+      "error_heading": "Please check the following",
+      "required": "Required"
+    },
+    "collection": {
+      "empty": "This collection is waiting for its first fragrance.",
+      "no_matches": "No products match these filters.",
+      "clear_filters": "Clear all filters",
+      "browse_all": "Browse all fragrances"
+    },
+    "collections": {
+      "empty": "There are no collections yet.",
+      "count": {
+        "one": "{{ count }} fragrance",
+        "other": "{{ count }} fragrances"
+      }
+    },
+    "cart": {
+      "title": "Your cart",
+      "empty": "Your cart is empty.",
+      "continue": "Continue shopping",
+      "login_html": "Have an account? <a href=\"{{ link }}\">Log in</a> to check out faster.",
+      "items_label": "Items in your cart",
+      "item_count": {
+        "one": "{{ count }} item",
+        "other": "{{ count }} items"
+      },
+      "regular_price": "Regular price",
+      "sale_price": "Sale price",
+      "unit_price": "Unit price",
+      "per": "per",
+      "discounts": "Discounts",
+      "quantity_for": "Quantity for {{ title }}",
+      "decrease": "Decrease quantity for {{ title }}",
+      "increase": "Increase quantity for {{ title }}",
+      "remove": "Remove",
+      "remove_title": "Remove {{ title }}",
+      "update": "Update cart",
+      "summary": "Order summary",
+      "subtotal": "Subtotal",
+      "total": "Total",
+      "taxes_included": "Taxes included. Shipping calculated at checkout.",
+      "duties_and_taxes_included": "Duties and taxes included. Shipping calculated at checkout.",
+      "taxes_at_checkout": "Taxes and shipping calculated at checkout.",
+      "checkout": "Check out",
+      "close": "Close cart",
+      "view_cart": "View cart",
+      "gift_wrap": "Wrap it as a gift",
+      "note_toggle": "Add a note",
+      "note": "Order note",
+      "note_placeholder": "A message for the house or for the gift card",
+      "updated": "Your cart has been updated.",
+      "removed": "The item has been removed from your cart.",
+      "max_reached": "Only {{ quantity }} of this item can be added to your cart."
+    },
+    "gift_card": {
+      "title": "Your {{ value }} gift card for {{ shop }}",
+      "summary": "A gift card for {{ shop }}",
+      "skip": "Skip to content",
+      "eyebrow": "Gift card",
+      "heading": "A gift from {{ shop }}",
+      "for": "For {{ name }}",
+      "balance": "Balance",
+      "initial_value": "Initial value",
+      "disabled": "This gift card is no longer active.",
+      "expired": "This gift card expired on {{ expires_on }}.",
+      "expires_on": "Valid until {{ expires_on }}",
+      "code_label": "Gift card code",
+      "copy": "Copy code",
+      "copied": "Code copied to the clipboard",
+      "qr_label": "QR code for this gift card",
+      "qr_hint": "Scan to use in store",
+      "use_at_checkout": "Enter this code at checkout to use your gift card.",
+      "shop_link": "Visit the store",
+      "apple_wallet": "Add to Apple Wallet",
+      "print": "Print this gift card"
+    },
+    "customer": {
+      "fields": {
+        "email": "Email",
+        "password": "Password",
+        "password_confirm": "Confirm password",
+        "first_name": "First name",
+        "last_name": "Last name",
+        "company": "Company",
+        "address1": "Address",
+        "address2": "Apartment, suite, etc.",
+        "city": "City",
+        "zip": "Postal code",
+        "country": "Country",
+        "province": "Province",
+        "phone": "Phone"
+      },
+      "login": {
+        "title": "Log in",
+        "submit": "Log in",
+        "forgot": "Forgot your password?",
+        "create": "Create an account",
+        "guest_title": "Continue as a guest",
+        "guest": "Check out as a guest"
+      },
+      "recover": {
+        "title": "Reset your password",
+        "subtext": "We will send you an email to reset your password.",
+        "submit": "Send",
+        "cancel": "Back to log in",
+        "success": "We've sent you an email with a link to update your password."
+      },
+      "register": {
+        "title": "Create an account",
+        "submit": "Create account",
+        "login": "Already have an account? Log in"
+      },
+      "account": {
+        "title": "Account",
+        "greeting": "Welcome, {{ name }}",
+        "logout": "Log out",
+        "details": "Account details",
+        "addresses": {
+          "one": "View address ({{ count }})",
+          "other": "View addresses ({{ count }})"
+        },
+        "return": "Back to account"
+      },
+      "orders": {
+        "title": "Order history",
+        "order": "Order",
+        "date": "Date",
+        "payment": "Payment status",
+        "fulfillment": "Fulfillment status",
+        "total": "Total",
+        "none": "You haven't placed any orders yet.",
+        "view": "View order {{ name }}"
+      },
+      "order": {
+        "title": "Order {{ name }}",
+        "date_html": "Placed on {{ date }}",
+        "cancelled_html": "Order cancelled on {{ date }}.",
+        "items": "Items",
+        "product": "Product",
+        "sku": "SKU",
+        "price": "Price",
+        "quantity": "Quantity",
+        "total": "Total",
+        "subtotal": "Subtotal",
+        "discount": "Discount",
+        "shipping": "Shipping",
+        "duties": "Duties",
+        "tax": "Tax",
+        "refunded": "Refunded",
+        "fulfilled_at_html": "Fulfilled {{ date }}",
+        "track": "Track shipment",
+        "details": "Order details",
+        "status": "Status",
+        "payment_status": "Payment",
+        "fulfillment_status": "Fulfillment",
+        "billing_address": "Billing address",
+        "shipping_address": "Shipping address"
+      },
+      "addresses": {
+        "title": "Addresses",
+        "add": "Add a new address",
+        "add_heading": "New address",
+        "save": "Save address",
+        "update": "Update address",
+        "edit": "Edit",
+        "edit_label": "Edit address {{ address }}",
+        "delete": "Delete",
+        "delete_label": "Delete address {{ address }}",
+        "delete_confirm": "Are you sure you want to delete this address?",
+        "default": "Default address",
+        "set_default": "Set as default address",
+        "none": "You haven't saved any addresses yet."
+      },
+      "activate": {
+        "title": "Activate your account",
+        "subtext": "Create a password to activate your account.",
+        "submit": "Activate account",
+        "decline": "Decline invitation"
+      },
+      "reset": {
+        "title": "Reset your password",
+        "subtext": "Enter a new password.",
+        "submit": "Reset password"
+      }
+    },
+    "not_found": {
+      "eyebrow": "Error 404",
+      "title": "Page not found",
+      "subtext": "The page you were looking for does not exist or has moved.",
+      "search_label": "Search the store",
+      "search_placeholder": "Search",
+      "search_submit": "Search",
+      "shop": "Continue shopping",
+      "home": "Back to the home page"
+    },
+    "contact": {
+      "name": "Name",
+      "email": "Email",
+      "phone": "Phone number",
+      "message": "Message",
+      "send": "Send",
+      "success": "Thank you for writing. We'll get back to you as soon as possible."
+    },
+    "blog": {
+      "tags_label": "Filter articles by tag",
+      "all": "All",
+      "empty": "There are no articles here yet.",
+      "read_more": "Read more",
+      "read_more_label": "Read more: {{ title }}"
+    },
+    "article": {
+      "by": "by {{ author }}",
+      "tags": "Tags",
+      "comments": {
+        "one": "{{ count }} comment",
+        "other": "{{ count }} comments"
+      },
+      "leave_comment": "Leave a comment",
+      "name": "Name",
+      "email": "Email",
+      "message": "Comment",
+      "post": "Post comment",
+      "moderated": "Comments are reviewed before they appear.",
+      "success": "Your comment was posted. Thank you.",
+      "success_moderated": "Your comment was sent. It will appear once it has been reviewed.",
+      "back": "Back to {{ title }}"
+    },
+    "password": {
+      "enter_toggle": "Enter using password",
+      "label": "Password",
+      "submit": "Enter",
+      "newsletter_title": "Be the first to know",
+      "newsletter_label": "Email",
+      "newsletter_submit": "Subscribe",
+      "newsletter_success": "Thank you. We'll write when the doors open.",
+      "owner_html": "Are you the store owner? <a href=\"{{ link }}\" rel=\"nofollow\">Log in here</a>"
     }
   }
 }

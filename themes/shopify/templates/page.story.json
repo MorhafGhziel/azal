@@ -1,9 +1,0 @@
-{
-  "sections": {
-    "main": { "type": "main-page", "settings": {} },
-    "iwt": { "type": "image-with-text", "settings": {} },
-    "rich": { "type": "rich-text", "blocks": { "e": { "type": "eyebrow", "settings": {} }, "h": { "type": "heading", "settings": {} }, "t": { "type": "text", "settings": {} } }, "block_order": ["e", "h", "t"], "settings": {} },
-    "news": { "type": "newsletter", "settings": {} }
-  },
-  "order": ["main", "iwt", "rich", "news"]
-}

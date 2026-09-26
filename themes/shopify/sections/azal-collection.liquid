@@ -9,7 +9,7 @@
   assign palette = '#efdcd2,#ead6c2,#ecebe6,#f0dcc0,#e6e0e6,#ece4da' | split: ','
   assign glows = '#c9744f,#7a2e12,#e9e4da,#d9822b,#b7a9bf,#c9744f' | split: ','
 -%}
-<section class="collection" id="collection-{{ section.id }}" data-collection data-section="collection" aria-labelledby="CollectionTitle-{{ section.id }}">
+<section class="collection color-{{ section.settings.color_scheme }}" id="collection-{{ section.id }}" data-collection data-section="collection" aria-labelledby="CollectionTitle-{{ section.id }}">
   <div class="collection__bg" data-coll-bg></div>
   <header class="collection__head">
     <p class="eyebrow">{{ s.label | escape }}</p>
@@ -92,6 +92,7 @@
   "name": "t:sections.azal-collection.name",
   "class": "section-collection",
   "settings": [
+    { "type": "color_scheme", "id": "color_scheme", "default": "scheme-1", "label": "t:sections.common.scheme.label" },
     { "type": "collection", "id": "collection", "label": "t:sections.azal-collection.settings.collection.label" },
     { "type": "range", "id": "limit", "min": 3, "max": 12, "step": 1, "default": 6, "label": "t:sections.azal-collection.settings.limit.label" },
     { "type": "text", "id": "label", "default": "05 — The collection", "label": "t:sections.azal-collection.settings.label.label" },

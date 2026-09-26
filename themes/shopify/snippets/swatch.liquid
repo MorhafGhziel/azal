@@ -1,0 +1,21 @@
+{%- doc -%}
+  Renders a round swatch for a product option value, from the value's swatch color or swatch image.
+  Decorative: the caller provides the accessible name.
+
+  @param {object} swatch - The product_option_value.swatch object (has color and/or image).
+  @param {string} [class] - Extra class.
+
+  @example
+  {% render 'swatch', swatch: value.swatch %}
+{%- enddoc -%}
+{%- liquid
+  assign style = ''
+  if swatch.image
+    assign swatch_url = swatch.image | image_url: width: 72
+    assign style = '--swatch-image: url(' | append: swatch_url | append: ');'
+  endif
+  if swatch.color
+    assign style = style | append: '--swatch-color: ' | append: swatch.color | append: ';'
+  endif
+-%}
+<span class="swatch{% if swatch == blank %} swatch--empty{% endif %}{% if class %} {{ class }}{% endif %}" style="{{ style }}" aria-hidden="true"></span>

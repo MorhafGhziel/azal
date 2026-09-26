@@ -1,0 +1,180 @@
+{%- comment -%} A past order: line items, discounts, shipping, taxes, totals, addresses and status. {%- endcomment -%}
+<div class="store-section account-section color-{{ section.settings.color_scheme }} full-width">
+  <div class="page store-page account-page">
+    <header class="page__head acct-head">
+      <p class="eyebrow"><a class="link link--quiet" href="{{ routes.account_url }}">{{ 'store.customer.account.return' | t }}</a></p>
+      <h1 class="page__title" tabindex="-1">
+        <span class="ln"><span class="ln__in">{{ 'store.customer.order.title' | t: name: order.name }}</span></span>
+      </h1>
+      {%- assign order_date = order.created_at | time_tag: format: 'date_at_time' -%}
+      <p class="page__lead">{{ 'store.customer.order.date_html' | t: date: order_date }}</p>
+      {%- if order.cancelled -%}
+        {%- assign cancelled_at = order.cancelled_at | time_tag: format: 'date_at_time' -%}
+        <p class="store-notice store-notice--error" role="status">
+          {{ 'store.customer.order.cancelled_html' | t: date: cancelled_at }}
+          {{ order.cancel_reason_label }}
+        </p>
+      {%- endif -%}
+    </header>
+
+    <div class="acct">
+      <section aria-labelledby="OrderItems">
+        <h2 class="eyebrow acct__h" id="OrderItems">{{ 'store.customer.order.items' | t }}</h2>
+        <div class="acct__scroll" role="region" aria-labelledby="OrderItems" tabindex="0">
+          <table class="acct__table acct__table--order">
+            <caption class="visually-hidden">{{ 'store.customer.order.title' | t: name: order.name }}</caption>
+            <thead>
+              <tr>
+                <th scope="col">{{ 'store.customer.order.product' | t }}</th>
+                <th scope="col">{{ 'store.customer.order.sku' | t }}</th>
+                <th scope="col" class="acct__num">{{ 'store.customer.order.price' | t }}</th>
+                <th scope="col" class="acct__num">{{ 'store.customer.order.quantity' | t }}</th>
+                <th scope="col" class="acct__num">{{ 'store.customer.order.total' | t }}</th>
+              </tr>
+            </thead>
+            <tbody>
+              {%- for line_item in order.line_items -%}
+                <tr>
+                  <th scope="row" class="acct__item">
+                    {%- if line_item.url != blank -%}
+                      <a class="acct__item-title" href="{{ line_item.url }}">{{ line_item.title | escape }}</a>
+                    {%- else -%}
+                      <span class="acct__item-title">{{ line_item.title | escape }}</span>
+                    {%- endif -%}
+                    {%- for property in line_item.properties -%}
+                      {%- assign first_char = property.first | slice: 0 -%}
+                      {%- if property.last != blank and first_char != '_' -%}
+                        <span class="acct__meta">{{ property.first | escape }}: {{ property.last | escape }}</span>
+                      {%- endif -%}
+                    {%- endfor -%}
+                    {%- if line_item.selling_plan_allocation -%}
+                      <span class="acct__meta">{{ line_item.selling_plan_allocation.selling_plan.name | escape }}</span>
+                    {%- endif -%}
+                    {%- for allocation in line_item.line_level_discount_allocations -%}
+                      <span class="acct__meta acct__discount">
+                        {%- render 'cart-icon', icon: 'tag' -%}
+                        {{ allocation.discount_application.title | escape }} (-{{ allocation.amount | money }})
+                      </span>
+                    {%- endfor -%}
+                    {%- if line_item.fulfillment -%}
+                      {%- assign fulfilled_at = line_item.fulfillment.created_at | time_tag: format: 'date' -%}
+                      <span class="acct__meta">
+                        {{ 'store.customer.order.fulfilled_at_html' | t: date: fulfilled_at }}
+                        {%- if line_item.fulfillment.tracking_url -%}
+                          · <a class="link link--quiet" href="{{ line_item.fulfillment.tracking_url }}" target="_blank" rel="noopener">
+                            {{- 'store.customer.order.track' | t -}}
+                          </a>
+                        {%- endif -%}
+                        {%- if line_item.fulfillment.tracking_company != blank -%}
+                          <br>{{ line_item.fulfillment.tracking_company }} {{ line_item.fulfillment.tracking_number }}
+                        {%- endif -%}
+                      </span>
+                    {%- endif -%}
+                  </th>
+                  <td>{{ line_item.sku | escape }}</td>
+                  <td class="acct__num">
+                    {%- if line_item.original_price != line_item.final_price -%}
+                      <span class="visually-hidden">{{ 'store.cart.regular_price' | t }}</span>
+                      <s class="muted">{{ line_item.original_price | money }}</s>
+                      <span class="visually-hidden">{{ 'store.cart.sale_price' | t }}</span>
+                    {%- endif -%}
+                    {{ line_item.final_price | money }}
+                    {%- if line_item.unit_price_measurement -%}
+                      <span class="acct__meta">
+                        {{ line_item.unit_price | money }}/
+                        {%- if line_item.unit_price_measurement.reference_value != 1 -%}{{ line_item.unit_price_measurement.reference_value }}{%- endif -%}
+                        {{ line_item.unit_price_measurement.reference_unit }}
+                      </span>
+                    {%- endif -%}
+                  </td>
+                  <td class="acct__num">{{ line_item.quantity }}</td>
+                  <td class="acct__num">
+                    {%- if line_item.original_line_price != line_item.final_line_price -%}
+                      <s class="muted">{{ line_item.original_line_price | money }}</s>
+                    {%- endif -%}
+                    {{ line_item.final_line_price | money }}
+                  </td>
+                </tr>
+              {%- endfor -%}
+            </tbody>
+            <tfoot>
+              <tr>
+                <th scope="row" colspan="4">{{ 'store.customer.order.subtotal' | t }}</th>
+                <td class="acct__num">{{ order.line_items_subtotal_price | money }}</td>
+              </tr>
+              {%- for discount_application in order.cart_level_discount_applications -%}
+                <tr>
+                  <th scope="row" colspan="4">
+                    {{ 'store.customer.order.discount' | t }}
+                    <span class="acct__meta acct__discount">{%- render 'cart-icon', icon: 'tag' -%}{{ discount_application.title | escape }}</span>
+                  </th>
+                  <td class="acct__num">-{{ discount_application.total_allocated_amount | money }}</td>
+                </tr>
+              {%- endfor -%}
+              {%- for shipping_method in order.shipping_methods -%}
+                <tr>
+                  <th scope="row" colspan="4">{{ 'store.customer.order.shipping' | t }} ({{ shipping_method.title | escape }})</th>
+                  <td class="acct__num">{{ shipping_method.price | money }}</td>
+                </tr>
+              {%- endfor -%}
+              {%- if order.total_duties -%}
+                <tr>
+                  <th scope="row" colspan="4">{{ 'store.customer.order.duties' | t }}</th>
+                  <td class="acct__num">{{ order.total_duties | money }}</td>
+                </tr>
+              {%- endif -%}
+              {%- for tax_line in order.tax_lines -%}
+                <tr>
+                  <th scope="row" colspan="4">
+                    {{ 'store.customer.order.tax' | t }} ({{ tax_line.title | escape }} {{ tax_line.rate_percentage }}%)
+                  </th>
+                  <td class="acct__num">{{ tax_line.price | money }}</td>
+                </tr>
+              {%- endfor -%}
+              {%- if order.total_refunded_amount > 0 -%}
+                <tr>
+                  <th scope="row" colspan="4">{{ 'store.customer.order.refunded' | t }}</th>
+                  <td class="acct__num">-{{ order.total_refunded_amount | money }}</td>
+                </tr>
+              {%- endif -%}
+              <tr class="acct__total">
+                <th scope="row" colspan="4">{{ 'store.customer.order.total' | t }}</th>
+                <td class="acct__num">{{ order.total_net_amount | money_with_currency }}</td>
+              </tr>
+            </tfoot>
+          </table>
+        </div>
+      </section>
+
+      <aside aria-label="{{ 'store.customer.order.details' | t }}">
+        <h2 class="eyebrow acct__h">{{ 'store.customer.order.status' | t }}</h2>
+        <p>{{ 'store.customer.order.payment_status' | t }}: {{ order.financial_status_label }}</p>
+        <p>{{ 'store.customer.order.fulfillment_status' | t }}: {{ order.fulfillment_status_label }}</p>
+
+        {%- if order.billing_address -%}
+          <h2 class="eyebrow acct__h">{{ 'store.customer.order.billing_address' | t }}</h2>
+          <address class="acct__address">{{ order.billing_address | format_address }}</address>
+        {%- endif -%}
+        {%- if order.shipping_address -%}
+          <h2 class="eyebrow acct__h">{{ 'store.customer.order.shipping_address' | t }}</h2>
+          <address class="acct__address">{{ order.shipping_address | format_address }}</address>
+        {%- endif -%}
+      </aside>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Customer order",
+  "class": "section-customers-order",
+  "settings": [
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    }
+  ]
+}
+{% endschema %}

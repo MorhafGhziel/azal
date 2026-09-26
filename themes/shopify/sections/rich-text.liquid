@@ -1,4 +1,4 @@
-<section class="block-sec rich scheme-{{ section.settings.scheme }} align-{{ section.settings.align }}" id="rich-{{ section.id }}">
+<section class="block-sec rich color-{{ section.settings.color_scheme }} align-{{ section.settings.align }}" id="rich-{{ section.id }}">
   <div class="rich__in">
     {%- for block in section.blocks -%}
       {%- case block.type -%}
@@ -22,11 +22,7 @@
   "name": "t:sections.rich-text.name",
   "class": "section-rich",
   "settings": [
-    { "type": "select", "id": "scheme", "default": "ivory", "label": "t:sections.common.scheme.label", "options": [
-      { "value": "ivory", "label": "t:sections.common.scheme.options__1.label" },
-      { "value": "wine", "label": "t:sections.common.scheme.options__2.label" },
-      { "value": "blush", "label": "t:sections.common.scheme.options__3.label" }
-    ] },
+    { "type": "color_scheme", "id": "color_scheme", "default": "scheme-1", "label": "t:sections.common.scheme.label" },
     { "type": "select", "id": "align", "default": "center", "label": "t:sections.common.align.label", "options": [
       { "value": "start", "label": "t:sections.common.align.options__1.label" },
       { "value": "center", "label": "t:sections.common.align.options__2.label" }

@@ -5,11 +5,38 @@
     "footer": {
       "type": "footer",
       "blocks": {
-        "menu": { "type": "menu", "settings": { "menu": "footer" } },
-        "social": { "type": "social", "settings": {} }
+        "menu": {
+          "type": "menu",
+          "settings": {
+            "heading": "The house",
+            "menu": "footer"
+          }
+        },
+        "newsletter": {
+          "type": "newsletter",
+          "settings": {
+            "heading": "Letters from the house",
+            "text": "<p>New compositions and private releases, a few times a year.</p>"
+          }
+        },
+        "social": {
+          "type": "social",
+          "settings": {
+            "heading": ""
+          }
+        }
       },
-      "block_order": ["menu", "social"],
-      "settings": { "show_payment": true, "show_powered_by": false }
+      "block_order": ["menu", "newsletter", "social"],
+      "settings": {
+        "color_scheme": "scheme-2",
+        "color_scheme_inner": "scheme-1",
+        "show_emblem": true,
+        "show_country_selector": true,
+        "show_language_selector": true,
+        "show_follow_on_shop": true,
+        "show_payment_icons": true,
+        "copyright_text": ""
+      }
     }
   },
   "order": ["footer"]

@@ -1,0 +1,40 @@
+{%- doc -%}
+  Language selector as a popover (Shopify's language selector UX guidelines): languages listed by their own
+  name (endonym), the current one marked. Works without JavaScript; assets/azal-search.js adds Escape /
+  outside-click closing. Render it only when localization.available_languages.size > 1.
+
+  @param {string} id - Unique id prefix for this instance (for example 'HeaderLanguage')
+  @param {string} [class] - Extra class on the wrapper
+  @param {string} [placement] - 'down' (default) or 'up' — which way the list opens
+{%- enddoc -%}
+{%- assign placement = placement | default: 'down' -%}
+{%- form 'localization', id: id, class: 'loc-form' -%}
+  <details class="loc {{ class }} loc--{{ placement }}" data-loc>
+    <summary class="loc__btn">
+      <span class="visually-hidden">{{ 'localization.language_label' | t }}:</span>
+      <span class="loc__current" lang="{{ localization.language.iso_code }}">{{ localization.language.endonym_name | capitalize }}</span>
+      <span class="loc__short" lang="{{ localization.language.iso_code }}">{{ localization.language.iso_code | upcase }}</span>
+      {%- render 'header-icon', icon: 'chevron', class: 'loc__chev' -%}
+    </summary>
+    <div class="loc__panel">
+      <ul class="loc__list" role="list" aria-label="{{ 'localization.language_label' | t }}">
+        {%- for language in localization.available_languages -%}
+          <li>
+            <button
+              class="loc__opt"
+              type="submit"
+              name="locale_code"
+              value="{{ language.iso_code }}"
+              lang="{{ language.iso_code }}"
+              {% if language.iso_code == localization.language.iso_code %}
+                aria-current="true"
+              {% endif %}
+            >
+              <span class="loc__name">{{ language.endonym_name | capitalize }}</span>
+            </button>
+          </li>
+        {%- endfor -%}
+      </ul>
+    </div>
+  </details>
+{%- endform -%}

@@ -10,10 +10,6 @@
   --safe-b: env(safe-area-inset-bottom, 0px);
   --safe-t: env(safe-area-inset-top, 0px);
 }
-:root[lang='ar'] {
-  --serif: 'Amiri', 'Cormorant Variable', serif;
-  --sans: 'IBM Plex Sans Arabic', 'Hanken Grotesk Variable', system-ui, sans-serif;
-}
 
 *, *::before, *::after { box-sizing: border-box; }
 html { background: var(--wine-deep); color: var(--ivory); -webkit-text-size-adjust: 100%; }
@@ -80,8 +76,8 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
 .nav__link::after { content: ''; position: absolute; left: 0; right: 0; bottom: 2px; height: 1px; background: currentColor; transform: scaleX(0); transform-origin: right; transition: transform 0.45s var(--ease-out); }
 .nav__link:hover::after { transform: scaleX(1); transform-origin: left; }
 :root[lang='ar'] .nav__link { letter-spacing: 0; font-size: 13px; }
-.nav__lang { min-width: 1.6em; font-family: 'IBM Plex Sans Arabic', sans-serif; letter-spacing: 0; font-size: 13px; }
-:root[lang='ar'] .nav__lang { font-family: 'Hanken Grotesk Variable', sans-serif; font-size: 11px; letter-spacing: 0.2em; }
+.nav__lang { min-width: 1.6em; letter-spacing: 0; font-size: 13px; }
+:root[lang='ar'] .nav__lang { font-size: 11px; letter-spacing: 0.2em; }
 .nav__mark { display: grid; place-items: center; width: 26px; }
 .nav__mark svg { width: 17px; height: auto; fill: none; stroke: currentColor; stroke-width: 1.6; }
 
@@ -331,7 +327,7 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
 .menu__x { position: absolute; top: calc(30px + var(--safe-t)); inset-inline-end: var(--gutter); }
 .menu__list { display: grid; gap: 18px; text-align: center; }
 .menu__list > * { font-family: var(--serif); font-weight: 300; font-size: clamp(40px, 12vw, 64px); line-height: 1.05; text-decoration: none; }
-.menu__list button { font-family: 'IBM Plex Sans Arabic', sans-serif; font-size: 22px; margin-top: 14px; opacity: 0.7; }
+.menu__list button { font-size: 22px; margin-top: 14px; opacity: 0.7; }
 @media (max-width: 700px) {
   .nav__wide { display: none; }
   .nav__menu { display: inline-block; }
@@ -345,7 +341,7 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
 .veil svg { width: 26px; fill: none; stroke: currentColor; stroke-width: 1; opacity: 0.6; }
 
 /* ---------- 03 origins ---------- */
-.origins { position: relative; height: 320vh; height: var(--origins-length, 320svh); background: var(--ivory); color: var(--ink); }
+.origins { position: relative; height: 320vh; height: var(--origins-length, 320svh); background: var(--scheme-bg, var(--ivory)); color: var(--scheme-fg, var(--ink)); }
 .origins__stage { position: sticky; top: 0; height: 100vh; height: 100svh; display: grid; grid-template-columns: 1.25fr 1fr; overflow: hidden; }
 .origins__media { position: relative; overflow: hidden; margin: clamp(84px, 11vh, 110px) 0 clamp(24px, 5vh, 56px); margin-inline-start: var(--gutter); border-radius: 2px; }
 .origins__img { position: absolute; inset: 0; margin: 0; overflow: hidden; }
@@ -425,7 +421,7 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
 }
 
 /* ---------- 05 collection ---------- */
-.collection { position: relative; padding: clamp(110px, 16vh, 170px) 0 clamp(60px, 10vh, 110px); color: var(--ink); overflow: hidden; }
+.collection { position: relative; padding: clamp(110px, 16vh, 170px) 0 clamp(60px, 10vh, 110px); color: var(--scheme-fg, var(--ink)); overflow: hidden; }
 .collection__bg { position: absolute; inset: 0; background: #efdcd2; }
 .collection__head { position: relative; padding: 0 var(--gutter); margin-bottom: clamp(30px, 6vh, 64px); }
 .collection__head .eyebrow { opacity: 0.6; margin-bottom: 16px; }
