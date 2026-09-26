@@ -1,11 +1,11 @@
 {
-  "name": "theme-raed",
-  "version": "1.358.0",
-  "description": "Salla Theme",
+  "name": "theme-azal",
+  "version": "1.0.0",
+  "description": "AZAL — perfume-house theme for Salla (based on Raed)",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/SallaApp/theme-raed.git"
+    "url": "git+https://github.com/MorhafGhziel/azal-salla.git"
   },
   "scripts": {
     "preinstall": "npx only-allow pnpm",
