@@ -1,0 +1,448 @@
+{
+  "general": {
+    "404": "Not found",
+    "article": "Article",
+    "block": "Block",
+    "blog": "Blog",
+    "cart": "Cart",
+    "collection": "Collection",
+    "collections": "Collections",
+    "collection_card": "Collection card",
+    "collections_grid": "Collections grid",
+    "colors": "Colors",
+    "column": "Column",
+    "content": "Content",
+    "custom_section": "Custom section",
+    "fonts": "Fonts",
+    "footer": "Footer",
+    "group": "Group",
+    "header": "Header",
+    "layout": "Layout",
+    "main": "Main",
+    "page": "Page",
+    "password": "Password",
+    "primary": "Primary",
+    "product": "Product",
+    "row": "Row",
+    "search": "Search",
+    "secondary": "Secondary",
+    "section": "Section",
+    "settings": "Settings",
+    "sidebar": "Sidebar",
+    "text": "Text",
+    "theme": "Theme",
+    "typography": "Typography"
+  },
+  "labels": {
+    "alignment": "Alignment",
+    "background": "Background",
+    "foreground": "Foreground",
+    "grid_gap": "Grid spacing",
+    "grid_item_width": "Grid item width",
+    "input_corner_radius": "Input corner radius",
+    "layout_direction": "Layout direction",
+    "menu": "Menu",
+    "customer_account_menu": "Customer account menu",
+    "padding": "Padding",
+    "page_margin": "Page margin",
+    "page_width": "Page width",
+    "show_payment_icons": "Show payment icons",
+    "text_style": "Text style",
+    "text": "Text"
+  },
+  "options": {
+    "alignment": {
+      "left": "Left",
+      "center": "Center",
+      "right": "Right"
+    },
+    "direction": {
+      "horizontal": "Horizontal",
+      "vertical": "Vertical"
+    },
+    "page_width": {
+      "narrow": "Narrow",
+      "wide": "Wide"
+    },
+    "size": {
+      "large": "Large",
+      "small": "Small"
+    },
+    "text_style": {
+      "title": "Title",
+      "subtitle": "Subtitle",
+      "normal": "Normal text"
+    }
+  },
+  "sections": {
+    "azal-collection": {
+      "name": "Collection slider",
+      "presets": {
+        "name": "Collection slider"
+      },
+      "settings": {
+        "collection": {
+          "label": "Collection"
+        },
+        "label": {
+          "label": "Eyebrow"
+        },
+        "limit": {
+          "label": "Products to show"
+        },
+        "title": {
+          "label": "Title"
+        },
+        "view_all": {
+          "label": "“View all” link label"
+        }
+      }
+    },
+    "azal-finale": {
+      "name": "Finale",
+      "presets": {
+        "name": "Finale"
+      },
+      "settings": {
+        "bottom": {
+          "label": "Second line (italic)"
+        },
+        "cta": {
+          "label": "Button label"
+        },
+        "image": {
+          "info": "Replaces the painted dusk.",
+          "label": "Image"
+        },
+        "link": {
+          "info": "Leave empty to scroll back to the top.",
+          "label": "Link"
+        },
+        "top": {
+          "label": "First line"
+        }
+      }
+    },
+    "azal-notes": {
+      "name": "Fragrance notes",
+      "presets": {
+        "name": "Fragrance notes"
+      },
+      "settings": {
+        "bottle_full": {
+          "label": "Bottle — full"
+        },
+        "bottle_heart": {
+          "label": "Bottle — heart note"
+        },
+        "bottle_top": {
+          "info": "Three transparent PNGs of the same bottle, filled to the top note, the heart and full. Leave empty to use the theme’s bottle.",
+          "label": "Bottle — top note"
+        },
+        "header_art": {
+          "content": "Ingredients and colors"
+        },
+        "header_bottle": {
+          "content": "Bottle layers"
+        },
+        "header_notes": {
+          "content": "Notes"
+        },
+        "ing_base": {
+          "label": "Base note ingredient"
+        },
+        "ing_heart": {
+          "label": "Heart note ingredient"
+        },
+        "ing_top": {
+          "info": "Optional cut-out images (transparent PNG) that rise behind the bottle for each note.",
+          "label": "Top note ingredient"
+        },
+        "label": {
+          "label": "Eyebrow"
+        },
+        "name_base": {
+          "label": "Base label"
+        },
+        "name_heart": {
+          "label": "Heart label"
+        },
+        "name_top": {
+          "label": "Top label"
+        },
+        "notes_base": {
+          "label": "Base notes"
+        },
+        "notes_heart": {
+          "label": "Heart notes"
+        },
+        "notes_top": {
+          "label": "Top notes"
+        },
+        "paragraph": {
+          "content": "Notes are read from the product’s metafields (custom.notes_top, custom.notes_heart, custom.notes_base) when they exist; otherwise from the fields below."
+        },
+        "product": {
+          "label": "Fragrance"
+        },
+        "show_ingredients": {
+          "label": "Show rising ingredients"
+        },
+        "tint_base": {
+          "label": "Ground — base"
+        },
+        "tint_heart": {
+          "label": "Ground — heart"
+        },
+        "tint_top": {
+          "label": "Ground — top"
+        },
+        "title": {
+          "info": "Leave empty to use the product title.",
+          "label": "Title"
+        }
+      }
+    },
+    "azal-origins": {
+      "blocks": {
+        "chapter": {
+          "name": "Chapter",
+          "settings": {
+            "image": {
+              "info": "16:9, 2560 × 1440 px. Leave empty to use the theme’s photography.",
+              "label": "Image"
+            },
+            "image_mobile": {
+              "label": "Image on phones (portrait)"
+            },
+            "name": {
+              "label": "Chapter name"
+            },
+            "text": {
+              "label": "Text"
+            },
+            "title": {
+              "label": "Title"
+            }
+          }
+        }
+      },
+      "name": "Origins (pinned story)",
+      "presets": {
+        "name": "Origins (pinned story)"
+      },
+      "settings": {
+        "label": {
+          "label": "Eyebrow"
+        }
+      }
+    },
+    "azal-sky": {
+      "name": "Sky and bottle (hero)",
+      "presets": {
+        "name": "Sky and bottle (hero)"
+      },
+      "settings": {
+        "bottle_alt": {
+          "label": "Bottle description (for screen readers)"
+        },
+        "bottle_image": {
+          "info": "A PNG with a transparent background, about 1000 × 1286 px. Leave empty to use the theme’s turning bottle.",
+          "label": "Custom bottle image"
+        },
+        "cta_label": {
+          "label": "Button label"
+        },
+        "eyebrow": {
+          "label": "Eyebrow"
+        },
+        "header_bottle": {
+          "content": "Bottle"
+        },
+        "header_manifesto": {
+          "content": "Manifesto"
+        },
+        "header_scene": {
+          "content": "Scene"
+        },
+        "heading": {
+          "info": "Leave empty to use the store name.",
+          "label": "Brand name"
+        },
+        "image_sky": {
+          "info": "Replaces the painted dawn sky. 2560 × 1440 px or larger.",
+          "label": "Custom sky image"
+        },
+        "keep_clouds": {
+          "label": "Keep the painted clouds over a custom sky"
+        },
+        "length": {
+          "label": "Scroll length"
+        },
+        "manifesto": {
+          "info": "One line per row. Each line rises on its own.",
+          "label": "Manifesto text"
+        },
+        "manifesto_label": {
+          "label": "Manifesto label"
+        },
+        "manifesto_link_label": {
+          "label": "Link under the manifesto (optional)"
+        },
+        "paragraph": {
+          "content": "The film at the top of the home page: scroll descends through the clouds to the bottle. Leave the images empty to use the theme’s painted sky."
+        },
+        "product": {
+          "label": "Bottle links to product"
+        },
+        "scroll_label": {
+          "label": "Scroll hint"
+        },
+        "tagline": {
+          "label": "Tagline"
+        }
+      }
+    },
+    "common": {
+      "align": {
+        "label": "Alignment",
+        "options__1": {
+          "label": "Start"
+        },
+        "options__2": {
+          "label": "Center"
+        }
+      },
+      "scheme": {
+        "label": "Colors",
+        "options__1": {
+          "label": "Ivory"
+        },
+        "options__2": {
+          "label": "Wine"
+        },
+        "options__3": {
+          "label": "Blush"
+        }
+      }
+    },
+    "featured-collection": {
+      "name": "Product grid",
+      "presets": {
+        "name": "Product grid"
+      },
+      "settings": {
+        "collection": {
+          "label": "Collection"
+        },
+        "eyebrow": {
+          "label": "Eyebrow"
+        },
+        "first_wide": {
+          "label": "First product spans two columns"
+        },
+        "limit": {
+          "label": "Products to show"
+        },
+        "show_view_all": {
+          "label": "Show “View all” link"
+        },
+        "title": {
+          "label": "Title"
+        }
+      }
+    },
+    "image-with-text": {
+      "name": "Image with text",
+      "presets": {
+        "name": "Image with text"
+      },
+      "settings": {
+        "button_label": {
+          "label": "Button label"
+        },
+        "button_link": {
+          "label": "Button link"
+        },
+        "eyebrow": {
+          "label": "Eyebrow"
+        },
+        "flip": {
+          "label": "Image on the other side"
+        },
+        "heading": {
+          "label": "Heading"
+        },
+        "image": {
+          "label": "Image"
+        },
+        "text": {
+          "label": "Text"
+        }
+      }
+    },
+    "newsletter": {
+      "name": "Email signup",
+      "presets": {
+        "name": "Email signup"
+      },
+      "settings": {
+        "eyebrow": {
+          "label": "Eyebrow"
+        },
+        "heading": {
+          "label": "Heading"
+        },
+        "text": {
+          "label": "Text"
+        }
+      }
+    },
+    "rich-text": {
+      "blocks": {
+        "button": {
+          "name": "Button",
+          "settings": {
+            "label": {
+              "label": "Label"
+            },
+            "link": {
+              "label": "Link"
+            }
+          }
+        },
+        "eyebrow": {
+          "name": "Eyebrow",
+          "settings": {
+            "text": {
+              "label": "Text"
+            }
+          }
+        },
+        "heading": {
+          "name": "Heading",
+          "settings": {
+            "heading": {
+              "label": "Heading"
+            },
+            "size": {
+              "label": "Size"
+            }
+          }
+        },
+        "text": {
+          "name": "Text",
+          "settings": {
+            "text": {
+              "label": "Text"
+            }
+          }
+        }
+      },
+      "name": "Rich text",
+      "presets": {
+        "name": "Rich text"
+      }
+    }
+  }
+}

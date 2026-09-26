@@ -1,0 +1,70 @@
+{%- doc -%}
+  Fonts and color tokens from theme settings. Every color scheme becomes a `.color-scheme-N` class;
+  the AZAL design tokens (--ivory, --ink, --wine-deep, --cream…) map to schemes 1 and 2.
+{%- enddoc -%}
+{%- liquid
+  assign s1 = settings.color_schemes['scheme-1'].settings
+  assign s2 = settings.color_schemes['scheme-2'].settings
+  assign s3 = settings.color_schemes['scheme-3'].settings
+-%}
+{% style %}
+  {{ settings.type_heading_font | font_face: font_display: 'swap' }}
+  {{ settings.type_heading_font | font_modify: 'style', 'italic' | font_face: font_display: 'swap' }}
+  {{ settings.type_heading_font | font_modify: 'weight', 'bold' | font_face: font_display: 'swap' }}
+  {{ settings.type_heading_font | font_modify: 'weight', 'bold' | font_modify: 'style', 'italic' | font_face: font_display: 'swap' }}
+  {{ settings.type_body_font | font_face: font_display: 'swap' }}
+  {{ settings.type_body_font | font_modify: 'weight', 'bold' | font_face: font_display: 'swap' }}
+  {{ settings.type_body_font | font_modify: 'style', 'italic' | font_face: font_display: 'swap' }}
+  {{ settings.type_body_font | font_modify: 'weight', 'bold' | font_modify: 'style', 'italic' | font_face: font_display: 'swap' }}
+  {%- if request.locale.iso_code == 'ar' %}
+    {{ settings.type_heading_font_ar | font_face: font_display: 'swap' }}
+    {{ settings.type_heading_font_ar | font_modify: 'weight', 'bold' | font_face: font_display: 'swap' }}
+    {{ settings.type_body_font_ar | font_face: font_display: 'swap' }}
+    {{ settings.type_body_font_ar | font_modify: 'weight', 'bold' | font_face: font_display: 'swap' }}
+  {%- endif %}
+
+  :root {
+    --serif: {{ settings.type_heading_font.family }}, {{ settings.type_heading_font.fallback_families }};
+    --serif-weight: {{ settings.type_heading_font.weight }};
+    --sans: {{ settings.type_body_font.family }}, {{ settings.type_body_font.fallback_families }};
+    --sans-weight: {{ settings.type_body_font.weight }};
+    --heading-scale: {{ settings.heading_scale | divided_by: 100.0 }};
+    --page-width: {{ settings.page_width }}px;
+    --radius-btn: {{ settings.button_radius }}px;
+    --radius-input: {{ settings.input_radius }}px;
+
+    --ivory: {{ s1.background }};
+    --ink: {{ s1.foreground }};
+    --card-bg: {{ s1.surface }};
+    --apricot: {{ s1.accent }};
+    --success: #3d4a37;
+    --error: {{ s1.sale }};
+    --wine-deep: {{ s2.background }};
+    --cream: {{ s2.foreground }};
+    --wine: {{ s2.surface }};
+    --blush: {{ s3.background }};
+
+    --img-grain: url({{ 'grain.png' | asset_url }});
+    --img-petal-sheet: url({{ 'petal-sheet.webp' | asset_url }});
+  }
+  :root[lang='ar'] {
+    --serif: {{ settings.type_heading_font_ar.family }}, {{ settings.type_heading_font_ar.fallback_families }};
+    --sans: {{ settings.type_body_font_ar.family }}, {{ settings.type_body_font_ar.fallback_families }};
+  }
+
+  {% for scheme in settings.color_schemes -%}
+    .color-{{ scheme.id }} {
+      --scheme-bg: {{ scheme.settings.background }};
+      --scheme-fg: {{ scheme.settings.foreground }};
+      --scheme-surface: {{ scheme.settings.surface }};
+      --scheme-accent: {{ scheme.settings.accent }};
+      --scheme-button: {{ scheme.settings.button }};
+      --scheme-button-label: {{ scheme.settings.button_label }};
+      --scheme-sale: {{ scheme.settings.sale }};
+      --card-bg: {{ scheme.settings.surface }};
+      --error: {{ scheme.settings.sale }};
+      background-color: var(--scheme-bg);
+      color: var(--scheme-fg);
+    }
+  {%- endfor %}
+{% endstyle %}

@@ -1,0 +1,46 @@
+{#
+  AZAL header: one floating pill — the menu on the start side, the emblem (or the store logo) in the
+  middle, search, account, bag and language on the end side. Every Salla piece stays: the main menu
+  and its phone drawer (custom-main-menu), salla-search, salla-user-menu, salla-cart-summary,
+  salla-localization-modal and store scopes.
+| Variable         | Type    | Description                     |
+|------------------|---------|---------------------------------|
+| cart             | object  |                                 |
+| cart.items_count | int     |                                 |
+#}
+<header data-testid="store-header" class="store-header azal-header az">
+  <div class="nav" data-nav>
+    <nav class="nav__pill" aria-label="{{ trans('blocks.header.main_menu') }}">
+      <span class="nav__side nav__side--start">
+        <a data-testid="store-header-mobile-toggle" class="nav__link nav__menu mburger" href="#mobile-menu" aria-label="{{ trans('blocks.header.main_menu') }}">{{ trans('azal.menu') }}</a>
+        <span class="azal-desktop-menu nav__wide"><custom-main-menu></custom-main-menu></span>
+      </span>
+
+      <a data-testid="store-header-logo" class="nav__mark" href="{{ store.url }}" aria-label="{{ store.name }}">
+        {% if theme.settings.get('azal_use_store_logo') and store.logo %}
+          <img class="nav__logo" src="{{ store.logo|cdn(175) }}" alt="{{ store.name }}" loading="eager" fetchpriority="high">
+        {% else %}
+          <svg viewBox="0 0 40 56" aria-hidden="true"><use href="#emblem" /></svg>
+        {% endif %}
+        {% if is_page('index') %}<h1 class="sr-only">{{ store.name }}</h1>{% endif %}
+      </a>
+
+      <span class="nav__side nav__side--end">
+        <button class="nav__link nav__wide" type="button" onclick="salla.event.dispatch('search::open')" aria-label="{{ trans('azal.search') }}">{{ trans('azal.search') }}</button>
+        <salla-user-menu data-testid="store-header-user-menu" class="nav__link nav__wide" avatar-only show-header show-trigger></salla-user-menu>
+        <salla-cart-summary data-testid="store-header-cart" class="nav__link nav__bag">
+          <i slot="icon" class="nav__icon sicon-shopping-bag"></i>
+        </salla-cart-summary>
+        {% if store.settings.is_multilingual or store.settings.currencies_enabled %}
+          <salla-localization-modal data-testid="store-header-localization" class="nav__link nav__lang nav__wide" show-trigger></salla-localization-modal>
+        {% endif %}
+      </span>
+    </nav>
+  </div>
+
+  {% if store.scope %}
+    <button class="azal-scope btn--rounded-gray" onclick="salla.event.dispatch('scopes::open', {'mode': 'default'})">
+      <i class="sicon-location rtl:ml-1 ltr:mr-1"></i> {{ store.scope.name }}
+    </button>
+  {% endif %}
+</header>

@@ -1,0 +1,33 @@
+{#
+  AZAL 06 — Finale: the dusk rises back into place and a petal lands on the horizon.
+  Fields (twilight.json → home.azal-finale): top, bottom, cta, link, image.
+#}
+<div class="az" component-id="{{ componentId }}">
+<section class="finale" data-finale data-section="finale">
+  <div class="finale__stage">
+    {% if component.image %}
+      <div class="finale__layer finale__layer--sky" data-fl="sky"><picture><img src="{{ component.image }}" alt="" loading="lazy"></picture></div>
+    {% else %}
+      {% for l in ['sky', 'far', 'mid', 'near'] %}
+        <div class="finale__layer finale__layer--{{ l }}" data-fl="{{ l }}">
+          <picture>
+            <source media="(max-aspect-ratio: 1/1)" srcset="{{ ('azal/sky-m-dusk_' ~ l ~ '.webp')|asset }}">
+            <img src="{{ ('azal/sky-d-dusk_' ~ l ~ '.webp')|asset }}" alt="" decoding="async" loading="lazy">
+          </picture>
+        </div>
+      {% endfor %}
+    {% endif %}
+    <div class="finale__copy">
+      <h2 class="finale__title">
+        <span class="ln"><span class="ln__in">{{ component.top }}</span></span>
+        <span class="ln"><span class="ln__in"><em>{{ component.bottom }}</em></span></span>
+      </h2>
+      {% if component.cta %}
+        <a class="pill" href="{{ component.link ?: '#top' }}"{{ component.link ? '' : ' data-to-top' }}>{{ component.cta }}</a>
+      {% endif %}
+    </div>
+    <div class="finale__ground"></div>
+    <img class="finale__petal" data-land src="{{ 'azal/petal-c.webp'|asset }}" alt="" decoding="async" loading="lazy">
+  </div>
+</section>
+</div>

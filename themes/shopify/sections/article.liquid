@@ -1,0 +1,162 @@
+{%- comment -%} An article: title, date, image, content, tags, paginated comments and the comment form. {%- endcomment -%}
+<div class="store-section article-section color-{{ section.settings.color_scheme }} full-width">
+  <article class="page page--narrow store-page article">
+    <header class="page__head article__head">
+      <p class="eyebrow">
+        {{- article.published_at | time_tag: format: 'date' -}}
+        {%- if section.settings.show_author and article.author != blank %} · {{ 'store.article.by' | t: author: article.author | escape }}{% endif -%}
+      </p>
+      <h1 class="page__title" tabindex="-1">
+        <span class="ln"><span class="ln__in">{{ article.title | escape }}</span></span>
+      </h1>
+    </header>
+
+    {%- if section.settings.show_image and article.image -%}
+      <figure class="article__hero">
+        {{
+          article.image
+          | image_url: width: 2400
+          | image_tag:
+            loading: 'eager',
+            fetchpriority: 'high',
+            widths: '600, 900, 1200, 1600, 2000, 2400',
+            sizes: '(min-width: 1100px) 1000px, 100vw',
+            class: 'article__img',
+            alt: article.image.alt
+        }}
+      </figure>
+    {%- endif -%}
+
+    <div class="rte article__content">{{ article.content }}</div>
+
+    {%- if article.tags.size > 0 -%}
+      <ul class="article__tags" role="list" aria-label="{{ 'store.article.tags' | t }}">
+        {%- for tag in article.tags -%}
+          <li><a class="link link--quiet" href="{{ blog.url }}/tagged/{{ tag | handleize }}">{{ tag | escape }}</a></li>
+        {%- endfor -%}
+      </ul>
+    {%- endif -%}
+
+    {%- if blog.comments_enabled? -%}
+      <section class="article__comments" id="Comments" aria-labelledby="CommentsTitle">
+        <h2 class="eyebrow article__comments-title" id="CommentsTitle">{{ 'store.article.comments' | t: count: article.comments_count }}</h2>
+
+        {%- paginate article.comments by 10 -%}
+          {%- if article.comments.size > 0 -%}
+            <ul class="article__comment-list" role="list">
+              {%- for comment in article.comments -%}
+                <li class="article__comment" id="{{ comment.id }}">
+                  <div class="rte">{{ comment.content }}</div>
+                  <p class="small muted">
+                    {{ comment.author | escape }} · {{ comment.created_at | time_tag: format: 'date' }}
+                  </p>
+                </li>
+              {%- endfor -%}
+            </ul>
+          {%- endif -%}
+          {%- render 'pagination', paginate: paginate, anchor: '#Comments' -%}
+        {%- endpaginate -%}
+
+        {%- form 'new_comment', article, class: 'article__form' -%}
+          <h3 class="article__form-title">{{ 'store.article.leave_comment' | t }}</h3>
+          {%- if form.posted_successfully? -%}
+            <p class="store-notice" role="status" tabindex="-1" autofocus>
+              {%- render 'cart-icon', icon: 'check' -%}
+              <span>
+                {%- if blog.moderated? -%}
+                  {{ 'store.article.success_moderated' | t }}
+                {%- else -%}
+                  {{ 'store.article.success' | t }}
+                {%- endif -%}
+              </span>
+            </p>
+          {%- endif -%}
+          {%- render 'store-form-errors', form: form, id: 'CommentErrors' -%}
+          <div class="field-row">
+            <div class="field">
+              <label class="field__label" for="CommentAuthor">{{ 'store.article.name' | t }}</label>
+              <input
+                type="text"
+                id="CommentAuthor"
+                name="comment[author]"
+                value="{{ form.author }}"
+                autocomplete="name"
+                required
+                {% if form.errors contains 'author' %}
+                  aria-invalid="true"
+                  aria-describedby="CommentErrors"
+                {% endif %}
+              >
+            </div>
+            <div class="field">
+              <label class="field__label" for="CommentEmail">{{ 'store.article.email' | t }}</label>
+              <input
+                type="email"
+                id="CommentEmail"
+                name="comment[email]"
+                value="{{ form.email }}"
+                autocomplete="email"
+                autocorrect="off"
+                autocapitalize="off"
+                spellcheck="false"
+                required
+                {% if form.errors contains 'email' %}
+                  aria-invalid="true"
+                  aria-describedby="CommentErrors"
+                {% endif %}
+              >
+            </div>
+          </div>
+          <div class="field">
+            <label class="field__label" for="CommentBody">{{ 'store.article.message' | t }}</label>
+            <textarea
+              id="CommentBody"
+              name="comment[body]"
+              rows="5"
+              required
+              {% if form.errors contains 'body' %}
+                aria-invalid="true"
+                aria-describedby="CommentErrors"
+              {% endif %}
+            >{{ form.body }}</textarea>
+          </div>
+          {%- if blog.moderated? -%}
+            <p class="small muted">{{ 'store.article.moderated' | t }}</p>
+          {%- endif -%}
+          <button class="btn btn--solid" type="submit">{{ 'store.article.post' | t }}</button>
+        {%- endform -%}
+      </section>
+    {%- endif -%}
+
+    <p class="article__back">
+      <a class="link" href="{{ blog.url }}">{{ 'store.article.back' | t: title: blog.title }}</a>
+    </p>
+  </article>
+</div>
+
+{% schema %}
+{
+  "name": "Article",
+  "class": "section-article",
+  "settings": [
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_image",
+      "default": true,
+      "label": "Show featured image"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_author",
+      "default": true,
+      "label": "Show author"
+    }
+  ]
+}
+{% endschema %}

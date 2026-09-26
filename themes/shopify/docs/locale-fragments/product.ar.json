@@ -1,0 +1,87 @@
+{
+  "products": {
+    "product": {
+      "add_to_cart": "أضف إلى السلة",
+      "adding": "جارٍ الإضافة",
+      "added": "تمت الإضافة",
+      "quick_add": "إضافة سريعة",
+      "sold_out": "نفدت الكمية",
+      "unavailable": "غير متوفر",
+      "on_sale": "تخفيض",
+      "quantity": "الكمية",
+      "decrease": "تقليل كمية {{ product }}",
+      "increase": "زيادة كمية {{ product }}",
+      "increments_of": "بمضاعفات {{ step }}",
+      "minimum_of": "الحد الأدنى {{ min }}",
+      "maximum_of": "الحد الأقصى {{ max }}",
+      "taxes_included": "شامل الضرائب.",
+      "duties_included": "شامل الرسوم الجمركية.",
+      "duties_and_taxes_included": "شامل الرسوم الجمركية والضرائب.",
+      "shipping_policy_html": "يُحتسب <a href=\"{{ link }}\">الشحن</a> عند إتمام الطلب."
+    },
+    "price": {
+      "from_html": "ابتداءً من {{ price }}",
+      "regular_price": "السعر الأصلي",
+      "sale_price": "سعر التخفيض",
+      "unit_price": "سعر الوحدة"
+    },
+    "options": {
+      "unavailable": "غير متوفر"
+    },
+    "media": {
+      "gallery": "معرض الوسائط",
+      "thumbnails": "الصور المصغّرة",
+      "slide": "شريحة",
+      "position": "{{ index }} من {{ count }}",
+      "show": "عرض الوسيط {{ index }} في المعرض",
+      "previous": "الوسيط السابق",
+      "next": "الوسيط التالي",
+      "play_video": "تشغيل الفيديو: {{ title }}",
+      "load_model": "تحميل النموذج ثلاثي الأبعاد: {{ title }}",
+      "view_in_space": "اعرضه في مساحتك"
+    },
+    "selling_plans": {
+      "legend": "خيارات الشراء",
+      "one_time": "شراء لمرة واحدة"
+    },
+    "gift_card": {
+      "send_to_recipient": "أريد إرسالها هدية",
+      "email": "البريد الإلكتروني للمستلم",
+      "name": "اسم المستلم (اختياري)",
+      "message": "رسالة (اختياري)",
+      "message_hint": "{{ max }} حرفًا كحد أقصى",
+      "send_on": "تاريخ الإرسال (اختياري)",
+      "send_on_hint": "اتركه فارغًا لإرسالها فور إتمام الطلب."
+    },
+    "pickup": {
+      "available_html": "الاستلام متاح في <strong>{{ location }}</strong>",
+      "unavailable_html": "الاستلام غير متاح حاليًا في <strong>{{ location }}</strong>",
+      "pick_up_available": "الاستلام متاح",
+      "pick_up_unavailable": "الاستلام غير متاح حاليًا",
+      "check_other": "تحقّق من التوفر في متاجر أخرى",
+      "view_details": "عرض معلومات المتجر",
+      "close": "إغلاق"
+    },
+    "notes": {
+      "top": "المقدمة",
+      "heart": "القلب",
+      "base": "القاعدة"
+    },
+    "share": {
+      "copied": "تم نسخ الرابط"
+    },
+    "card": {
+      "vendor": "العلامة:",
+      "quick_add": "أضف إلى السلة",
+      "add_named": "أضف {{ title }} إلى السلة",
+      "choose_options": "اختر الخيارات",
+      "choose_named": "اختر خيارات {{ title }}",
+      "more_options": "{{ count }} خيارات أخرى"
+    },
+    "featured": {
+      "placeholder_eyebrow": "ماء عطر",
+      "placeholder_title": "اسم منتجك",
+      "placeholder_text": "اختر منتجًا لعرضه هنا مع صوره وخياراته وأزرار الشراء."
+    }
+  }
+}

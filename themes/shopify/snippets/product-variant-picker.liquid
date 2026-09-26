@@ -1,0 +1,73 @@
+{%- doc -%}
+  Variant picker: one fieldset of radio buttons per option. Values with a swatch (color or image) show as
+  round swatches; the rest show as pills. Values with no available variant for the current selection are
+  marked (struck through, "Unavailable" for screen readers) but stay selectable. Combined listings: a value
+  that belongs to another product carries its URL and the script navigates there.
+
+  @param {product} product - The product.
+  @param {string} section_id - Section id, for unique input ids.
+  @param {boolean} [show_swatches] - Show swatches when the option values have them. Default true.
+
+  @example
+  {% render 'product-variant-picker', product: product, section_id: section.id %}
+{%- enddoc -%}
+{%- unless product.has_only_default_variant -%}
+  <div class="pdp-options" data-options>
+    {%- for option in product.options_with_values -%}
+      {%- liquid
+        assign option_index = forloop.index0
+        assign has_swatches = false
+        if show_swatches != false
+          for value in option.values
+            if value.swatch
+              assign has_swatches = true
+              break
+            endif
+          endfor
+        endif
+      -%}
+      <fieldset class="pdp-option{% if has_swatches %} pdp-option--swatches{% endif %}" data-option-index="{{ option_index }}">
+        <legend class="pdp-option__legend field__label">
+          {{- option.name | escape -}}
+          <span class="pdp-option__current">: <span data-option-current>{{ option.selected_value | escape }}</span></span>
+        </legend>
+        <div class="pdp-option__values">
+          {%- for value in option.values -%}
+            {%- assign input_id = 'Option-' | append: section_id | append: '-' | append: option.position | append: '-' | append: forloop.index0 -%}
+            <div class="pdp-value{% if has_swatches %} pdp-value--swatch{% else %} pdp-value--pill{% endif %}{% unless value.available %} is-unavailable{% endunless %}">
+              <input
+                type="radio"
+                class="pdp-value__input"
+                id="{{ input_id }}"
+                name="Option-{{ section_id }}-{{ option.position }}"
+                value="{{ value | escape }}"
+                data-option-value
+                {% if value.product_url != blank %}
+                  data-product-url="{{ value.product_url }}"
+                {% endif %}
+                {% if value.variant %}
+                  data-variant-id="{{ value.variant.id }}"
+                {% endif %}
+                {% if value.selected %}
+                  checked
+                {% endif %}
+              >
+              <label class="pdp-value__label" for="{{ input_id }}" {% if has_swatches %}title="{{ value | escape }}"{% endif %}>
+                {%- if has_swatches -%}
+                  {%- render 'swatch', swatch: value.swatch -%}
+                  <span class="visually-hidden">{{ value | escape }}</span>
+                {%- else -%}
+                  <span class="pdp-value__text">{{ value | escape }}</span>
+                {%- endif -%}
+                <span class="visually-hidden" data-unavailable-text {% if value.available %}hidden{% endif %}>
+                  {{- 'products.options.unavailable' | t -}}
+                </span>
+              </label>
+            </div>
+          {%- endfor -%}
+        </div>
+      </fieldset>
+    {%- endfor -%}
+    <p class="visually-hidden" data-options-status aria-live="polite"></p>
+  </div>
+{%- endunless -%}

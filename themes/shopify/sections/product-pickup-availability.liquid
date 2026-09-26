@@ -1,0 +1,14 @@
+{%- comment -%}
+  Not added in the editor. Rendered through the Section Rendering API at /variants/{id}/?section_id=product-pickup-availability
+  so the product page can refresh local pickup availability when the shopper picks another variant.
+{%- endcomment -%}
+{%- render 'product-pickup', variant: product.selected_or_first_available_variant -%}
+
+{% schema %}
+{
+  "name": "Pickup availability",
+  "tag": "div",
+  "class": "pickup-availability-section",
+  "settings": []
+}
+{% endschema %}

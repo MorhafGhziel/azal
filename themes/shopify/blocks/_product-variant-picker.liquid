@@ -1,0 +1,26 @@
+{%- doc -%}
+  Product block: option pickers with swatches (when option values have swatches) or pills.
+{%- enddoc -%}
+{%- assign product = closest.product -%}
+{%- unless product.has_only_default_variant -%}
+  <div class="pdp-block pdp-block--options" {{ block.shopify_attributes }}>
+    {%- render 'product-variant-picker', product: product, section_id: section.id, show_swatches: block.settings.show_swatches -%}
+  </div>
+{%- endunless -%}
+
+{% schema %}
+{
+  "name": "Variant picker",
+  "tag": null,
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "show_swatches",
+      "label": "Show swatches",
+      "default": true,
+      "info": "Uses the swatch color or image set on the option values in Shopify admin."
+    }
+  ],
+  "presets": [{ "name": "Variant picker" }]
+}
+{% endschema %}

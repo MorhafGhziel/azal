@@ -1,0 +1,70 @@
+{#
+  AZAL 04 — Inside the fragrance: the bottle fills layer by layer while each note's ingredients rise.
+  Fields (twilight.json → home.azal-notes): label, title, product, name_top/heart/base, notes_top/heart/base,
+  bottle_top/heart/full (images), tint_top/heart/base (colours).
+#}
+{% set p = component.product is iterable ? component.product|first : component.product %}
+{% set title = component.title ?: (p ? p.name : '') %}
+{% set tints = [component.tint_top ?: '#e9cfc3', component.tint_heart ?: '#b9636a', component.tint_base ?: '#3a1418'] %}
+{% set names = [component.name_top ?: trans('azal.notes.top'), component.name_heart ?: trans('azal.notes.heart'), component.name_base ?: trans('azal.notes.base')] %}
+{% set values = [component.notes_top, component.notes_heart, component.notes_base] %}
+{% set stack = [
+  component.bottle_top ?: 'azal/bottle-no1_top_front.webp'|asset,
+  component.bottle_heart ?: 'azal/bottle-no1_heart_front.webp'|asset,
+  component.bottle_full ?: (p and p.image ? p.image.url : 'azal/bottle-no1_front.webp'|asset)
+] %}
+{# ingredient art: [name, x%, y%, width vw, depth, mobile x%, y%, width vw] #}
+{% set ing = [
+  [['fruit',57,13,8,1,70,20,22],['saffron',33,30,10,2,8,30,26],['pepper',57,64,7,2,72,58,18],['slice',14,56,18,3,-6,60,42]],
+  [['jasmine',57,12,11,1,66,22,28],['rose',40,7,7,1,10,26,18],['rose',15,52,18,3,-8,58,44]],
+  [['amber',34,18,6,1,12,26,16],['oud',58,16,9,1,68,22,24],['amber',57,62,9,2,72,58,22],['oud',12,60,21,3,-6,60,46]]
+] %}
+<div class="az" component-id="{{ componentId }}">
+<section class="notes" id="notes" data-notes data-section="notes" data-tints="{{ tints|join(',') }}">
+  <div class="notes__stage">
+    <div class="notes__tint" data-notes-tint style="background: {{ tints[0] }};"></div>
+    <div class="notes__ing" aria-hidden="true">
+      {% for g in ing %}
+        <div class="ing-group" data-ing="{{ loop.index0 }}">
+          {% for f in g %}
+            <img class="ing ing--d{{ f[4] }}" src="{{ ('azal/note-' ~ f[0] ~ '.webp')|asset }}" alt="" decoding="async" loading="lazy" data-depth="{{ f[4] }}"
+              style="--x:{{ f[1] }}%;--y:{{ f[2] }}%;--w:{{ f[3] }}vw;--xm:{{ f[5] }}%;--ym:{{ f[6] }}%;--wm:{{ f[7] }}vw">
+          {% endfor %}
+        </div>
+      {% endfor %}
+      <div class="notes__petals" data-ing-petals>
+        {% for k in ['a', 'b', 'c', 'a', 'b'] %}<img class="notes__petal notes__petal--{{ loop.index0 }}" src="{{ ('azal/petal-' ~ k ~ '.webp')|asset }}" alt="" loading="lazy">{% endfor %}
+      </div>
+    </div>
+
+    <header class="notes__head">
+      {% if component.label %}<p class="eyebrow">{{ component.label }}</p>{% endif %}
+      <h2 class="notes__title"><span class="ln"><span class="ln__in">{{ title }}</span></span></h2>
+    </header>
+
+    <a class="notes__bottle" href="{{ p ? p.url : store.url }}" data-view aria-label="{{ title }}">
+      <div class="notes__halo" data-halo></div>
+      <span class="notes__stack">
+        {% for src in stack %}<img class="notes__st" data-st="{{ loop.index0 }}" src="{{ src }}" alt="{{ loop.last ? title : '' }}" decoding="async" loading="lazy">{% endfor %}
+      </span>
+    </a>
+
+    <ol class="notes__list">
+      {% for name in names %}
+        <li class="notes__layer" data-layer-i="{{ loop.index0 }}">
+          <span class="notes__n">{{ '%02d'|format(loop.index) }}</span><span class="notes__name">{{ name }}</span><span class="notes__notes">{{ values[loop.index0] }}</span>
+        </li>
+      {% endfor %}
+    </ol>
+
+    {% if p %}
+      <div class="notes__buy" data-buy>
+        <span>{{ p.name }} · {{ p.price|money }}</span>
+        <salla-add-product-button product-id="{{ p.id }}" product-status="{{ p.status }}" product-type="{{ p.type }}" class="az-add">
+          {{ trans('azal.add') }}
+        </salla-add-product-button>
+      </div>
+    {% endif %}
+  </div>
+</section>
+</div>

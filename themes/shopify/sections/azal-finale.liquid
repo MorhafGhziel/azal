@@ -1,0 +1,45 @@
+{%- comment -%} 06 — Finale: the dusk rises back into place and a petal lands on the horizon. {%- endcomment -%}
+{%- liquid
+  assign s = section.settings
+  assign layers = 'sky,far,mid,near' | split: ','
+  assign link = s.link | default: '#top'
+-%}
+<section class="finale" id="finale-{{ section.id }}" data-finale data-section="finale" aria-labelledby="FinaleTitle-{{ section.id }}">
+  <div class="finale__stage">
+    {%- if s.image != blank -%}
+      <div class="finale__layer finale__layer--sky" data-fl="sky">{% render 'scene-picture', image: s.image %}</div>
+    {%- else -%}
+      {%- for l in layers -%}
+        {%- assign d = 'sky-d-dusk_' | append: l | append: '.webp' -%}
+        {%- assign m = 'sky-m-dusk_' | append: l | append: '.webp' -%}
+        <div class="finale__layer finale__layer--{{ l }}" data-fl="{{ l }}">{% render 'scene-picture', d: d, m: m %}</div>
+      {%- endfor -%}
+    {%- endif -%}
+    <div class="finale__copy">
+      <h2 class="finale__title" id="FinaleTitle-{{ section.id }}">
+        <span class="ln"><span class="ln__in">{{ s.top | escape }}</span></span>
+        <span class="ln"><span class="ln__in"><em>{{ s.bottom | escape }}</em></span></span>
+      </h2>
+      {%- if s.cta != blank -%}
+        <a class="pill" href="{{ link }}"{% if link == '#top' %} data-to-top{% endif %}>{{ s.cta | escape }}</a>
+      {%- endif -%}
+    </div>
+    <div class="finale__ground"></div>
+    <img class="finale__petal" data-land src="{{ 'petal-c.webp' | asset_url }}" alt="" decoding="async" loading="lazy" width="120" height="120">
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "t:sections.azal-finale.name",
+  "class": "section-finale",
+  "settings": [
+    { "type": "text", "id": "top", "default": "Wear", "label": "t:sections.azal-finale.settings.top.label" },
+    { "type": "text", "id": "bottom", "default": "what stays.", "label": "t:sections.azal-finale.settings.bottom.label" },
+    { "type": "text", "id": "cta", "default": "Back to the sky", "label": "t:sections.azal-finale.settings.cta.label" },
+    { "type": "url", "id": "link", "label": "t:sections.azal-finale.settings.link.label", "info": "t:sections.azal-finale.settings.link.info" },
+    { "type": "image_picker", "id": "image", "label": "t:sections.azal-finale.settings.image.label", "info": "t:sections.azal-finale.settings.image.info" }
+  ],
+  "presets": [ { "name": "t:sections.azal-finale.presets.name" } ]
+}
+{% endschema %}

@@ -1,0 +1,77 @@
+{%- comment -%} Create an account. {%- endcomment -%}
+<div class="store-section account-section color-{{ section.settings.color_scheme }} full-width">
+  <div class="page page--form store-page account-page">
+    <header class="page__head">
+      <h1 class="page__title" tabindex="-1">
+        <span class="ln"><span class="ln__in">{{ 'store.customer.register.title' | t }}</span></span>
+      </h1>
+    </header>
+    {%- form 'create_customer', novalidate: 'novalidate' -%}
+      {%- render 'store-form-errors', form: form, id: 'RegisterErrors' -%}
+      <div class="field-row">
+        <div class="field">
+          <label class="field__label" for="RegisterFirstName">{{ 'store.customer.fields.first_name' | t }}</label>
+          <input type="text" id="RegisterFirstName" name="customer[first_name]" value="{{ form.first_name }}" autocomplete="given-name">
+        </div>
+        <div class="field">
+          <label class="field__label" for="RegisterLastName">{{ 'store.customer.fields.last_name' | t }}</label>
+          <input type="text" id="RegisterLastName" name="customer[last_name]" value="{{ form.last_name }}" autocomplete="family-name">
+        </div>
+      </div>
+      <div class="field">
+        <label class="field__label" for="RegisterEmail">{{ 'store.customer.fields.email' | t }}</label>
+        <input
+          type="email"
+          id="RegisterEmail"
+          name="customer[email]"
+          value="{{ form.email }}"
+          autocomplete="email"
+          autocorrect="off"
+          autocapitalize="off"
+          required
+          {% if form.errors contains 'email' %}
+            aria-invalid="true"
+            aria-describedby="RegisterEmailError"
+          {% endif %}
+        >
+        {%- if form.errors contains 'email' -%}
+          <p class="field__err" id="RegisterEmailError">{{ form.errors.translated_fields.email | capitalize }} {{ form.errors.messages.email }}</p>
+        {%- endif -%}
+      </div>
+      <div class="field">
+        <label class="field__label" for="RegisterPassword">{{ 'store.customer.fields.password' | t }}</label>
+        <input
+          type="password"
+          id="RegisterPassword"
+          name="customer[password]"
+          autocomplete="new-password"
+          required
+          {% if form.errors contains 'password' %}
+            aria-invalid="true"
+            aria-describedby="RegisterPasswordError"
+          {% endif %}
+        >
+        {%- if form.errors contains 'password' -%}
+          <p class="field__err" id="RegisterPasswordError">{{ form.errors.translated_fields.password | capitalize }} {{ form.errors.messages.password }}</p>
+        {%- endif -%}
+      </div>
+      <button class="btn btn--solid btn--full" type="submit">{{ 'store.customer.register.submit' | t }}</button>
+    {%- endform -%}
+    <p class="acct-alt"><a class="link" href="{{ routes.account_login_url }}">{{ 'store.customer.register.login' | t }}</a></p>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Customer register",
+  "class": "section-customers-register",
+  "settings": [
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    }
+  ]
+}
+{% endschema %}

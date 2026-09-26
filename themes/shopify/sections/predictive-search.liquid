@@ -1,0 +1,149 @@
+{%- comment -%}
+  Predictive search results, fetched by assets/azal-search.js through the Predictive Search API:
+  /search/suggest?q=…&section_id=predictive-search&resources[type]=product,collection,page,article,query
+  Every result is an option (role="option", unique id) in a listbox so the search field can point to it with
+  aria-activedescendant. Links carry tabindex="-1": focus stays in the field, arrows move the active option.
+{%- endcomment -%}
+{%- if predictive_search.performed -%}
+  {%- liquid
+    assign r = predictive_search.resources
+    assign terms = predictive_search.terms
+    assign total = r.products.size | plus: r.collections.size | plus: r.pages.size | plus: r.articles.size | plus: r.queries.size
+    assign has_aside = false
+    if r.queries.size > 0 or r.collections.size > 0 or r.pages.size > 0 or r.articles.size > 0
+      assign has_aside = true
+    endif
+  -%}
+  <div class="ps__body{% if has_aside %} ps__body--aside{% endif %}" data-ps-count="{{ total }}">
+    {%- if total == 0 -%}
+      <p class="ps__empty">{{ 'header.search.no_results' | t: terms: terms }}</p>
+    {%- else -%}
+      {%- if has_aside -%}
+        <div class="ps__col ps__col--aside">
+          {%- if r.queries.size > 0 -%}
+            <div class="ps__group">
+              <h2 class="ps__heading eyebrow" id="PS-h-queries">{{ 'header.search.suggestions' | t }}</h2>
+              <ul class="ps__list ps__list--text" role="listbox" aria-labelledby="PS-h-queries">
+                {%- for query in r.queries -%}
+                  <li class="ps__opt" id="PS-query-{{ forloop.index }}" role="option" aria-selected="false">
+                    <a class="ps__link ps__query" href="{{ query.url }}" tabindex="-1"><span>{{ query.styled_text }}</span></a>
+                  </li>
+                {%- endfor -%}
+              </ul>
+            </div>
+          {%- endif -%}
+
+          {%- if r.collections.size > 0 -%}
+            <div class="ps__group">
+              <h2 class="ps__heading eyebrow" id="PS-h-collections">{{ 'header.search.collections' | t }}</h2>
+              <ul class="ps__list ps__list--text" role="listbox" aria-labelledby="PS-h-collections">
+                {%- for collection in r.collections -%}
+                  <li class="ps__opt" id="PS-collection-{{ forloop.index }}" role="option" aria-selected="false">
+                    <a class="ps__link" href="{{ collection.url }}" tabindex="-1">{{ collection.title | escape }}</a>
+                  </li>
+                {%- endfor -%}
+              </ul>
+            </div>
+          {%- endif -%}
+
+          {%- if r.pages.size > 0 -%}
+            <div class="ps__group">
+              <h2 class="ps__heading eyebrow" id="PS-h-pages">{{ 'header.search.pages' | t }}</h2>
+              <ul class="ps__list ps__list--text" role="listbox" aria-labelledby="PS-h-pages">
+                {%- for page in r.pages -%}
+                  <li class="ps__opt" id="PS-page-{{ forloop.index }}" role="option" aria-selected="false">
+                    <a class="ps__link" href="{{ page.url }}" tabindex="-1">{{ page.title | escape }}</a>
+                  </li>
+                {%- endfor -%}
+              </ul>
+            </div>
+          {%- endif -%}
+
+          {%- if r.articles.size > 0 -%}
+            <div class="ps__group">
+              <h2 class="ps__heading eyebrow" id="PS-h-articles">{{ 'header.search.articles' | t }}</h2>
+              <ul class="ps__list ps__list--text" role="listbox" aria-labelledby="PS-h-articles">
+                {%- for article in r.articles -%}
+                  <li class="ps__opt" id="PS-article-{{ forloop.index }}" role="option" aria-selected="false">
+                    <a class="ps__link" href="{{ article.url }}" tabindex="-1">{{ article.title | escape }}</a>
+                  </li>
+                {%- endfor -%}
+              </ul>
+            </div>
+          {%- endif -%}
+        </div>
+      {%- endif -%}
+
+      {%- if r.products.size > 0 -%}
+        <div class="ps__col ps__col--products">
+          <div class="ps__group">
+            <h2 class="ps__heading eyebrow" id="PS-h-products">{{ 'header.search.products' | t }}</h2>
+            <ul class="ps__list ps__list--products" role="listbox" aria-labelledby="PS-h-products">
+              {%- for product in r.products -%}
+                <li class="ps__opt" id="PS-product-{{ forloop.index }}" role="option" aria-selected="false">
+                  <a class="ps__link ps__product" href="{{ product.url }}" tabindex="-1">
+                    <span class="ps__media">
+                      {%- if product.featured_media -%}
+                        {{
+                          product.featured_media
+                          | image_url: width: 180
+                          | image_tag:
+                            loading: 'lazy',
+                            widths: '60, 120, 180',
+                            sizes: '60px',
+                            class: 'ps__img',
+                            alt: ''
+                        }}
+                      {%- else -%}
+                        {{ 'product-1' | placeholder_svg_tag: 'ps__img ps__img--ph' }}
+                      {%- endif -%}
+                    </span>
+                    <span class="ps__meta">
+                      <span class="ps__title">{{ product.title | escape }}</span>
+                      {%- if settings.predictive_search_show_price -%}
+                        <span class="ps__price">
+                          {%- if product.price_varies -%}
+                            {%- assign price_min = product.price_min | money -%}
+                            {{ 'header.search.price_from' | t: price: price_min }}
+                          {%- else -%}
+                            {{ product.price | money }}
+                          {%- endif -%}
+                          {%- if product.compare_at_price > product.price -%}
+                            <s class="ps__compare">
+                              <span class="visually-hidden">{{ 'header.search.regular_price' | t }}</span>
+                              {{ product.compare_at_price | money -}}
+                            </s>
+                          {%- endif -%}
+                        </span>
+                      {%- endif -%}
+                    </span>
+                  </a>
+                </li>
+              {%- endfor -%}
+            </ul>
+          </div>
+        </div>
+      {%- endif -%}
+    {%- endif -%}
+
+    <ul class="ps__list ps__list--all" role="listbox" aria-label="{{ 'header.search.search_for' | t: terms: terms }}">
+      <li class="ps__opt" id="PS-search-all" role="option" aria-selected="false">
+        <a
+          class="ps__link ps__all"
+          href="{{ routes.search_url }}?q={{ terms | url_encode }}&amp;options%5Bprefix%5D=last"
+          tabindex="-1"
+        >
+          <span>{{ 'header.search.search_for' | t: terms: terms }}</span>
+          {%- render 'header-icon', icon: 'arrow', class: 'ps__all-arrow' -%}
+        </a>
+      </li>
+    </ul>
+  </div>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Predictive search",
+  "settings": []
+}
+{% endschema %}

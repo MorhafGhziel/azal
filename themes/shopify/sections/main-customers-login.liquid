@@ -1,0 +1,122 @@
+{%- comment -%}
+  Sign in, password recovery (shown with #recover) and guest checkout.
+{%- endcomment -%}
+{%- form 'recover_customer_password' -%}
+  {%- assign recover_success = form.posted_successfully? -%}
+  {%- if form.errors -%}{%- assign recover_open = true -%}{%- endif -%}
+{%- endform -%}
+<div class="store-section account-section color-{{ section.settings.color_scheme }} full-width">
+  <div class="page page--form store-page account-page">
+    <div id="recover" class="acct-recover{% if recover_open %} is-open{% endif %}" tabindex="-1" data-recover>
+      <header class="page__head">
+        <h1 class="page__title" tabindex="-1">
+          <span class="ln"><span class="ln__in">{{ 'store.customer.recover.title' | t }}</span></span>
+        </h1>
+        <p class="page__lead">{{ 'store.customer.recover.subtext' | t }}</p>
+      </header>
+      {%- form 'recover_customer_password' -%}
+        {%- render 'store-form-errors', form: form, id: 'RecoverErrors' -%}
+        <div class="field">
+          <label class="field__label" for="RecoverEmail">{{ 'store.customer.fields.email' | t }}</label>
+          <input
+            type="email"
+            id="RecoverEmail"
+            name="email"
+            autocomplete="email"
+            autocorrect="off"
+            autocapitalize="off"
+            required
+            {% if form.errors %}
+              aria-invalid="true"
+              aria-describedby="RecoverErrors"
+              autofocus
+            {% endif %}
+          >
+        </div>
+        <button class="btn btn--solid btn--full" type="submit">{{ 'store.customer.recover.submit' | t }}</button>
+        <p class="acct-alt"><a class="link" href="#login">{{ 'store.customer.recover.cancel' | t }}</a></p>
+      {%- endform -%}
+    </div>
+
+    <div id="login" class="acct-login">
+      <header class="page__head">
+        <h1 class="page__title" tabindex="-1">
+          <span class="ln"><span class="ln__in">{{ 'store.customer.login.title' | t }}</span></span>
+        </h1>
+      </header>
+
+      {%- if recover_success -%}
+        <p class="store-notice" role="status" tabindex="-1" autofocus>
+          {%- render 'cart-icon', icon: 'check' -%}
+          <span>{{ 'store.customer.recover.success' | t }}</span>
+        </p>
+      {%- endif -%}
+
+      {%- form 'customer_login', novalidate: 'novalidate' -%}
+        {%- render 'store-form-errors', form: form, id: 'LoginErrors' -%}
+        <div class="field">
+          <label class="field__label" for="CustomerEmail">{{ 'store.customer.fields.email' | t }}</label>
+          <input
+            type="email"
+            id="CustomerEmail"
+            name="customer[email]"
+            autocomplete="email"
+            autocorrect="off"
+            autocapitalize="off"
+            required
+            {% if form.errors contains 'form' %}
+              aria-invalid="true"
+              aria-describedby="LoginErrors"
+            {% endif %}
+          >
+        </div>
+        {%- if form.password_needed -%}
+          <div class="field">
+            <label class="field__label" for="CustomerPassword">{{ 'store.customer.fields.password' | t }}</label>
+            <input
+              type="password"
+              id="CustomerPassword"
+              name="customer[password]"
+              autocomplete="current-password"
+              required
+              {% if form.errors contains 'form' %}
+                aria-invalid="true"
+                aria-describedby="LoginErrors"
+              {% endif %}
+            >
+          </div>
+          <p class="acct-forgot"><a class="link link--quiet" href="#recover">{{ 'store.customer.login.forgot' | t }}</a></p>
+        {%- endif -%}
+        <button class="btn btn--solid btn--full" type="submit">{{ 'store.customer.login.submit' | t }}</button>
+      {%- endform -%}
+
+      <p class="acct-alt">
+        <a class="link" href="{{ routes.account_register_url }}">{{ 'store.customer.login.create' | t }}</a>
+      </p>
+
+      {%- if shop.checkout.guest_login -%}
+        <div class="acct-guest">
+          <h2 class="eyebrow">{{ 'store.customer.login.guest_title' | t }}</h2>
+          {%- form 'guest_login' -%}
+            <button class="btn btn--line btn--full" type="submit">{{ 'store.customer.login.guest' | t }}</button>
+          {%- endform -%}
+        </div>
+      {%- endif -%}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Customer login",
+  "class": "section-customers-login",
+  "settings": [
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    }
+  ]
+}
+{% endschema %}

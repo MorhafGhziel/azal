@@ -1,0 +1,167 @@
+{%- doc -%}
+  The AZAL product card, as a list item for product grids (collection, search, featured collection,
+  recommendations). The product sits on its own colour (optional metafield custom.background_color).
+  Image ratio and fit follow the theme settings; the second image shows on hover; price shows "From" when
+  prices vary, the compare-at price and unit price; Sale / Sold out badges; up to five color swatches;
+  quick add for single-variant products (handled by assets/azal-cart.js through data-add) or a
+  "Choose options" link. The title link covers the whole card.
+
+  @param {product} product - The product.
+  @param {number} [index] - Position in the grid (0-based). The first three images load eagerly.
+  @param {string} [heading_tag] - Tag for the product title. Default 'h3'.
+  @param {boolean} [show_quick_add] - Allow quick add / choose options. Default: theme setting card_quick_add.
+
+  @example
+  <ul class="grid" role="list">
+    {%- for product in collection.products -%}
+      {% render 'card-product', product: product, index: forloop.index0, heading_tag: 'h2' %}
+    {%- endfor -%}
+  </ul>
+{%- enddoc -%}
+{%- liquid
+  assign h = heading_tag | default: 'h3'
+  assign loading = 'lazy'
+  if index != blank and index < 3
+    assign loading = 'eager'
+  endif
+
+  assign card_bg = product.metafields.custom.background_color.value
+  assign img = product.featured_media.preview_image
+  assign img_2 = nil
+  if settings.card_show_secondary_image and product.media.size > 1
+    assign img_2 = product.media[1].preview_image
+  endif
+
+  case settings.card_image_ratio
+    when 'square'
+      assign ratio = '1'
+    when 'natural'
+      assign ratio = img.aspect_ratio | default: 1
+    else
+      assign ratio = '0.8'
+  endcase
+
+  assign quick_add = settings.card_quick_add
+  if show_quick_add == false
+    assign quick_add = false
+  endif
+  assign single_variant = false
+  if product.has_only_default_variant or product.variants.size == 1
+    assign single_variant = true
+  endif
+  assign first_variant = product.selected_or_first_available_variant
+
+  assign on_sale = false
+  if product.compare_at_price > product.price and product.available
+    assign on_sale = true
+  endif
+
+  assign swatch_option = nil
+  if settings.card_show_swatches
+    for option in product.options_with_values
+      if option.values.first.swatch
+        assign swatch_option = option
+        break
+      endif
+    endfor
+  endif
+  assign card_sizes = '(min-width: 990px) 33vw, (min-width: 560px) 50vw, 100vw'
+  assign img_alt = img.alt | default: product.title
+-%}
+<li
+  class="card card--fit-{{ settings.card_image_fit | default: 'contain' }} card--ratio-{{ settings.card_image_ratio | default: 'portrait' }}{% if img_2 %} card--has-hover{% endif %}"
+  style="--card-ratio: {{ ratio }};{% if card_bg != blank %} --bg: {{ card_bg | escape }};{% endif %}"
+>
+  <div class="card__img">
+    {%- if img -%}
+      {{
+        img
+        | image_url: width: 1200
+        | image_tag:
+          class: 'card__image card__image--main',
+          loading: loading,
+          widths: '300, 450, 600, 800, 1000, 1200',
+          sizes: card_sizes,
+          alt: img_alt
+      }}
+      {%- if img_2 -%}
+        {{
+          img_2
+          | image_url: width: 1200
+          | image_tag:
+            class: 'card__image card__image--hover',
+            loading: 'lazy',
+            widths: '300, 450, 600, 800, 1000, 1200',
+            sizes: card_sizes,
+            alt: ''
+        }}
+      {%- endif -%}
+    {%- else -%}
+      {{ 'product-1' | placeholder_svg_tag: 'card__ph' }}
+    {%- endif -%}
+    <span class="card__sweep" aria-hidden="true"></span>
+    {%- unless product.available -%}
+      <span class="card__badge card__badge--sold-out">{{ 'products.product.sold_out' | t }}</span>
+    {%- else -%}
+      {%- if on_sale -%}
+        <span class="card__badge card__badge--sale">{{ 'products.product.on_sale' | t }}</span>
+      {%- endif -%}
+    {%- endunless -%}
+  </div>
+
+  <div class="card__info">
+    <{{ h }} class="card__name">
+      <a href="{{ product.url }}" class="card__link">{{ product.title | escape }}</a>
+    </{{ h }}>
+    {%- if settings.card_show_vendor and product.vendor != blank -%}
+      <p class="card__char card__vendor">
+        <span class="visually-hidden">{{ 'products.card.vendor' | t }}</span>
+        {{- product.vendor | escape -}}
+      </p>
+    {%- endif -%}
+    <div class="card__price">{% render 'price', product: product %}</div>
+
+    {%- if swatch_option -%}
+      {%- assign swatch_count = swatch_option.values.size -%}
+      <div class="card__swatches">
+        <span class="visually-hidden">{{ swatch_option.name | escape }}:</span>
+        <ul class="card__swatch-list" role="list">
+          {%- for value in swatch_option.values limit: 5 -%}
+            <li class="card__swatch" title="{{ value | escape }}">
+              {%- render 'swatch', swatch: value.swatch -%}
+              <span class="visually-hidden">{{ value | escape }}</span>
+            </li>
+          {%- endfor -%}
+        </ul>
+        {%- if swatch_count > 5 -%}
+          {%- assign more = swatch_count | minus: 5 -%}
+          <span class="card__swatch-more">
+            <span aria-hidden="true">+{{ more }}</span>
+            <span class="visually-hidden">{{ 'products.card.more_options' | t: count: more }}</span>
+          </span>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+
+    {%- if quick_add and product.available -%}
+      {%- if single_variant -%}
+        <button
+          class="card__add link"
+          type="button"
+          data-add="{{ first_variant.id }}"
+          aria-label="{{ 'products.card.add_named' | t: title: product.title | escape }}"
+        >
+          {{- 'products.card.quick_add' | t -}}
+        </button>
+      {%- else -%}
+        <a
+          class="card__add link"
+          href="{{ product.url }}"
+          aria-label="{{ 'products.card.choose_named' | t: title: product.title | escape }}"
+        >
+          {{- 'products.card.choose_options' | t -}}
+        </a>
+      {%- endif -%}
+    {%- endif -%}
+  </div>
+</li>

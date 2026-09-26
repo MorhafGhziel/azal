@@ -1,0 +1,13 @@
+{
+  "current": "Azal",
+  "presets": {
+    "Azal": {
+      "color_schemes": {
+        "scheme-1": { "settings": { "background": "#f4efe7", "foreground": "#1a1614", "surface": "#ece4da", "accent": "#d9a25f", "button": "#1a1614", "button_label": "#fbf3e6", "sale": "#9b2f2a" } },
+        "scheme-2": { "settings": { "background": "#2b0a0e", "foreground": "#fbf3e6", "surface": "#4a1419", "accent": "#e9c6b8", "button": "#fbf3e6", "button_label": "#1a1614", "sale": "#f0a8a0" } },
+        "scheme-3": { "settings": { "background": "#efdcd2", "foreground": "#1a1614", "surface": "#f4efe7", "accent": "#b9636a", "button": "#1a1614", "button_label": "#fbf3e6", "sale": "#9b2f2a" } },
+        "scheme-4": { "settings": { "background": "#3d2c46", "foreground": "#fbf3e6", "surface": "#5b4a6b", "accent": "#e9c6b8", "button": "#fbf3e6", "button_label": "#1a1614", "sale": "#f0a8a0" } }
+      }
+    }
+  }
+}

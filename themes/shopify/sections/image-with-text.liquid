@@ -1,0 +1,35 @@
+<section class="block-sec iwt color-{{ section.settings.color_scheme }}{% if section.settings.flip %} iwt--flip{% endif %}" id="iwt-{{ section.id }}">
+  <div class="iwt__media">
+    {%- if section.settings.image != blank -%}
+      {{ section.settings.image | image_url: width: 1800 | image_tag: loading: 'lazy', widths: '600, 900, 1200, 1800', sizes: '(min-width: 900px) 55vw, 100vw', alt: section.settings.image.alt | default: section.settings.heading }}
+    {%- else -%}
+      {%- render 'scene-picture', d: 'origins-craft_d.webp', m: 'origins-craft_m.webp' -%}
+    {%- endif -%}
+  </div>
+  <div class="iwt__copy">
+    {%- if section.settings.eyebrow != blank -%}<p class="eyebrow">{{ section.settings.eyebrow | escape }}</p>{%- endif -%}
+    <h2 class="rich__title h-l"><span class="ln"><span class="ln__in">{{ section.settings.heading | escape }}</span></span></h2>
+    <div class="rich__text rte">{{ section.settings.text }}</div>
+    {%- if section.settings.button_label != blank -%}
+      <a class="link" href="{{ section.settings.button_link | default: '#' }}">{{ section.settings.button_label | escape }}</a>
+    {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "t:sections.image-with-text.name",
+  "class": "section-iwt",
+  "settings": [
+    { "type": "image_picker", "id": "image", "label": "t:sections.image-with-text.settings.image.label" },
+    { "type": "checkbox", "id": "flip", "default": false, "label": "t:sections.image-with-text.settings.flip.label" },
+    { "type": "color_scheme", "id": "color_scheme", "default": "scheme-1", "label": "t:sections.common.scheme.label" },
+    { "type": "text", "id": "eyebrow", "default": "The craft", "label": "t:sections.image-with-text.settings.eyebrow.label" },
+    { "type": "text", "id": "heading", "default": "Drop by drop", "label": "t:sections.image-with-text.settings.heading.label" },
+    { "type": "richtext", "id": "text", "default": "<p>Copper, steam and time — until a single drop of oil remains.</p>", "label": "t:sections.image-with-text.settings.text.label" },
+    { "type": "text", "id": "button_label", "label": "t:sections.image-with-text.settings.button_label.label" },
+    { "type": "url", "id": "button_link", "label": "t:sections.image-with-text.settings.button_link.label" }
+  ],
+  "presets": [ { "name": "t:sections.image-with-text.presets.name" } ]
+}
+{% endschema %}

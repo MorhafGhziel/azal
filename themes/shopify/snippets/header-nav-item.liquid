@@ -1,0 +1,82 @@
+{%- doc -%}
+  One top-level item of the desktop pill navigation. Items with children become a disclosure: a button with
+  aria-expanded that shows a panel with the second level; third-level links are listed under their parent.
+  Keyboard: Enter/Space toggles, Escape closes and returns focus, focus leaving the item closes it
+  (assets/azal-search.js). Without JavaScript the panel opens on hover and keyboard focus.
+
+  @param {object} link - A top-level link from the header menu
+  @param {string} id - Unique id for the panel
+  @param {string} scheme - Color scheme id for the panel (for example 'scheme-1')
+{%- enddoc -%}
+{%- if link.links.size > 0 -%}
+  <li class="nav__item nav__item--sub" data-dropdown>
+    <button
+      class="nav__link nav__toggle{% if link.active or link.child_active %} is-active{% endif %}"
+      type="button"
+      aria-expanded="false"
+      aria-controls="{{ id }}"
+    >
+      <span>{{ link.title | escape }}</span>
+      {%- render 'header-icon', icon: 'chevron', class: 'nav__chev' -%}
+    </button>
+    <div class="nav__sub color-{{ scheme }}" id="{{ id }}" data-dropdown-panel>
+      <ul class="nav__sub-list{% if link.levels > 1 %} nav__sub-list--cols{% endif %}" role="list">
+        {%- unless link.url == '#' or link.url == blank -%}
+          <li class="nav__sub-item nav__sub-item--all">
+            <a
+              class="nav__sub-link nav__sub-all"
+              href="{{ link.url }}"
+              {% if link.current %}
+                aria-current="page"
+              {% endif %}
+            >
+              {{- 'header.nav.view_all' | t: title: link.title -}}
+            </a>
+          </li>
+        {%- endunless -%}
+        {%- for child in link.links -%}
+          <li class="nav__sub-item">
+            <a
+              class="nav__sub-link{% if child.links.size > 0 %} nav__sub-head{% endif %}"
+              href="{{ child.url }}"
+              {% if child.current %}
+                aria-current="page"
+              {% endif %}
+            >
+              {{- child.title | escape -}}
+            </a>
+            {%- if child.links.size > 0 -%}
+              <ul class="nav__sub-sub" role="list">
+                {%- for grandchild in child.links -%}
+                  <li>
+                    <a
+                      class="nav__sub-link nav__sub-link--small"
+                      href="{{ grandchild.url }}"
+                      {% if grandchild.current %}
+                        aria-current="page"
+                      {% endif %}
+                    >
+                      {{- grandchild.title | escape -}}
+                    </a>
+                  </li>
+                {%- endfor -%}
+              </ul>
+            {%- endif -%}
+          </li>
+        {%- endfor -%}
+      </ul>
+    </div>
+  </li>
+{%- else -%}
+  <li class="nav__item">
+    <a
+      class="nav__link"
+      href="{{ link.url }}"
+      {% if link.current %}
+        aria-current="page"
+      {% endif %}
+    >
+      {{- link.title | escape -}}
+    </a>
+  </li>
+{%- endif -%}

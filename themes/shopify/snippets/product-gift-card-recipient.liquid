@@ -1,0 +1,110 @@
+{%- doc -%}
+  Gift card recipient fields, shown inside the product form of a gift card product. The shopper can send the
+  card to someone by email, with a name, a message and a delivery date. Must be rendered inside
+  {% form 'product' %} so `form` is the product form.
+
+  @param {object} form - The product form object.
+  @param {string} section_id - Section id, for unique ids.
+
+  @example
+  {% render 'product-gift-card-recipient', form: form, section_id: section.id %}
+{%- enddoc -%}
+{%- assign uid = section_id -%}
+<div class="recipient" data-recipient>
+  <div class="recipient__toggle">
+    <input
+      type="checkbox"
+      class="recipient__checkbox"
+      id="Recipient-checkbox-{{ uid }}"
+      name="properties[__shopify_send_gift_card_to_recipient]"
+      value="on"
+      data-recipient-toggle
+      {% if form.email != blank %}
+        checked
+      {% endif %}
+    >
+    <label class="recipient__toggle-label" for="Recipient-checkbox-{{ uid }}">{{ 'products.gift_card.send_to_recipient' | t }}</label>
+  </div>
+
+  <div class="recipient__fields" id="Recipient-fields-{{ uid }}" data-recipient-fields {% if form.email == blank %}hidden{% endif %}>
+    <p class="recipient__errors field__err" role="alert" data-recipient-errors></p>
+
+    <div class="field">
+      <label class="field__label" for="Recipient-email-{{ uid }}">{{ 'products.gift_card.email' | t }}</label>
+      <input
+        type="email"
+        id="Recipient-email-{{ uid }}"
+        name="properties[Recipient email]"
+        value="{{ form.email }}"
+        autocomplete="email"
+        required
+        aria-required="true"
+        aria-describedby="Recipient-email-error-{{ uid }}"
+        {% if form.errors contains 'email' %}
+          aria-invalid="true"
+        {% endif %}
+        data-recipient-field="email"
+        {% if form.email == blank %}
+          disabled
+        {% endif %}
+      >
+      <p class="field__err" id="Recipient-email-error-{{ uid }}" data-recipient-error="email">
+        {%- if form.errors contains 'email' -%}{{ form.errors.messages.email }}{%- endif -%}
+      </p>
+    </div>
+
+    <div class="field">
+      <label class="field__label" for="Recipient-name-{{ uid }}">{{ 'products.gift_card.name' | t }}</label>
+      <input
+        type="text"
+        id="Recipient-name-{{ uid }}"
+        name="properties[Recipient name]"
+        value="{{ form.name }}"
+        autocomplete="name"
+        aria-describedby="Recipient-name-error-{{ uid }}"
+        data-recipient-field="name"
+        {% if form.email == blank %}
+          disabled
+        {% endif %}
+      >
+      <p class="field__err" id="Recipient-name-error-{{ uid }}" data-recipient-error="name"></p>
+    </div>
+
+    <div class="field">
+      <label class="field__label" for="Recipient-message-{{ uid }}">{{ 'products.gift_card.message' | t }}</label>
+      <textarea
+        id="Recipient-message-{{ uid }}"
+        name="properties[Message]"
+        rows="3"
+        maxlength="200"
+        aria-describedby="Recipient-message-hint-{{ uid }} Recipient-message-error-{{ uid }}"
+        data-recipient-field="message"
+        {% if form.email == blank %}
+          disabled
+        {% endif %}
+      >{{ form.message }}</textarea>
+      <p class="field__hint" id="Recipient-message-hint-{{ uid }}">{{ 'products.gift_card.message_hint' | t: max: 200 }}</p>
+      <p class="field__err" id="Recipient-message-error-{{ uid }}" data-recipient-error="message"></p>
+    </div>
+
+    <div class="field">
+      <label class="field__label" for="Recipient-send-on-{{ uid }}">{{ 'products.gift_card.send_on' | t }}</label>
+      <input
+        type="date"
+        id="Recipient-send-on-{{ uid }}"
+        name="properties[Send on]"
+        value="{{ form.send_on }}"
+        pattern="\d{4}-\d{2}-\d{2}"
+        aria-describedby="Recipient-send-on-hint-{{ uid }} Recipient-send-on-error-{{ uid }}"
+        data-recipient-field="send_on"
+        {% if form.email == blank %}
+          disabled
+        {% endif %}
+      >
+      <p class="field__hint" id="Recipient-send-on-hint-{{ uid }}">{{ 'products.gift_card.send_on_hint' | t }}</p>
+      <p class="field__err" id="Recipient-send-on-error-{{ uid }}" data-recipient-error="send_on"></p>
+    </div>
+
+    <input type="hidden" name="properties[__shopify_offset]" value="" data-recipient-offset {% if form.email == blank %}disabled{% endif %}>
+  </div>
+</div>

@@ -1,0 +1,54 @@
+{%- doc -%}
+  Optional gift wrapping (saved as the cart attribute "Gift wrapping") and the order note.
+  Both save in the background through assets/azal-cart.js and also submit with the cart form.
+
+  @param {string} scope - 'page' or 'drawer' (keeps ids unique)
+{%- enddoc -%}
+{%- liquid
+  assign scope = scope | default: 'page'
+  assign form_id = 'CartForm'
+  if scope == 'drawer'
+    assign form_id = 'CartDrawerForm'
+  endif
+-%}
+{%- if settings.cart_gift_wrap or settings.cart_note -%}
+  <div class="cart-extras" data-cart-replace="extras">
+    {%- if settings.cart_gift_wrap -%}
+      <div class="check cart-extras__gift">
+        <input type="hidden" name="attributes[Gift wrapping]" value="" form="{{ form_id }}">
+        <input
+          type="checkbox"
+          id="CartGiftWrap-{{ scope }}"
+          name="attributes[Gift wrapping]"
+          value="Yes"
+          form="{{ form_id }}"
+          data-cart-attr="Gift wrapping"
+          {% if cart.attributes['Gift wrapping'] == 'Yes' %}
+            checked
+          {% endif %}
+        >
+        <label for="CartGiftWrap-{{ scope }}">
+          {%- render 'cart-icon', icon: 'gift' -%}
+          <span>{{ 'store.cart.gift_wrap' | t }}</span>
+        </label>
+      </div>
+    {%- endif -%}
+    {%- if settings.cart_note -%}
+      <details class="cart-note"{% if cart.note != blank or scope == 'page' %} open{% endif %}>
+        <summary class="cart-note__toggle">{{ 'store.cart.note_toggle' | t }}</summary>
+        <div class="gift-msg field cart-note__field">
+          <label class="field__label" for="CartNote-{{ scope }}">{{ 'store.cart.note' | t }}</label>
+          <textarea
+            id="CartNote-{{ scope }}"
+            name="note"
+            form="{{ form_id }}"
+            rows="3"
+            maxlength="500"
+            data-cart-note
+            placeholder="{{ 'store.cart.note_placeholder' | t }}"
+          >{{ cart.note }}</textarea>
+        </div>
+      </details>
+    {%- endif -%}
+  </div>
+{%- endif -%}

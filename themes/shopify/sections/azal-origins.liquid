@@ -1,0 +1,87 @@
+{%- comment -%}
+  03 — Origins: a pinned stage, one chapter per block. Images wipe up, lines rise in their masks.
+  Blank images fall back to the theme's own photography.
+{%- endcomment -%}
+{%- liquid
+  assign defaults = 'land,hand,craft,time' | split: ','
+  assign total = section.blocks.size
+  assign total_pad = total | prepend: '0' | slice: -2, 2
+-%}
+<section class="origins color-{{ section.settings.color_scheme }}" id="story" data-origins data-section="origins" aria-labelledby="OriginsLabel-{{ section.id }}" style="--origins-length: {{ total | times: 80 }}svh;">
+  <div class="origins__stage" data-light>
+    <div class="origins__media">
+      {%- for block in section.blocks -%}
+        {%- assign i = forloop.index0 | modulo: 4 -%}
+        {%- assign fallback = defaults[i] -%}
+        <figure class="origins__img" data-ch-img="{{ forloop.index0 }}" {{ block.shopify_attributes }}>
+          {%- if block.settings.image != blank -%}
+            <picture>
+              {%- if block.settings.image_mobile != blank -%}
+                <source media="(max-aspect-ratio: 1/1)" srcset="{{ block.settings.image_mobile | image_url: width: 1100 }}">
+              {%- endif -%}
+              {{ block.settings.image | image_url: width: 2000 | image_tag: loading: 'lazy', widths: '750, 1100, 1500, 2000', sizes: '(max-aspect-ratio: 1/1) 100vw, 56vw', alt: block.settings.image.alt | default: block.settings.title }}
+            </picture>
+          {%- else -%}
+            {%- assign d = 'origins-' | append: fallback | append: '_d.webp' -%}
+            {%- assign m = 'origins-' | append: fallback | append: '_m.webp' -%}
+            {% render 'scene-picture', d: d, m: m, alt: block.settings.title %}
+          {%- endif -%}
+        </figure>
+      {%- endfor -%}
+    </div>
+    <div class="origins__copy">
+      <p class="eyebrow" id="OriginsLabel-{{ section.id }}">{{ section.settings.label | escape }}</p>
+      <div class="origins__texts">
+        {%- for block in section.blocks -%}
+          {%- assign n = forloop.index | prepend: '0' | slice: -2, 2 -%}
+          <article class="origins__ch" data-ch="{{ forloop.index0 }}">
+            <p class="origins__num"><span class="ln"><span class="ln__in">{{ n }} / {{ total_pad }} · {{ block.settings.name | escape }}</span></span></p>
+            <h2 class="origins__title"><span class="ln"><span class="ln__in">{{ block.settings.title | escape }}</span></span></h2>
+            <p class="origins__line"><span class="ln"><span class="ln__in">{{ block.settings.text | escape }}</span></span></p>
+          </article>
+        {%- endfor -%}
+      </div>
+      <ol class="origins__index" aria-hidden="true">
+        {%- for block in section.blocks -%}
+          <li data-ch-dot="{{ forloop.index0 }}"><span>{{ forloop.index | prepend: '0' | slice: -2, 2 }}</span>{{ block.settings.name | escape }}</li>
+        {%- endfor -%}
+      </ol>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "t:sections.azal-origins.name",
+  "class": "section-origins",
+  "max_blocks": 6,
+  "settings": [
+    { "type": "color_scheme", "id": "color_scheme", "default": "scheme-1", "label": "t:sections.common.scheme.label" },
+    { "type": "text", "id": "label", "default": "03 — Origins", "label": "t:sections.azal-origins.settings.label.label" }
+  ],
+  "blocks": [
+    {
+      "type": "chapter",
+      "name": "t:sections.azal-origins.blocks.chapter.name",
+      "settings": [
+        { "type": "image_picker", "id": "image", "label": "t:sections.azal-origins.blocks.chapter.settings.image.label", "info": "t:sections.azal-origins.blocks.chapter.settings.image.info" },
+        { "type": "image_picker", "id": "image_mobile", "label": "t:sections.azal-origins.blocks.chapter.settings.image_mobile.label" },
+        { "type": "text", "id": "name", "default": "The Land", "label": "t:sections.azal-origins.blocks.chapter.settings.name.label" },
+        { "type": "text", "id": "title", "default": "Where the rose wakes", "label": "t:sections.azal-origins.blocks.chapter.settings.title.label" },
+        { "type": "textarea", "id": "text", "default": "Highland fields, mist still in the valleys, the first light on the petals.", "label": "t:sections.azal-origins.blocks.chapter.settings.text.label" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:sections.azal-origins.presets.name",
+      "blocks": [
+        { "type": "chapter", "settings": { "name": "The Land", "title": "Where the rose wakes", "text": "Highland fields, mist still in the valleys, the first light on the petals." } },
+        { "type": "chapter", "settings": { "name": "The Hand", "title": "Picked before the sun", "text": "By hand, at dawn, while the scent is still held inside the petal." } },
+        { "type": "chapter", "settings": { "name": "The Craft", "title": "Drop by drop", "text": "Copper, steam and time — until a single drop of oil remains." } },
+        { "type": "chapter", "settings": { "name": "The Time", "title": "Oud does not hurry", "text": "Resin that takes years to form, smoke that takes its time to rise." } }
+      ]
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,22 @@
+<section class="block-sec rich color-{{ section.settings.color_scheme }} align-center" id="news-{{ section.id }}">
+  <div class="rich__in">
+    {%- if section.settings.eyebrow != blank -%}<p class="eyebrow">{{ section.settings.eyebrow | escape }}</p>{%- endif -%}
+    <h2 class="rich__title h-l"><span class="ln"><span class="ln__in">{{ section.settings.heading | escape }}</span></span></h2>
+    {%- if section.settings.text != blank -%}<div class="rich__text rte">{{ section.settings.text }}</div>{%- endif -%}
+    {%- render 'home-newsletter-form', id: section.id -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "t:sections.newsletter.name",
+  "class": "section-news",
+  "settings": [
+    { "type": "color_scheme", "id": "color_scheme", "default": "scheme-2", "label": "t:sections.common.scheme.label" },
+    { "type": "text", "id": "eyebrow", "default": "Letters", "label": "t:sections.newsletter.settings.eyebrow.label" },
+    { "type": "text", "id": "heading", "default": "News from the house", "label": "t:sections.newsletter.settings.heading.label" },
+    { "type": "richtext", "id": "text", "default": "<p>New fragrances, first. A few letters a year.</p>", "label": "t:sections.newsletter.settings.text.label" }
+  ],
+  "presets": [ { "name": "t:sections.newsletter.presets.name" } ]
+}
+{% endschema %}

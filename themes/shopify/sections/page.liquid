@@ -1,0 +1,46 @@
+{%- comment -%} A content page: the title rises in its mask, the content follows. {%- endcomment -%}
+<div class="store-section page-section color-{{ section.settings.color_scheme }} full-width">
+  <article class="page page--{{ section.settings.width }} store-page content-page">
+    <header class="page__head">
+      {%- if section.settings.eyebrow != blank -%}
+        <p class="eyebrow">{{ section.settings.eyebrow | escape }}</p>
+      {%- endif -%}
+      <h1 class="page__title" tabindex="-1">
+        <span class="ln"><span class="ln__in">{{ page.title | escape }}</span></span>
+      </h1>
+    </header>
+    {%- if page.content != blank -%}
+      <div class="rte content-page__body">{{ page.content }}</div>
+    {%- endif -%}
+  </article>
+</div>
+
+{% schema %}
+{
+  "name": "Page",
+  "class": "section-page",
+  "settings": [
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow"
+    },
+    {
+      "type": "select",
+      "id": "width",
+      "label": "Content width",
+      "default": "narrow",
+      "options": [
+        { "value": "narrow", "label": "Narrow" },
+        { "value": "wide", "label": "Wide" }
+      ]
+    }
+  ]
+}
+{% endschema %}

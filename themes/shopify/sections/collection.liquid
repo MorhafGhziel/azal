@@ -1,0 +1,173 @@
+{%- comment -%}
+  Collection page: title, description, image (focal point aware), filters and sorting (snippets/facets),
+  the editorial product grid with an optional wide first card, and pagination.
+{%- endcomment -%}
+{%- liquid
+  assign per_page = section.settings.products_per_page
+  assign columns = section.settings.columns_desktop
+-%}
+{%- paginate collection.products by per_page -%}
+  <div
+    class="store-section collection-page color-{{ section.settings.color_scheme }} full-width"
+    data-section-id="{{ section.id }}"
+    data-collection-section
+  >
+    <div class="page store-page">
+      <header class="page__head collection-page__head{% if section.settings.show_image and collection.image %} has-image{% endif %}">
+        <div class="collection-page__copy">
+          {%- if section.settings.eyebrow != blank -%}
+            <p class="eyebrow">{{ section.settings.eyebrow | escape }}</p>
+          {%- endif -%}
+          <h1 class="page__title" tabindex="-1">
+            <span class="ln"><span class="ln__in">{{ collection.title | escape }}</span></span>
+          </h1>
+          {%- if section.settings.show_description and collection.description != blank -%}
+            <div class="page__lead rte collection-page__desc">{{ collection.description }}</div>
+          {%- endif -%}
+        </div>
+        {%- if section.settings.show_image and collection.image -%}
+          <figure class="collection-page__media">
+            {{
+              collection.image
+              | image_url: width: 2000
+              | image_tag:
+                loading: 'eager',
+                fetchpriority: 'high',
+                widths: '480, 720, 960, 1280, 1600, 2000',
+                sizes: '(min-width: 900px) 50vw, 100vw',
+                class: 'collection-page__img',
+                alt: collection.image.alt
+            }}
+          </figure>
+        {%- endif -%}
+      </header>
+
+      {%- if section.settings.enable_filtering or section.settings.enable_sorting -%}
+        {%- render 'facets',
+          results: collection,
+          enable_filtering: section.settings.enable_filtering,
+          enable_sorting: section.settings.enable_sorting,
+          filter_type: 'horizontal',
+          paginate: paginate,
+          section_id: section.id
+        -%}
+      {%- endif -%}
+
+      <div id="ProductGridContainer" class="collection-page__results" data-results>
+        {%- if collection.products.size == 0 -%}
+          <div class="store-empty" role="status">
+            {%- if collection.all_products_count > 0 -%}
+              <p class="store-empty__title">{{ 'store.collection.no_matches' | t }}</p>
+              <a class="link" href="{{ collection.url }}">{{ 'store.collection.clear_filters' | t }}</a>
+            {%- else -%}
+              <p class="store-empty__title">{{ 'store.collection.empty' | t }}</p>
+              <a class="link" href="{{ routes.all_products_collection_url }}">{{ 'store.collection.browse_all' | t }}</a>
+            {%- endif -%}
+          </div>
+        {%- else -%}
+          <ul
+            id="ProductGrid-{{ section.id }}"
+            class="grid collection-grid collection-grid--{{ columns }}{% if section.settings.first_card_wide and paginate.current_page == 1 %} collection-grid--wide-first{% endif %} collection-grid--mobile-{{ section.settings.columns_mobile }}"
+            role="list"
+          >
+            {%- for product in collection.products -%}
+              {%- render 'card-product', product: product, index: forloop.index0, heading_tag: 'h2' -%}
+            {%- endfor -%}
+          </ul>
+        {%- endif -%}
+
+        {%- render 'pagination', paginate: paginate -%}
+      </div>
+    </div>
+  </div>
+{%- endpaginate -%}
+
+{% schema %}
+{
+  "name": "Collection",
+  "class": "section-collection",
+  "settings": [
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "info": "Small text above the collection title."
+    },
+    {
+      "type": "checkbox",
+      "id": "show_description",
+      "default": true,
+      "label": "Show collection description"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_image",
+      "default": true,
+      "label": "Show collection image",
+      "info": "Set the focal point on the image in the admin to control the crop."
+    },
+    {
+      "type": "header",
+      "content": "Product grid"
+    },
+    {
+      "type": "range",
+      "id": "products_per_page",
+      "min": 4,
+      "max": 36,
+      "step": 1,
+      "default": 12,
+      "label": "Products per page"
+    },
+    {
+      "type": "range",
+      "id": "columns_desktop",
+      "min": 2,
+      "max": 4,
+      "step": 1,
+      "default": 3,
+      "label": "Columns on desktop"
+    },
+    {
+      "type": "select",
+      "id": "columns_mobile",
+      "default": "1",
+      "label": "Columns on mobile",
+      "options": [
+        { "value": "1", "label": "1 column" },
+        { "value": "2", "label": "2 columns" }
+      ]
+    },
+    {
+      "type": "checkbox",
+      "id": "first_card_wide",
+      "default": true,
+      "label": "Make first product wide",
+      "info": "Applies to the first page of the collection."
+    },
+    {
+      "type": "header",
+      "content": "Filtering and sorting"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_filtering",
+      "default": true,
+      "label": "Enable filtering",
+      "info": "Customize filters with the Search and Discovery app."
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_sorting",
+      "default": true,
+      "label": "Enable sorting"
+    }
+  ]
+}
+{% endschema %}

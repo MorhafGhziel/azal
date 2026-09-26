@@ -1,0 +1,61 @@
+{%- comment -%} Activate an invited account by choosing a password. {%- endcomment -%}
+<div class="store-section account-section color-{{ section.settings.color_scheme }} full-width">
+  <div class="page page--form store-page account-page">
+    <header class="page__head">
+      <h1 class="page__title" tabindex="-1">
+        <span class="ln"><span class="ln__in">{{ 'store.customer.activate.title' | t }}</span></span>
+      </h1>
+      <p class="page__lead">{{ 'store.customer.activate.subtext' | t }}</p>
+    </header>
+    {%- form 'activate_customer_password' -%}
+      {%- render 'store-form-errors', form: form, id: 'ActivateErrors' -%}
+      <div class="field">
+        <label class="field__label" for="ActivatePassword">{{ 'store.customer.fields.password' | t }}</label>
+        <input
+          type="password"
+          id="ActivatePassword"
+          name="customer[password]"
+          autocomplete="new-password"
+          required
+          {% if form.errors contains 'password' %}
+            aria-invalid="true"
+            aria-describedby="ActivateErrors"
+          {% endif %}
+        >
+      </div>
+      <div class="field">
+        <label class="field__label" for="ActivatePasswordConfirm">{{ 'store.customer.fields.password_confirm' | t }}</label>
+        <input
+          type="password"
+          id="ActivatePasswordConfirm"
+          name="customer[password_confirmation]"
+          autocomplete="new-password"
+          required
+          {% if form.errors contains 'password_confirmation' %}
+            aria-invalid="true"
+            aria-describedby="ActivateErrors"
+          {% endif %}
+        >
+      </div>
+      <div class="acct__actions">
+        <button class="btn btn--solid" type="submit">{{ 'store.customer.activate.submit' | t }}</button>
+        <button class="btn btn--line" type="submit" name="decline">{{ 'store.customer.activate.decline' | t }}</button>
+      </div>
+    {%- endform -%}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Activate account",
+  "class": "section-customers-activate",
+  "settings": [
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    }
+  ]
+}
+{% endschema %}

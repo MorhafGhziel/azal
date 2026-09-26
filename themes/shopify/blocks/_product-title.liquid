@@ -1,0 +1,23 @@
+{%- doc -%}
+  Product block: the product name in the serif display face. It is the page heading (h1) in the main product
+  section; in a featured product section (which has a product setting) it is an h2 linking to the product.
+{%- enddoc -%}
+{%- assign product = closest.product -%}
+{%- if section.settings.product == blank -%}
+  <h1 class="pdp__name" {{ block.shopify_attributes }}>
+    <span class="ln"><span class="ln__in">{{ product.title | escape }}</span></span>
+  </h1>
+{%- else -%}
+  <h2 class="pdp__name pdp__name--featured" {{ block.shopify_attributes }}>
+    <a href="{{ product.url }}"><span class="ln"><span class="ln__in">{{ product.title | escape }}</span></span></a>
+  </h2>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Title",
+  "tag": null,
+  "settings": [],
+  "presets": [{ "name": "Title" }]
+}
+{% endschema %}

@@ -1,0 +1,5 @@
+{# A painted scene layer with its portrait crop for phones. Params: d, m (asset names in azal/), eager #}
+<picture>
+  {% if m %}<source media="(max-aspect-ratio: 1/1)" srcset="{{ ('azal/' ~ m)|asset }}">{% endif %}
+  <img src="{{ ('azal/' ~ d)|asset }}" alt="" decoding="async" loading="{{ eager ? 'eager' : 'lazy' }}" width="2560" height="1440">
+</picture>

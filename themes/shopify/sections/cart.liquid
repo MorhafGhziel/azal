@@ -1,0 +1,80 @@
+{%- comment -%}
+  Cart page. Line items, note, gift wrapping and totals re-render through the Section Rendering API
+  (assets/azal-cart.js) after every quantity change; without JavaScript the form posts to /cart.
+{%- endcomment -%}
+<div class="store-section cart-section color-{{ section.settings.color_scheme }} full-width">
+  <div
+    class="page cart-page store-page"
+    data-cart-page
+    data-section-id="{{ section.id }}"
+    data-cart-empty="{% if cart.item_count == 0 %}true{% else %}false{% endif %}"
+  >
+    <header class="page__head cart-page__head">
+      <h1 class="page__title" tabindex="-1">
+        <span class="ln"><span class="ln__in">{{ 'store.cart.title' | t }}</span></span>
+      </h1>
+      {%- if cart.item_count > 0 -%}
+        <p class="page__lead cart-page__count" data-cart-replace="count">{{ 'store.cart.item_count' | t: count: cart.item_count }}</p>
+      {%- endif -%}
+    </header>
+
+    <p
+      class="visually-hidden"
+      role="status"
+      aria-live="polite"
+      data-cart-live
+      data-msg-updated="{{ 'store.cart.updated' | t | escape }}"
+      data-msg-removed="{{ 'store.cart.removed' | t | escape }}"
+      data-msg-max="{{ 'store.cart.max_reached' | t: quantity: '__N__' | escape }}"
+    ></p>
+    <p class="field__err cart-page__error" role="alert" data-cart-error></p>
+
+    {%- if cart.item_count == 0 -%}
+      {%- render 'cart-lines', scope: 'page' -%}
+    {%- else -%}
+      <form id="CartForm" class="cart-page__form" action="{{ routes.cart_url }}" method="post" novalidate></form>
+      <div class="cart-page__grid">
+        <div class="cart-page__lines" data-cart-replace="lines">
+          {%- render 'cart-lines', scope: 'page' -%}
+        </div>
+        <noscript>
+          <button class="link cart-page__update" type="submit" name="update" form="CartForm">{{ 'store.cart.update' | t }}</button>
+        </noscript>
+
+        <aside class="co__sum cart-page__aside" aria-label="{{ 'store.cart.summary' | t }}">
+          <h2 class="eyebrow cart-page__aside-title">{{ 'store.cart.summary' | t }}</h2>
+          {%- render 'cart-extras', scope: 'page' -%}
+          {%- render 'cart-summary', scope: 'page' -%}
+          {%- if additional_checkout_buttons and section.settings.show_additional_checkout -%}
+            <div class="cart-dyn additional-checkout-buttons" data-cart-dyn>
+              {{ content_for_additional_checkout_buttons }}
+            </div>
+          {%- endif -%}
+          <a class="link link--quiet cart-page__continue" href="{{ routes.all_products_collection_url }}">{{ 'store.cart.continue' | t }}</a>
+        </aside>
+      </div>
+    {%- endif -%}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Cart",
+  "class": "section-cart",
+  "settings": [
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_additional_checkout",
+      "default": true,
+      "label": "Show accelerated checkout buttons",
+      "info": "Buttons such as Shop Pay and Apple Pay appear when set up in your payment settings."
+    }
+  ]
+}
+{% endschema %}

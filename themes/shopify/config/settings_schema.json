@@ -1,0 +1,139 @@
+[
+  {
+    "name": "theme_info",
+    "theme_name": "Azal",
+    "theme_version": "1.0.0",
+    "theme_author": "SIMA",
+    "theme_documentation_url": "https://www.simastudio.it.com/azal/docs",
+    "theme_support_url": "https://www.simastudio.it.com/azal/support"
+  },
+  {
+    "name": "Logo and favicon",
+    "settings": [
+      { "type": "image_picker", "id": "logo", "label": "Logo", "info": "Any aspect ratio. Leave empty to show the emblem." },
+      { "type": "range", "id": "logo_width", "min": 16, "max": 240, "step": 4, "unit": "px", "default": 28, "label": "Logo width" },
+      { "type": "image_picker", "id": "favicon", "label": "Favicon", "info": "Displayed at 32 x 32 px." }
+    ]
+  },
+  {
+    "name": "Colors",
+    "settings": [
+      {
+        "type": "color_scheme_group",
+        "id": "color_schemes",
+        "definition": [
+          { "type": "color", "id": "background", "label": "Background", "default": "#f4efe7" },
+          { "type": "color", "id": "foreground", "label": "Text", "default": "#1a1614" },
+          { "type": "color", "id": "surface", "label": "Product image background", "default": "#ece4da" },
+          { "type": "color", "id": "accent", "label": "Accent", "default": "#d9a25f" },
+          { "type": "color", "id": "button", "label": "Button background", "default": "#1a1614" },
+          { "type": "color", "id": "button_label", "label": "Button label", "default": "#fbf3e6" },
+          { "type": "color", "id": "sale", "label": "Sale price", "default": "#9b2f2a" }
+        ],
+        "role": {
+          "background": "background",
+          "text": "foreground",
+          "primary_button": "button",
+          "on_primary_button": "button_label",
+          "primary_button_border": "button",
+          "secondary_button": "background",
+          "on_secondary_button": "foreground",
+          "secondary_button_border": "foreground",
+          "icons": "foreground",
+          "links": "foreground"
+        }
+      },
+      { "type": "paragraph", "content": "The home page film uses scheme 1 for light grounds and scheme 2 for dark grounds." }
+    ]
+  },
+  {
+    "name": "Typography",
+    "settings": [
+      { "type": "header", "content": "Latin" },
+      { "type": "font_picker", "id": "type_heading_font", "default": "cormorant_n3", "label": "Headings" },
+      { "type": "font_picker", "id": "type_body_font", "default": "instrument_sans_n4", "label": "Body" },
+      { "type": "header", "content": "Arabic" },
+      { "type": "font_picker", "id": "type_heading_font_ar", "default": "amiri_n4", "label": "Headings", "info": "Used when the store language is Arabic." },
+      { "type": "font_picker", "id": "type_body_font_ar", "default": "almarai_n4", "label": "Body", "info": "Used when the store language is Arabic." },
+      { "type": "range", "id": "heading_scale", "min": 80, "max": 130, "step": 5, "unit": "%", "default": 100, "label": "Heading size" }
+    ]
+  },
+  {
+    "name": "Layout",
+    "settings": [
+      { "type": "range", "id": "page_width", "min": 1000, "max": 1800, "step": 50, "unit": "px", "default": 1600, "label": "Page width" },
+      { "type": "range", "id": "button_radius", "min": 0, "max": 40, "step": 2, "unit": "px", "default": 40, "label": "Button corner radius" },
+      { "type": "range", "id": "input_radius", "min": 0, "max": 20, "step": 1, "unit": "px", "default": 0, "label": "Input corner radius" }
+    ]
+  },
+  {
+    "name": "Animations",
+    "settings": [
+      { "type": "paragraph", "content": "Visitors who prefer reduced motion always see still versions of every scene." },
+      { "type": "checkbox", "id": "enable_loader", "default": false, "label": "Show opening loader on home page" },
+      { "type": "checkbox", "id": "enable_smooth_scroll", "default": true, "label": "Enable smooth scrolling" },
+      { "type": "checkbox", "id": "enable_page_transitions", "default": true, "label": "Enable page transitions" },
+      { "type": "checkbox", "id": "enable_cursor", "default": false, "label": "Show custom cursor" },
+      { "type": "checkbox", "id": "enable_petals", "default": true, "label": "Show floating petals" },
+      { "type": "checkbox", "id": "enable_grain", "default": true, "label": "Show film grain" }
+    ]
+  },
+  {
+    "name": "Product cards",
+    "settings": [
+      { "type": "checkbox", "id": "card_show_secondary_image", "default": true, "label": "Show second image on hover" },
+      { "type": "checkbox", "id": "card_show_vendor", "default": false, "label": "Show vendor" },
+      { "type": "checkbox", "id": "card_show_swatches", "default": true, "label": "Show color swatches" },
+      { "type": "checkbox", "id": "card_quick_add", "default": true, "label": "Enable quick add" },
+      {
+        "type": "select", "id": "card_image_ratio", "default": "portrait", "label": "Image ratio",
+        "options": [
+          { "value": "portrait", "label": "Portrait" },
+          { "value": "square", "label": "Square" },
+          { "value": "natural", "label": "Match image" }
+        ]
+      },
+      {
+        "type": "select", "id": "card_image_fit", "default": "contain", "label": "Image fit",
+        "options": [
+          { "value": "contain", "label": "Contain" },
+          { "value": "cover", "label": "Cover" }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Cart",
+    "settings": [
+      {
+        "type": "select", "id": "cart_type", "default": "drawer", "label": "Cart type",
+        "options": [
+          { "value": "drawer", "label": "Drawer" },
+          { "value": "page", "label": "Page" }
+        ]
+      },
+      { "type": "checkbox", "id": "cart_note", "default": true, "label": "Enable order notes" },
+      { "type": "checkbox", "id": "cart_gift_wrap", "default": false, "label": "Offer gift wrapping", "info": "Saved on the order as a cart attribute." }
+    ]
+  },
+  {
+    "name": "Search",
+    "settings": [
+      { "type": "checkbox", "id": "predictive_search_enabled", "default": true, "label": "Enable search suggestions" },
+      { "type": "checkbox", "id": "predictive_search_show_price", "default": true, "label": "Show product prices in suggestions" }
+    ]
+  },
+  {
+    "name": "Social media",
+    "settings": [
+      { "type": "text", "id": "social_instagram_link", "label": "Instagram" },
+      { "type": "text", "id": "social_tiktok_link", "label": "TikTok" },
+      { "type": "text", "id": "social_facebook_link", "label": "Facebook" },
+      { "type": "text", "id": "social_x_link", "label": "X" },
+      { "type": "text", "id": "social_pinterest_link", "label": "Pinterest" },
+      { "type": "text", "id": "social_snapchat_link", "label": "Snapchat" },
+      { "type": "text", "id": "social_youtube_link", "label": "YouTube" },
+      { "type": "text", "id": "social_whatsapp_link", "label": "WhatsApp" }
+    ]
+  }
+]

@@ -1,0 +1,21 @@
+{%- doc -%}
+  Small inline icons for the cart, account and gift card pages. Decorative: always aria-hidden.
+
+  @param {string} icon - 'tag', 'close', 'copy', 'check', 'print', 'wallet', 'gift'
+{%- enddoc -%}
+{%- case icon -%}
+  {%- when 'tag' -%}
+    <svg class="store-icon" viewBox="0 0 16 16" width="12" height="12" aria-hidden="true" focusable="false"><path d="M1.5 8.6V1.5h7.1l5.9 5.9-7.1 7.1z" fill="none" stroke="currentColor"/><circle cx="4.8" cy="4.8" r="1.1" fill="currentColor"/></svg>
+  {%- when 'close' -%}
+    <svg class="store-icon" viewBox="0 0 16 16" width="14" height="14" aria-hidden="true" focusable="false"><path d="M3 3l10 10M13 3L3 13" fill="none" stroke="currentColor" stroke-width="1.2"/></svg>
+  {%- when 'copy' -%}
+    <svg class="store-icon" viewBox="0 0 16 16" width="14" height="14" aria-hidden="true" focusable="false"><rect x="5" y="5" width="9" height="9" fill="none" stroke="currentColor"/><path d="M11 5V2H2v9h3" fill="none" stroke="currentColor"/></svg>
+  {%- when 'check' -%}
+    <svg class="store-icon" viewBox="0 0 16 16" width="14" height="14" aria-hidden="true" focusable="false"><path d="M2.5 8.5l3.5 3.5 7.5-8" fill="none" stroke="currentColor" stroke-width="1.2"/></svg>
+  {%- when 'print' -%}
+    <svg class="store-icon" viewBox="0 0 16 16" width="14" height="14" aria-hidden="true" focusable="false"><path d="M4 6V1.5h8V6M4 12H1.5V6h13v6H12" fill="none" stroke="currentColor"/><rect x="4" y="9.5" width="8" height="5" fill="none" stroke="currentColor"/></svg>
+  {%- when 'wallet' -%}
+    <svg class="store-icon" viewBox="0 0 16 16" width="14" height="14" aria-hidden="true" focusable="false"><rect x="1.5" y="3.5" width="13" height="10" rx="1.5" fill="none" stroke="currentColor"/><path d="M1.5 6.5h13M10.5 10h2" fill="none" stroke="currentColor"/></svg>
+  {%- when 'gift' -%}
+    <svg class="store-icon" viewBox="0 0 16 16" width="14" height="14" aria-hidden="true" focusable="false"><path d="M2 7h12v7.5H2zM1.5 4.5h13V7h-13zM8 4.5v10M8 4.5C6.5 1.5 3.5 2 4.5 4.5M8 4.5c1.5-3 4.5-2.5 3.5 0" fill="none" stroke="currentColor"/></svg>
+{%- endcase -%}

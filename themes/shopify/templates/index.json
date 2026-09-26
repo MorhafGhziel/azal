@@ -1,0 +1,20 @@
+{
+  "sections": {
+    "sky": { "type": "azal-sky", "settings": {} },
+    "origins": {
+      "type": "azal-origins",
+      "blocks": {
+        "land": { "type": "chapter", "settings": { "name": "The Land", "title": "Where the rose wakes", "text": "Highland fields, mist still in the valleys, the first light on the petals." } },
+        "hand": { "type": "chapter", "settings": { "name": "The Hand", "title": "Picked before the sun", "text": "By hand, at dawn, while the scent is still held inside the petal." } },
+        "craft": { "type": "chapter", "settings": { "name": "The Craft", "title": "Drop by drop", "text": "Copper, steam and time — until a single drop of oil remains." } },
+        "time": { "type": "chapter", "settings": { "name": "The Time", "title": "Oud does not hurry", "text": "Resin that takes years to form, smoke that takes its time to rise." } }
+      },
+      "block_order": ["land", "hand", "craft", "time"],
+      "settings": {}
+    },
+    "notes": { "type": "azal-notes", "settings": {} },
+    "collection": { "type": "azal-collection", "settings": {} },
+    "finale": { "type": "azal-finale", "settings": {} }
+  },
+  "order": ["sky", "origins", "notes", "collection", "finale"]
+}

@@ -1,0 +1,87 @@
+{
+  "products": {
+    "product": {
+      "add_to_cart": "Add to cart",
+      "adding": "Adding",
+      "added": "Added",
+      "quick_add": "Quick add",
+      "sold_out": "Sold out",
+      "unavailable": "Unavailable",
+      "on_sale": "Sale",
+      "quantity": "Quantity",
+      "decrease": "Decrease quantity for {{ product }}",
+      "increase": "Increase quantity for {{ product }}",
+      "increments_of": "Increments of {{ step }}",
+      "minimum_of": "Minimum of {{ min }}",
+      "maximum_of": "Maximum of {{ max }}",
+      "taxes_included": "Taxes included.",
+      "duties_included": "Duties included.",
+      "duties_and_taxes_included": "Duties and taxes included.",
+      "shipping_policy_html": "<a href=\"{{ link }}\">Shipping</a> calculated at checkout."
+    },
+    "price": {
+      "from_html": "From {{ price }}",
+      "regular_price": "Regular price",
+      "sale_price": "Sale price",
+      "unit_price": "Unit price"
+    },
+    "options": {
+      "unavailable": "Unavailable"
+    },
+    "media": {
+      "gallery": "Media gallery",
+      "thumbnails": "Media thumbnails",
+      "slide": "slide",
+      "position": "{{ index }} of {{ count }}",
+      "show": "Show media {{ index }} in the gallery",
+      "previous": "Previous media",
+      "next": "Next media",
+      "play_video": "Play video: {{ title }}",
+      "load_model": "Load 3D model: {{ title }}",
+      "view_in_space": "View in your space"
+    },
+    "selling_plans": {
+      "legend": "Purchase options",
+      "one_time": "One-time purchase"
+    },
+    "gift_card": {
+      "send_to_recipient": "I want to send this as a gift",
+      "email": "Recipient email",
+      "name": "Recipient name (optional)",
+      "message": "Message (optional)",
+      "message_hint": "{{ max }} characters maximum",
+      "send_on": "Send on (optional)",
+      "send_on_hint": "Leave empty to send it right after checkout."
+    },
+    "pickup": {
+      "available_html": "Pickup available at <strong>{{ location }}</strong>",
+      "unavailable_html": "Pickup currently unavailable at <strong>{{ location }}</strong>",
+      "pick_up_available": "Pickup available",
+      "pick_up_unavailable": "Pickup currently unavailable",
+      "check_other": "Check availability at other stores",
+      "view_details": "View store information",
+      "close": "Close"
+    },
+    "notes": {
+      "top": "Top",
+      "heart": "Heart",
+      "base": "Base"
+    },
+    "share": {
+      "copied": "Link copied"
+    },
+    "card": {
+      "vendor": "Vendor:",
+      "quick_add": "Add to cart",
+      "add_named": "Add {{ title }} to cart",
+      "choose_options": "Choose options",
+      "choose_named": "Choose options for {{ title }}",
+      "more_options": "{{ count }} more options"
+    },
+    "featured": {
+      "placeholder_eyebrow": "Eau de parfum",
+      "placeholder_title": "Your product's name",
+      "placeholder_text": "Choose a product to feature it here, with its images, options and buy buttons."
+    }
+  }
+}

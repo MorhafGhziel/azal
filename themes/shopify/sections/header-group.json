@@ -1,0 +1,45 @@
+{
+  "type": "header",
+  "name": "Header group",
+  "sections": {
+    "announcement-bar": {
+      "type": "announcement-bar",
+      "disabled": true,
+      "blocks": {
+        "announcement-1": {
+          "type": "announcement",
+          "settings": {
+            "text": "Complimentary gift wrapping on every order",
+            "link": ""
+          }
+        },
+        "announcement-2": {
+          "type": "announcement",
+          "settings": {
+            "text": "Free samples with every bottle",
+            "link": ""
+          }
+        }
+      },
+      "block_order": ["announcement-1", "announcement-2"],
+      "settings": {
+        "color_scheme": "scheme-2",
+        "autorotate": true,
+        "speed": 5
+      }
+    },
+    "header": {
+      "type": "header",
+      "settings": {
+        "menu": "main-menu",
+        "split_menu": true,
+        "customer_account_menu": "customer-account-main-menu",
+        "color_scheme": "scheme-1",
+        "ink_on_home": false,
+        "show_country_selector": true,
+        "show_language_selector": true
+      }
+    }
+  },
+  "order": ["announcement-bar", "header"]
+}

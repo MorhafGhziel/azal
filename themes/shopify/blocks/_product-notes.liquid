@@ -1,0 +1,48 @@
+{%- doc -%}
+  Product block: the fragrance pyramid (top, heart, base). Optional: reads the product metafields
+  custom.notes_top, custom.notes_heart and custom.notes_base, and renders nothing when all are empty.
+{%- enddoc -%}
+{%- liquid
+  assign product = closest.product
+  assign top = product.metafields.custom.notes_top.value
+  assign heart = product.metafields.custom.notes_heart.value
+  assign base = product.metafields.custom.notes_base.value
+-%}
+{%- if top != blank or heart != blank or base != blank -%}
+  <div class="pdp-notes" {{ block.shopify_attributes }}>
+    {%- if block.settings.heading != blank -%}
+      <h2 class="eyebrow pdp__h">{{ block.settings.heading | escape }}</h2>
+    {%- endif -%}
+    <ol class="pdp__notes">
+      {%- if top != blank -%}
+        <li><span class="notes__n" aria-hidden="true">01</span><span class="notes__name">{{ 'products.notes.top' | t }}</span><span>{{ top | escape }}</span></li>
+      {%- endif -%}
+      {%- if heart != blank -%}
+        <li><span class="notes__n" aria-hidden="true">02</span><span class="notes__name">{{ 'products.notes.heart' | t }}</span><span>{{ heart | escape }}</span></li>
+      {%- endif -%}
+      {%- if base != blank -%}
+        <li><span class="notes__n" aria-hidden="true">03</span><span class="notes__name">{{ 'products.notes.base' | t }}</span><span>{{ base | escape }}</span></li>
+      {%- endif -%}
+    </ol>
+  </div>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Fragrance notes",
+  "tag": null,
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Notes"
+    },
+    {
+      "type": "paragraph",
+      "content": "Shows the product metafields custom.notes_top, custom.notes_heart and custom.notes_base (single line text). Hidden when they are empty."
+    }
+  ],
+  "presets": [{ "name": "Fragrance notes" }]
+}
+{% endschema %}

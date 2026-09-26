@@ -1,0 +1,367 @@
+{%- comment -%}
+  AZAL header: a floating pill, menu links split around the centered emblem (or logo). Cream over the home
+  film, ink on inner pages; azal-home.js toggles .nav--ink over light home sections via [data-nav].
+  Desktop: multi-level dropdowns (snippets/header-nav-item). Phone: full-screen menu with nested accordions.
+  Search opens the predictive search dialog (assets/azal-search.js, sections/predictive-search.liquid).
+{%- endcomment -%}
+{%- liquid
+  assign menu = section.settings.menu
+  assign links = menu.links
+  assign n = links.size
+  assign half = n | plus: 1 | divided_by: 2
+  unless section.settings.split_menu
+    assign half = n
+  endunless
+  assign scheme = section.settings.color_scheme
+
+  assign show_country = false
+  if section.settings.show_country_selector and localization.available_countries.size > 1
+    assign show_country = true
+  endif
+  assign show_language = false
+  if section.settings.show_language_selector and localization.available_languages.size > 1
+    assign show_language = true
+  endif
+-%}
+<header class="nav{% if section.settings.ink_on_home %} nav--ink-home{% endif %}" data-nav data-header>
+  <nav class="nav__pill" aria-label="{{ 'header.nav.label' | t }}">
+    <div class="nav__side nav__side--start">
+      <button
+        class="nav__link nav__menu"
+        type="button"
+        data-menu-open
+        aria-expanded="false"
+        aria-controls="Menu"
+      >
+        {{- 'header.nav.menu' | t -}}
+      </button>
+      {%- if n > 0 and half > 0 -%}
+        <ul class="nav__list nav__wide" role="list">
+          {%- for link in links limit: half -%}
+            {%- assign sub_id = 'NavSub-' | append: forloop.index -%}
+            {%- render 'header-nav-item', link: link, id: sub_id, scheme: scheme -%}
+          {%- endfor -%}
+        </ul>
+      {%- endif -%}
+    </div>
+
+    <a class="nav__mark{% if settings.logo != blank %} nav__mark--logo{% endif %}" href="{{ routes.root_url }}">
+      {%- if settings.logo != blank -%}
+        {%- liquid
+          assign logo_w = settings.logo_width
+          assign logo_w2 = logo_w | times: 2
+          assign logo_w3 = logo_w | times: 3
+          assign logo_widths = logo_w | append: ', ' | append: logo_w2 | append: ', ' | append: logo_w3
+          assign logo_sizes = logo_w | append: 'px'
+          assign logo_style = '--logo-w: ' | append: logo_w | append: 'px'
+        -%}
+        {{
+          settings.logo
+          | image_url: width: logo_w3
+          | image_tag:
+            class: 'nav__logo',
+            widths: logo_widths,
+            sizes: logo_sizes,
+            loading: 'eager',
+            style: logo_style,
+            alt: shop.name
+        }}
+      {%- else -%}
+        <svg viewBox="0 0 40 56" aria-hidden="true" focusable="false"><use href="#emblem" /></svg>
+        <span class="visually-hidden">{{ shop.name | escape }}</span>
+      {%- endif -%}
+    </a>
+
+    <div class="nav__side nav__side--end">
+      {%- if n > half -%}
+        <ul class="nav__list nav__wide" role="list">
+          {%- for link in links offset: half -%}
+            {%- assign idx = forloop.index | plus: half -%}
+            {%- assign sub_id = 'NavSub-' | append: idx -%}
+            {%- render 'header-nav-item', link: link, id: sub_id, scheme: scheme -%}
+          {%- endfor -%}
+        </ul>
+      {%- endif -%}
+
+      <a
+        class="nav__link nav__icon-btn nav__search"
+        href="{{ routes.search_url }}"
+        data-search-open
+        aria-haspopup="dialog"
+      >
+        {%- render 'header-icon', icon: 'search' -%}
+        <span class="visually-hidden">{{ 'header.nav.search' | t }}</span>
+      </a>
+
+      {%- if show_country or show_language -%}
+        <div class="nav__loc nav__wide">
+          {%- if show_country -%}
+            {%- render 'localization-country', id: 'HeaderCountry', class: 'loc--nav' -%}
+          {%- endif -%}
+          {%- if show_language -%}
+            {%- render 'localization-language', id: 'HeaderLanguage', class: 'loc--nav' -%}
+          {%- endif -%}
+        </div>
+      {%- endif -%}
+
+      {%- if shop.customer_accounts_enabled -%}
+        <shopify-account class="nav__account" menu="{{ section.settings.customer_account_menu }}">
+          <span class="nav__account-avatar" slot="signed-out-avatar">
+            {%- render 'header-icon', icon: 'account' -%}
+            <span class="visually-hidden">{{ 'header.nav.account' | t }}</span>
+          </span>
+        </shopify-account>
+      {%- endif -%}
+
+      <a
+        class="nav__link nav__bag"
+        href="{{ routes.cart_url }}"
+        data-bag
+        aria-label="{{ 'header.nav.bag_count' | t: count: cart.item_count }}"
+      >
+        <span class="nav__bag-word">{{ 'header.nav.bag' | t }}</span>
+        <span class="nav__count">(<span class="tick" data-bag-count><span>{{ cart.item_count }}</span></span>)</span>
+      </a>
+    </div>
+  </nav>
+</header>
+
+{%- comment -%} Phone menu: opened by [data-menu-open] (assets/azal.js), accordions + focus trap in azal-search.js {%- endcomment -%}
+<div
+  class="menu mm color-{{ scheme }}"
+  id="Menu"
+  data-menu
+  role="dialog"
+  aria-modal="true"
+  aria-label="{{ 'header.nav.menu' | t }}"
+  hidden
+>
+  <button class="menu__x nav__link" type="button" data-menu-close>
+    {{- 'header.nav.close' | t -}}
+  </button>
+  <div class="mm__inner">
+    <nav class="mm__nav" aria-label="{{ 'header.nav.label' | t }}">
+      <ul class="mm__list menu__list" role="list">
+        {%- for link in links -%}
+          {%- assign l1 = forloop.index -%}
+          <li class="mm__item">
+            {%- if link.links.size > 0 -%}
+              <button
+                class="mm__toggle mm__l1"
+                type="button"
+                aria-expanded="false"
+                aria-controls="MM-{{ l1 }}"
+                data-accordion
+              >
+                <span>{{ link.title | escape }}</span>
+                {%- render 'header-icon', icon: 'plus', class: 'mm__plus' -%}
+              </button>
+              <div class="mm__panel" id="MM-{{ l1 }}" hidden>
+                <ul class="mm__sub" role="list">
+                  {%- unless link.url == '#' or link.url == blank -%}
+                    <li>
+                      <a class="mm__l2" href="{{ link.url }}">{{ 'header.nav.view_all' | t: title: link.title }}</a>
+                    </li>
+                  {%- endunless -%}
+                  {%- for child in link.links -%}
+                    <li>
+                      {%- if child.links.size > 0 -%}
+                        <button
+                          class="mm__toggle mm__l2"
+                          type="button"
+                          aria-expanded="false"
+                          aria-controls="MM-{{ l1 }}-{{ forloop.index }}"
+                          data-accordion
+                        >
+                          <span>{{ child.title | escape }}</span>
+                          {%- render 'header-icon', icon: 'plus', class: 'mm__plus' -%}
+                        </button>
+                        <div class="mm__panel" id="MM-{{ l1 }}-{{ forloop.index }}" hidden>
+                          <ul class="mm__sub mm__sub--3" role="list">
+                            {%- unless child.url == '#' or child.url == blank -%}
+                              <li>
+                                <a class="mm__l3" href="{{ child.url }}">
+                                  {{- 'header.nav.view_all' | t: title: child.title -}}
+                                </a>
+                              </li>
+                            {%- endunless -%}
+                            {%- for grandchild in child.links -%}
+                              <li>
+                                <a
+                                  class="mm__l3"
+                                  href="{{ grandchild.url }}"
+                                  {% if grandchild.current %}
+                                    aria-current="page"
+                                  {% endif %}
+                                >
+                                  {{- grandchild.title | escape -}}
+                                </a>
+                              </li>
+                            {%- endfor -%}
+                          </ul>
+                        </div>
+                      {%- else -%}
+                        <a
+                          class="mm__l2"
+                          href="{{ child.url }}"
+                          {% if child.current %}
+                            aria-current="page"
+                          {% endif %}
+                        >
+                          {{- child.title | escape -}}
+                        </a>
+                      {%- endif -%}
+                    </li>
+                  {%- endfor -%}
+                </ul>
+              </div>
+            {%- else -%}
+              <a
+                class="mm__l1"
+                href="{{ link.url }}"
+                {% if link.current %}
+                  aria-current="page"
+                {% endif %}
+              >
+                {{- link.title | escape -}}
+              </a>
+            {%- endif -%}
+          </li>
+        {%- endfor -%}
+      </ul>
+    </nav>
+
+    <div class="mm__utility">
+      <a class="link link--quiet mm__search" href="{{ routes.search_url }}" data-search-open aria-haspopup="dialog">
+        {{- 'header.nav.search' | t -}}
+      </a>
+      {%- if show_country or show_language -%}
+        <div class="mm__loc">
+          {%- if show_country -%}
+            {%- render 'localization-country', id: 'MenuCountry', class: 'loc--menu', placement: 'up' -%}
+          {%- endif -%}
+          {%- if show_language -%}
+            {%- render 'localization-language', id: 'MenuLanguage', class: 'loc--menu', placement: 'up' -%}
+          {%- endif -%}
+        </div>
+      {%- endif -%}
+    </div>
+  </div>
+</div>
+
+{%- comment -%} Search dialog: predictive search via the Predictive Search API (sections/predictive-search.liquid) {%- endcomment -%}
+<dialog
+  class="search-dialog color-{{ scheme }}"
+  id="SearchDialog"
+  aria-label="{{ 'header.search.dialog_label' | t }}"
+  data-search-dialog
+>
+  <div class="search-dialog__inner">
+    <form
+      class="search-dialog__form"
+      action="{{ routes.search_url }}"
+      method="get"
+      role="search"
+      data-ps-form
+    >
+      <label class="visually-hidden" for="SearchDialogInput">{{ 'header.search.label' | t }}</label>
+      {%- render 'header-icon', icon: 'search', class: 'search-dialog__glyph' -%}
+      <input
+        class="search-dialog__input"
+        id="SearchDialogInput"
+        type="search"
+        name="q"
+        value="{{ search.terms | escape }}"
+        placeholder="{{ 'header.search.placeholder' | t }}"
+        autocomplete="off"
+        autocorrect="off"
+        autocapitalize="off"
+        spellcheck="false"
+        {% if settings.predictive_search_enabled %}
+          role="combobox"
+          aria-autocomplete="list"
+          aria-expanded="false"
+          aria-controls="PredictiveSearchResults"
+          aria-haspopup="listbox"
+        {% endif %}
+        data-ps-input
+      >
+      <input type="hidden" name="options[prefix]" value="last">
+      <button class="search-dialog__submit link" type="submit">{{ 'header.search.submit' | t }}</button>
+      <button class="search-dialog__close" type="button" data-search-close>
+        {%- render 'header-icon', icon: 'close' -%}
+        <span class="visually-hidden">{{ 'header.search.close' | t }}</span>
+      </button>
+    </form>
+    <div class="ps" id="PredictiveSearchResults" data-ps-results></div>
+    <p
+      class="visually-hidden"
+      role="status"
+      aria-live="polite"
+      data-ps-status
+      data-template="{{ 'header.search.results_status' | t: count: '__N__' | escape }}"
+    ></p>
+  </div>
+</dialog>
+
+{% schema %}
+{
+  "name": "Header",
+  "class": "section-header",
+  "enabled_on": { "groups": ["header"] },
+  "settings": [
+    {
+      "type": "link_list",
+      "id": "menu",
+      "default": "main-menu",
+      "label": "Menu",
+      "info": "Supports up to three levels. Items with sub-links open a dropdown."
+    },
+    {
+      "type": "checkbox",
+      "id": "split_menu",
+      "default": true,
+      "label": "Split menu around the logo",
+      "info": "When off, all links sit to the left of the logo."
+    },
+    {
+      "type": "link_list",
+      "id": "customer_account_menu",
+      "default": "customer-account-main-menu",
+      "label": "Customer account menu",
+      "info": "Shown in the account sheet when customer accounts are turned on."
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "default": "scheme-1",
+      "label": "Dropdown, menu and search color scheme"
+    },
+    {
+      "type": "checkbox",
+      "id": "ink_on_home",
+      "default": false,
+      "label": "Use dark text on the home page",
+      "info": "Turn on when the first home section has a light background."
+    },
+    {
+      "type": "header",
+      "content": "Country, currency and language"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_country_selector",
+      "default": true,
+      "label": "Show country/region selector",
+      "info": "Shown when more than one market country is active. [Manage markets](/admin/settings/markets)"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_language_selector",
+      "default": true,
+      "label": "Show language selector",
+      "info": "Shown when more than one language is published. [Manage languages](/admin/settings/languages)"
+    }
+  ]
+}
+{% endschema %}

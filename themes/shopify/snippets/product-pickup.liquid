@@ -1,0 +1,71 @@
+{%- doc -%}
+  Local pickup availability for a variant: the closest location in one line, and a dialog listing every
+  location. Rendered in the product page and re-rendered by sections/product-pickup-availability.liquid
+  when the shopper changes variant.
+
+  @param {variant} variant - The variant to check.
+
+  @example
+  {% render 'product-pickup', variant: product.selected_or_first_available_variant %}
+{%- enddoc -%}
+{%- assign pick_up_availabilities = variant.store_availabilities | where: 'pick_up_enabled', true -%}
+{%- if pick_up_availabilities.size > 0 -%}
+  {%- assign closest = pick_up_availabilities.first -%}
+  <div class="pickup" data-pickup-content>
+    <span class="pickup__icon">
+      {%- if closest.available -%}{%- render 'product-icon', icon: 'check' -%}{%- else -%}{%- render 'product-icon', icon: 'pin' -%}{%- endif -%}
+    </span>
+    <div class="pickup__body">
+      {%- if closest.available -%}
+        <p class="pickup__line">{{ 'products.pickup.available_html' | t: location: closest.location.name }}</p>
+        <p class="pickup__time muted">{{ closest.pick_up_time }}</p>
+      {%- else -%}
+        <p class="pickup__line">{{ 'products.pickup.unavailable_html' | t: location: closest.location.name }}</p>
+      {%- endif -%}
+      <button type="button" class="pickup__open link link--quiet" data-pickup-open aria-haspopup="dialog">
+        {%- if pick_up_availabilities.size > 1 -%}
+          {{ 'products.pickup.check_other' | t }}
+        {%- else -%}
+          {{ 'products.pickup.view_details' | t }}
+        {%- endif -%}
+      </button>
+    </div>
+
+    <dialog class="pickup__dialog" data-pickup-dialog aria-labelledby="PickupTitle-{{ variant.id }}">
+      <div class="pickup__dialog-head">
+        <div>
+          <h2 class="pickup__dialog-title" id="PickupTitle-{{ variant.id }}">{{ variant.product.title | escape }}</h2>
+          {%- unless variant.product.has_only_default_variant -%}
+            <p class="muted">{{ variant.title | escape }}</p>
+          {%- endunless -%}
+        </div>
+        <button type="button" class="pickup__close" data-pickup-close aria-label="{{ 'products.pickup.close' | t }}">
+          {%- render 'product-icon', icon: 'close' -%}
+        </button>
+      </div>
+      <ul class="pickup__list" role="list">
+        {%- for availability in pick_up_availabilities -%}
+          <li class="pickup__loc">
+            <h3 class="pickup__loc-name">{{ availability.location.name | escape }}</h3>
+            <p class="pickup__loc-status">
+              {%- if availability.available -%}
+                {%- render 'product-icon', icon: 'check' -%}
+                {{ 'products.pickup.pick_up_available' | t }}, {{ availability.pick_up_time | downcase }}
+              {%- else -%}
+                {{ 'products.pickup.pick_up_unavailable' | t }}
+              {%- endif -%}
+            </p>
+            {%- assign address = availability.location.address -%}
+            <address class="pickup__address">
+              {%- if address.address1 != blank %}{{ address.address1 | escape }}<br>{% endif -%}
+              {%- if address.address2 != blank %}{{ address.address2 | escape }}<br>{% endif -%}
+              {%- if address.city != blank or address.zip != blank %}{{ address.city | escape }} {{ address.province_code | escape }} {{ address.zip | escape }}<br>{% endif -%}
+              {%- if address.country != blank %}{{ address.country | escape }}<br>{% endif -%}
+              {%- if address.phone != blank %}{{ address.phone | escape }}{% endif -%}
+            </address>
+          </li>
+        {%- endfor -%}
+      </ul>
+    </dialog>
+  </div>
+{%- endif -%}

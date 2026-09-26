@@ -1,0 +1,113 @@
+{%- comment -%} Contact form: name, email, phone and message, each labelled; success and errors are announced. {%- endcomment -%}
+{%- assign fid = section.id -%}
+<div class="store-section contact-section color-{{ section.settings.color_scheme }} full-width">
+  <div class="page page--narrow store-page contact">
+    {%- if section.settings.heading != blank or section.settings.text != blank -%}
+      <header class="page__head contact__head">
+        {%- if section.settings.heading != blank -%}
+          <h2 class="page__title contact__title">
+            <span class="ln"><span class="ln__in">{{ section.settings.heading | escape }}</span></span>
+          </h2>
+        {%- endif -%}
+        {%- if section.settings.text != blank -%}
+          <div class="page__lead rte">{{ section.settings.text }}</div>
+        {%- endif -%}
+      </header>
+    {%- endif -%}
+
+    {%- assign form_id = 'ContactForm-' | append: fid -%}
+    {%- form 'contact', id: form_id, class: 'contact__form' -%}
+      {%- if form.posted_successfully? -%}
+        <p class="store-notice" role="status" tabindex="-1" autofocus>
+          {%- render 'cart-icon', icon: 'check' -%}
+          <span>{{ 'store.contact.success' | t }}</span>
+        </p>
+      {%- endif -%}
+      {%- assign errors_id = 'ContactErrors-' | append: fid -%}
+      {%- render 'store-form-errors', form: form, id: errors_id -%}
+
+      <div class="field-row">
+        <div class="field">
+          <label class="field__label" for="ContactName-{{ fid }}">{{ 'store.contact.name' | t }}</label>
+          <input
+            type="text"
+            id="ContactName-{{ fid }}"
+            name="contact[{{ 'store.contact.name' | t }}]"
+            value="{% if form.name %}{{ form.name }}{% elsif customer %}{{ customer.name }}{% endif %}"
+            autocomplete="name"
+          >
+        </div>
+        <div class="field">
+          <label class="field__label" for="ContactEmail-{{ fid }}">
+            {{- 'store.contact.email' | t }} <span aria-hidden="true">*</span>
+            <span class="visually-hidden">{{ 'store.forms.required' | t }}</span>
+          </label>
+          <input
+            type="email"
+            id="ContactEmail-{{ fid }}"
+            name="contact[email]"
+            value="{% if form.email %}{{ form.email }}{% elsif customer %}{{ customer.email }}{% endif %}"
+            autocomplete="email"
+            autocorrect="off"
+            autocapitalize="off"
+            spellcheck="false"
+            required
+            aria-required="true"
+            {% if form.errors contains 'email' %}
+              aria-invalid="true"
+              aria-describedby="{{ errors_id }}"
+            {% endif %}
+          >
+        </div>
+      </div>
+      <div class="field">
+        <label class="field__label" for="ContactPhone-{{ fid }}">{{ 'store.contact.phone' | t }}</label>
+        <input
+          type="tel"
+          id="ContactPhone-{{ fid }}"
+          name="contact[{{ 'store.contact.phone' | t }}]"
+          value="{% if form.phone %}{{ form.phone }}{% elsif customer %}{{ customer.phone }}{% endif %}"
+          autocomplete="tel"
+          pattern="[0-9\-\+\s\(\)]*"
+        >
+      </div>
+      <div class="field">
+        <label class="field__label" for="ContactBody-{{ fid }}">{{ 'store.contact.message' | t }}</label>
+        <textarea id="ContactBody-{{ fid }}" name="contact[body]" rows="6">{{ form.body }}</textarea>
+      </div>
+      <button class="btn btn--solid" type="submit">{{ 'store.contact.send' | t }}</button>
+    {%- endform -%}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Contact form",
+  "class": "section-contact-form",
+  "settings": [
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "default": "Write to the house",
+      "label": "Heading"
+    },
+    {
+      "type": "richtext",
+      "id": "text",
+      "label": "Text",
+      "default": "<p>Questions about a fragrance, an order or a gift. We answer within two working days.</p>"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Contact form"
+    }
+  ]
+}
+{% endschema %}

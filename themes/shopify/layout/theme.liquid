@@ -1,0 +1,146 @@
+{%- liquid
+  assign rtl_langs = 'ar,he,fa,ur' | split: ','
+  assign dir = 'ltr'
+  if rtl_langs contains request.locale.iso_code
+    assign dir = 'rtl'
+  endif
+  assign is_home = false
+  if template.name == 'index'
+    assign is_home = true
+  endif
+-%}
+<!doctype html>
+<html
+  lang="{{ request.locale.iso_code }}"
+  dir="{{ dir }}"
+  class="no-js {% if is_home %}is-home{% else %}is-page{% endif %} template-{{ template.name }}{% if template.suffix %} template-{{ template.name }}--{{ template.suffix }}{% endif %}"
+>
+  <head>
+    {% render 'meta-tags' %}
+    <meta name="theme-color" content="{{ settings.color_schemes['scheme-1'].settings.background }}">
+    {%- if settings.favicon != blank -%}
+      <link rel="icon" type="image/png" href="{{ settings.favicon | image_url: width: 64, height: 64 }}">
+    {%- endif -%}
+
+
+    <style>
+      html { background: {{ settings.color_schemes['scheme-2'].settings.background }}; } body { margin: 0; }
+      .js .loader { position: fixed; inset: 0; z-index: 100; background: {{ settings.color_schemes['scheme-1'].settings.background }}; }
+      .loader__emblem, .nav__mark svg { width: 17px; height: 24px; fill: none; stroke: currentColor; }
+      .loader__emblem { width: 34px; height: 48px; }
+    </style>
+
+    {% render 'css-variables' %}
+    {{ 'critical.css' | asset_url | stylesheet_tag: preload: true }}
+    {%- unless settings.type_body_font.system? -%}<link rel="preconnect" href="https://fonts.shopifycdn.com" crossorigin>{%- endunless -%}
+    {{ 'azal.css' | asset_url | stylesheet_tag: preload: true }}
+    {{ 'azal-shop.css' | asset_url | stylesheet_tag }}
+    {{ 'azal-header.css' | asset_url | stylesheet_tag }}
+    {{ 'azal-product.css' | asset_url | stylesheet_tag }}
+    {{ 'azal-store.css' | asset_url | stylesheet_tag }}
+
+    <script>
+      (function () {
+        var d = document.documentElement;
+        d.classList.remove('no-js');
+        d.classList.add('js');
+        try { if (sessionStorage.getItem('azal-seen')) d.classList.add('seen'); } catch (e) {}
+        if (window.Shopify && Shopify.designMode) d.classList.add('design-mode');
+      })();
+      window.azal = {
+        routes: {
+          root: {{ routes.root_url | json }},
+          cart: {{ routes.cart_url | json }},
+          cartAdd: {{ routes.cart_add_url | json }},
+          cartChange: {{ routes.cart_change_url | json }},
+          cartUpdate: {{ routes.cart_update_url | json }},
+          search: {{ routes.search_url | json }},
+          predictiveSearch: {{ routes.predictive_search_url | json }}
+        },
+        settings: {
+          cartType: {{ settings.cart_type | json }},
+          loader: {{ settings.enable_loader | json }},
+          smooth: {{ settings.enable_smooth_scroll | json }},
+          cursor: {{ settings.enable_cursor | json }},
+          petals: {{ settings.enable_petals | json }},
+          transitions: {{ settings.enable_page_transitions | json }},
+          predictiveSearch: {{ settings.predictive_search_enabled | json }}
+        },
+        strings: {
+          added: {{ 'products.product.added' | t | json }},
+          adding: {{ 'products.product.adding' | t | json }},
+          addToCart: {{ 'products.product.add_to_cart' | t | json }},
+          soldOut: {{ 'products.product.sold_out' | t | json }},
+          unavailable: {{ 'products.product.unavailable' | t | json }},
+          toast: {{ 'cart.toast' | t | json }},
+          viewCart: {{ 'cart.view' | t | json }},
+          cartError: {{ 'cart.error' | t | json }},
+          drag: {{ 'general.cursor.drag' | t | json }},
+          view: {{ 'general.cursor.view' | t | json }},
+          cartCount: {{ 'cart.count_label' | t: count: '__N__' | json }}
+        },
+        assets: {
+          heroTurn: {{ 'hero-turn-0000.webp' | asset_url | json }}
+        }
+      };
+    </script>
+
+    <script src="{{ 'gsap.min.js' | asset_url }}" defer></script>
+    <script src="{{ 'ScrollTrigger.min.js' | asset_url }}" defer></script>
+    {%- if settings.enable_smooth_scroll -%}
+      <script src="{{ 'lenis.min.js' | asset_url }}" defer></script>
+    {%- endif -%}
+    <script src="{{ 'azal.js' | asset_url }}" defer></script>
+    <script src="{{ 'azal-cart.js' | asset_url }}" defer></script>
+    {%- if is_home or request.design_mode -%}
+      <script src="{{ 'azal-home.js' | asset_url }}" defer></script>
+    {%- endif -%}
+    <script src="{{ 'azal-product.js' | asset_url }}" defer></script>
+    <script src="{{ 'azal-store.js' | asset_url }}" defer></script>
+    <script src="{{ 'azal-search.js' | asset_url }}" defer></script>
+
+    {{ content_for_header }}
+  </head>
+
+  <body>
+    <a class="skip-link" href="#MainContent">{{ 'accessibility.skip_to_content' | t }}</a>
+    {% render 'icon-emblem-symbol' %}
+
+    {%- if settings.enable_grain -%}
+      <div class="grain" aria-hidden="true"></div>
+    {%- endif -%}
+
+    {%- if is_home and settings.enable_loader -%}
+      <div id="loader" class="loader" aria-hidden="true">
+        <div class="loader__veil loader__veil--top"></div>
+        <div class="loader__veil loader__veil--bottom"></div>
+        <div class="loader__center">
+          <svg class="loader__emblem" viewBox="0 0 40 56"><use href="#emblem" /></svg>
+          <span class="loader__count" data-count>0</span>
+        </div>
+      </div>
+    {%- endif -%}
+
+    {% sections 'header-group' %}
+
+    <div class="veil" data-veil aria-hidden="true"><svg viewBox="0 0 40 56"><use href="#emblem" /></svg></div>
+
+    <main id="MainContent" class="main" role="main" tabindex="-1">
+      {{ content_for_layout }}
+    </main>
+
+    {% sections 'footer-group' %}
+
+    {%- if settings.cart_type == 'drawer' -%}
+      {% section 'cart-drawer' %}
+    {%- endif -%}
+    <div class="toast" data-toast role="status" aria-live="polite"></div>
+
+    {%- if is_home and settings.enable_petals -%}
+      <div class="petal" data-petal aria-hidden="true"></div>
+    {%- endif -%}
+    {%- if settings.enable_cursor -%}
+      <div class="cursor" data-cursor aria-hidden="true"><span class="cursor__dot"></span><span class="cursor__ring"><span class="cursor__label">{{ 'general.cursor.drag' | t }}</span></span></div>
+    {%- endif -%}
+  </body>
+</html>

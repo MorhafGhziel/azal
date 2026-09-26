@@ -1,0 +1,59 @@
+{%- doc -%}
+  Country / region and currency selector as a popover (Shopify's country selector UX guidelines):
+  full country name with the currency code beside the symbol, e.g. "United States (USD $)".
+  Works without JavaScript (a <details> disclosure whose options are submit buttons); assets/azal-search.js adds
+  Escape / outside-click closing and a filter field for long lists. Render it only when
+  localization.available_countries.size > 1.
+
+  @param {string} id - Unique id prefix for this instance (for example 'HeaderCountry')
+  @param {string} [class] - Extra class on the wrapper
+  @param {string} [placement] - 'down' (default) or 'up' — which way the list opens
+{%- enddoc -%}
+{%- liquid
+  assign current = localization.country
+  assign placement = placement | default: 'down'
+-%}
+{%- form 'localization', id: id, class: 'loc-form' -%}
+  <details class="loc {{ class }} loc--{{ placement }}" data-loc>
+    <summary class="loc__btn">
+      <span class="visually-hidden">{{ 'localization.country_label' | t }}:</span>
+      <span class="loc__current">{{ current.name }} ({{ current.currency.iso_code }} {{ current.currency.symbol }})</span>
+      <span class="loc__short">{{ current.currency.iso_code }} {{ current.currency.symbol }}</span>
+      {%- render 'header-icon', icon: 'chevron', class: 'loc__chev' -%}
+    </summary>
+    <div class="loc__panel">
+      {%- if localization.available_countries.size > 8 -%}
+        <div class="loc__search" data-loc-search hidden>
+          <label class="visually-hidden" for="{{ id }}-filter">{{ 'localization.search_countries' | t }}</label>
+          <input
+            class="loc__filter"
+            id="{{ id }}-filter"
+            type="search"
+            autocomplete="off"
+            placeholder="{{ 'localization.search_countries' | t }}"
+            data-loc-filter
+          >
+          <p class="loc__none" data-loc-none hidden>{{ 'localization.no_countries' | t }}</p>
+        </div>
+      {%- endif -%}
+      <ul class="loc__list" role="list" aria-label="{{ 'localization.country_label' | t }}">
+        {%- for country in localization.available_countries -%}
+          <li>
+            <button
+              class="loc__opt"
+              type="submit"
+              name="country_code"
+              value="{{ country.iso_code }}"
+              {% if country.iso_code == current.iso_code %}
+                aria-current="true"
+              {% endif %}
+            >
+              <span class="loc__name">{{ country.name }}</span>
+              <span class="loc__cur">({{ country.currency.iso_code }} {{ country.currency.symbol }})</span>
+            </button>
+          </li>
+        {%- endfor -%}
+      </ul>
+    </div>
+  </details>
+{%- endform -%}
