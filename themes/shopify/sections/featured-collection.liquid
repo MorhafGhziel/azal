@@ -1,0 +1,42 @@
+{%- assign c = section.settings.collection -%}
+<section class="block-sec featured page" id="featured-{{ section.id }}">
+  <header class="page__head">
+    {%- if section.settings.eyebrow != blank -%}<p class="eyebrow">{{ section.settings.eyebrow | escape }}</p>{%- endif -%}
+    <h2 class="page__title h-section"><span class="ln"><span class="ln__in">{{ section.settings.title | escape }}</span></span></h2>
+  </header>
+  <ul class="grid" role="list">
+    {%- if c != blank and c.products_count > 0 -%}
+      {%- for product in c.products limit: section.settings.limit -%}
+        {%- assign wide = false -%}
+        {%- if forloop.first and section.settings.first_wide -%}{%- assign wide = true -%}{%- endif -%}
+        {%- render 'product-card', product: product, wide: wide, index: forloop.index0 -%}
+      {%- endfor -%}
+    {%- else -%}
+      {%- for i in (1..3) -%}
+        <li class="card">
+          <span class="card__img" style="--bg: {{ settings.color_card_bg }};">{{ 'product-' | append: i | placeholder_svg_tag: 'card__ph' }}</span>
+          <div class="card__info"><h3 class="card__name">{{ 'sections.collection.preview' | t }}</h3><p class="card__price">{{ 1999 | money }}</p></div>
+        </li>
+      {%- endfor -%}
+    {%- endif -%}
+  </ul>
+  {%- if c != blank and section.settings.show_view_all -%}
+    <p class="featured__all"><a class="link" href="{{ c.url }}">{{ 'sections.collection.view_all' | t }}</a></p>
+  {%- endif -%}
+</section>
+
+{% schema %}
+{
+  "name": "t:sections.featured-collection.name",
+  "class": "section-featured",
+  "settings": [
+    { "type": "collection", "id": "collection", "label": "t:sections.featured-collection.settings.collection.label" },
+    { "type": "text", "id": "eyebrow", "default": "The fragrances", "label": "t:sections.featured-collection.settings.eyebrow.label" },
+    { "type": "text", "id": "title", "default": "Choose your character", "label": "t:sections.featured-collection.settings.title.label" },
+    { "type": "range", "id": "limit", "min": 2, "max": 12, "step": 1, "default": 6, "label": "t:sections.featured-collection.settings.limit.label" },
+    { "type": "checkbox", "id": "first_wide", "default": true, "label": "t:sections.featured-collection.settings.first_wide.label" },
+    { "type": "checkbox", "id": "show_view_all", "default": true, "label": "t:sections.featured-collection.settings.show_view_all.label" }
+  ],
+  "presets": [ { "name": "t:sections.featured-collection.presets.name" } ]
+}
+{% endschema %}

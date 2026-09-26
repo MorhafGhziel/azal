@@ -1,0 +1,27 @@
+{%- comment -%}
+  Accepts: product or variant, from (bool: "From" when prices vary)
+{%- endcomment -%}
+{%- liquid
+  if variant
+    assign price = variant.price
+    assign compare = variant.compare_at_price
+    assign varies = false
+  else
+    assign price = product.price_min
+    assign compare = product.compare_at_price_min
+    assign varies = product.price_varies
+  endif
+-%}
+<span class="price{% if compare > price %} price--sale{% endif %}">
+  {%- if from and varies -%}
+    {%- assign price_money = price | money -%}{{ 'products.product.from_price' | t: price: price_money }}
+  {%- else -%}
+    <span class="price__now">{{ price | money }}</span>
+  {%- endif -%}
+  {%- if compare > price -%}
+    <s class="price__was"><span class="visually-hidden">{{ 'products.product.regular_price' | t }}</span>{{ compare | money }}</s>
+  {%- endif -%}
+</span>
+{%- if variant and variant.unit_price_measurement -%}
+  <small class="price__unit">{{ variant.unit_price | money }}/{% if variant.unit_price_measurement.reference_value != 1 %}{{ variant.unit_price_measurement.reference_value }}{% endif %}{{ variant.unit_price_measurement.reference_unit }}</small>
+{%- endif -%}

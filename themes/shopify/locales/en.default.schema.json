@@ -1,0 +1,876 @@
+{
+  "sections": {
+    "announcement-bar": {
+      "blocks": {
+        "announcement": {
+          "name": "Announcement",
+          "settings": {
+            "link": {
+              "label": "Link"
+            },
+            "text": {
+              "label": "Text"
+            }
+          }
+        }
+      },
+      "name": "Announcement bar",
+      "settings": {
+        "background": {
+          "label": "Background"
+        },
+        "text_color": {
+          "label": "Text colour"
+        }
+      }
+    },
+    "azal-collection": {
+      "name": "Collection slider",
+      "presets": {
+        "name": "Collection slider"
+      },
+      "settings": {
+        "collection": {
+          "label": "Collection"
+        },
+        "label": {
+          "label": "Eyebrow"
+        },
+        "limit": {
+          "label": "Products to show"
+        },
+        "title": {
+          "label": "Title"
+        },
+        "view_all": {
+          "label": "“View all” link label"
+        }
+      }
+    },
+    "azal-finale": {
+      "name": "Finale",
+      "presets": {
+        "name": "Finale"
+      },
+      "settings": {
+        "bottom": {
+          "label": "Second line (italic)"
+        },
+        "cta": {
+          "label": "Button label"
+        },
+        "image": {
+          "info": "Replaces the painted dusk.",
+          "label": "Image"
+        },
+        "link": {
+          "info": "Leave empty to scroll back to the top.",
+          "label": "Link"
+        },
+        "top": {
+          "label": "First line"
+        }
+      }
+    },
+    "azal-notes": {
+      "name": "Fragrance notes",
+      "presets": {
+        "name": "Fragrance notes"
+      },
+      "settings": {
+        "bottle_full": {
+          "label": "Bottle — full"
+        },
+        "bottle_heart": {
+          "label": "Bottle — heart note"
+        },
+        "bottle_top": {
+          "info": "Three transparent PNGs of the same bottle, filled to the top note, the heart and full. Leave empty to use the theme’s bottle.",
+          "label": "Bottle — top note"
+        },
+        "header_art": {
+          "content": "Ingredients and colours"
+        },
+        "header_bottle": {
+          "content": "Bottle layers"
+        },
+        "header_notes": {
+          "content": "Notes"
+        },
+        "ing_base": {
+          "label": "Base note ingredient"
+        },
+        "ing_heart": {
+          "label": "Heart note ingredient"
+        },
+        "ing_top": {
+          "info": "Optional cut-out images (transparent PNG) that rise behind the bottle for each note.",
+          "label": "Top note ingredient"
+        },
+        "label": {
+          "label": "Eyebrow"
+        },
+        "name_base": {
+          "label": "Base label"
+        },
+        "name_heart": {
+          "label": "Heart label"
+        },
+        "name_top": {
+          "label": "Top label"
+        },
+        "notes_base": {
+          "label": "Base notes"
+        },
+        "notes_heart": {
+          "label": "Heart notes"
+        },
+        "notes_top": {
+          "label": "Top notes"
+        },
+        "paragraph": {
+          "content": "Notes are read from the product’s metafields (custom.notes_top, custom.notes_heart, custom.notes_base) when they exist; otherwise from the fields below."
+        },
+        "product": {
+          "label": "Fragrance"
+        },
+        "show_ingredients": {
+          "label": "Show rising ingredients"
+        },
+        "tint_base": {
+          "label": "Ground — base"
+        },
+        "tint_heart": {
+          "label": "Ground — heart"
+        },
+        "tint_top": {
+          "label": "Ground — top"
+        },
+        "title": {
+          "info": "Leave empty to use the product title.",
+          "label": "Title"
+        }
+      }
+    },
+    "azal-origins": {
+      "blocks": {
+        "chapter": {
+          "name": "Chapter",
+          "settings": {
+            "image": {
+              "info": "16:9, 2560 × 1440 px. Leave empty to use the theme’s photography.",
+              "label": "Image"
+            },
+            "image_mobile": {
+              "label": "Image on phones (portrait)"
+            },
+            "name": {
+              "label": "Chapter name"
+            },
+            "text": {
+              "label": "Text"
+            },
+            "title": {
+              "label": "Title"
+            }
+          }
+        }
+      },
+      "name": "Origins (pinned story)",
+      "presets": {
+        "name": "Origins (pinned story)"
+      },
+      "settings": {
+        "label": {
+          "label": "Eyebrow"
+        }
+      }
+    },
+    "azal-sky": {
+      "name": "Sky & bottle (hero)",
+      "presets": {
+        "name": "Sky & bottle (hero)"
+      },
+      "settings": {
+        "bottle_alt": {
+          "label": "Bottle description (for screen readers)"
+        },
+        "bottle_image": {
+          "info": "A PNG with a transparent background, about 1000 × 1286 px. Leave empty to use the theme’s turning bottle.",
+          "label": "Custom bottle image"
+        },
+        "cta_label": {
+          "label": "Button label"
+        },
+        "eyebrow": {
+          "label": "Eyebrow"
+        },
+        "header_bottle": {
+          "content": "Bottle"
+        },
+        "header_manifesto": {
+          "content": "Manifesto"
+        },
+        "header_scene": {
+          "content": "Scene"
+        },
+        "heading": {
+          "info": "Leave empty to use the store name.",
+          "label": "Brand name"
+        },
+        "image_sky": {
+          "info": "Replaces the painted dawn sky. 2560 × 1440 px or larger.",
+          "label": "Custom sky image"
+        },
+        "keep_clouds": {
+          "label": "Keep the painted clouds over a custom sky"
+        },
+        "length": {
+          "label": "Scroll length"
+        },
+        "manifesto": {
+          "info": "One line per row. Each line rises on its own.",
+          "label": "Manifesto text"
+        },
+        "manifesto_label": {
+          "label": "Manifesto label"
+        },
+        "manifesto_link_label": {
+          "label": "Link under the manifesto (optional)"
+        },
+        "paragraph": {
+          "content": "The film at the top of the home page: scroll descends through the clouds to the bottle. Leave the images empty to use the theme’s painted sky."
+        },
+        "product": {
+          "label": "Bottle links to product"
+        },
+        "scroll_label": {
+          "label": "Scroll hint"
+        },
+        "tagline": {
+          "label": "Tagline"
+        }
+      }
+    },
+    "cart-drawer": {
+      "name": "Cart drawer"
+    },
+    "common": {
+      "align": {
+        "label": "Alignment",
+        "options__1": {
+          "label": "Start"
+        },
+        "options__2": {
+          "label": "Centre"
+        }
+      },
+      "scheme": {
+        "label": "Colours",
+        "options__1": {
+          "label": "Ivory"
+        },
+        "options__2": {
+          "label": "Wine"
+        },
+        "options__3": {
+          "label": "Blush"
+        }
+      }
+    },
+    "contact-form": {
+      "name": "Contact form",
+      "presets": {
+        "name": "Contact form"
+      },
+      "settings": {
+        "heading": {
+          "label": "Heading"
+        }
+      }
+    },
+    "customers": {
+      "account": "Account",
+      "activate": "Activate account",
+      "addresses": "Addresses",
+      "login": "Login",
+      "order": "Order",
+      "register": "Register",
+      "reset": "Reset password"
+    },
+    "featured-collection": {
+      "name": "Product grid",
+      "presets": {
+        "name": "Product grid"
+      },
+      "settings": {
+        "collection": {
+          "label": "Collection"
+        },
+        "eyebrow": {
+          "label": "Eyebrow"
+        },
+        "first_wide": {
+          "label": "First product spans two columns"
+        },
+        "limit": {
+          "label": "Products to show"
+        },
+        "show_view_all": {
+          "label": "Show “View all” link"
+        },
+        "title": {
+          "label": "Title"
+        }
+      }
+    },
+    "footer": {
+      "blocks": {
+        "menu": {
+          "name": "Menu",
+          "settings": {
+            "menu": {
+              "label": "Menu"
+            }
+          }
+        },
+        "newsletter": {
+          "name": "Email signup",
+          "settings": {
+            "heading": {
+              "label": "Heading"
+            }
+          }
+        },
+        "social": {
+          "name": "Social links",
+          "settings": {
+            "paragraph": {
+              "content": "Add your links in Theme settings → Social media."
+            }
+          }
+        },
+        "text": {
+          "name": "Text",
+          "settings": {
+            "text": {
+              "label": "Text"
+            }
+          }
+        }
+      },
+      "name": "Footer",
+      "settings": {
+        "note": {
+          "label": "Note after the copyright"
+        },
+        "show_payment": {
+          "label": "Show payment icons"
+        },
+        "show_powered_by": {
+          "label": "Show \"Powered by Shopify\""
+        }
+      }
+    },
+    "header": {
+      "name": "Header",
+      "settings": {
+        "ink_on_home": {
+          "info": "Use when your hero image is light.",
+          "label": "Dark text over the home hero"
+        },
+        "menu": {
+          "label": "Menu"
+        },
+        "show_account": {
+          "label": "Show account link"
+        },
+        "show_currency": {
+          "label": "Show country / currency in the menu"
+        },
+        "show_language": {
+          "label": "Show language switch"
+        },
+        "show_search": {
+          "label": "Show search link"
+        },
+        "split_menu": {
+          "info": "Half the links sit on each side of the centred emblem.",
+          "label": "Split the menu around the emblem"
+        }
+      }
+    },
+    "image-with-text": {
+      "name": "Image with text",
+      "presets": {
+        "name": "Image with text"
+      },
+      "settings": {
+        "button_label": {
+          "label": "Button label"
+        },
+        "button_link": {
+          "label": "Button link"
+        },
+        "eyebrow": {
+          "label": "Eyebrow"
+        },
+        "flip": {
+          "label": "Image on the other side"
+        },
+        "heading": {
+          "label": "Heading"
+        },
+        "image": {
+          "label": "Image"
+        },
+        "text": {
+          "label": "Text"
+        }
+      }
+    },
+    "main-404": {
+      "name": "404 page"
+    },
+    "main-article": {
+      "name": "Blog post"
+    },
+    "main-blog": {
+      "name": "Blog posts"
+    },
+    "main-cart": {
+      "name": "Cart",
+      "settings": {
+        "show_additional": {
+          "label": "Show accelerated checkout buttons"
+        }
+      }
+    },
+    "main-collection": {
+      "name": "Product grid",
+      "settings": {
+        "enable_filtering": {
+          "info": "Set up filters with the Search & Discovery app.",
+          "label": "Enable filtering"
+        },
+        "enable_sorting": {
+          "label": "Enable sorting"
+        },
+        "eyebrow": {
+          "label": "Eyebrow"
+        },
+        "first_wide": {
+          "label": "First product spans two columns"
+        },
+        "footer_heading": {
+          "label": "Note heading"
+        },
+        "footer_text": {
+          "label": "Note under the grid"
+        },
+        "per_page": {
+          "label": "Products per page"
+        },
+        "show_description": {
+          "label": "Show collection description"
+        }
+      }
+    },
+    "main-list-collections": {
+      "name": "Collections list",
+      "settings": {
+        "title": {
+          "label": "Title"
+        }
+      }
+    },
+    "main-page": {
+      "name": "Page"
+    },
+    "main-password": {
+      "name": "Password page",
+      "settings": {
+        "heading": {
+          "label": "Heading"
+        }
+      }
+    },
+    "main-product": {
+      "blocks": {
+        "buy_buttons": {
+          "name": "Buy buttons",
+          "settings": {
+            "show_dynamic_checkout": {
+              "label": "Show dynamic checkout buttons"
+            },
+            "show_pickup": {
+              "label": "Show pickup availability"
+            }
+          }
+        },
+        "character": {
+          "name": "Character",
+          "settings": {
+            "paragraph": {
+              "content": "Shows the product metafield custom.character (for example “Timeless”)."
+            }
+          }
+        },
+        "collapsible": {
+          "name": "Collapsible tab",
+          "settings": {
+            "content": {
+              "label": "Content"
+            },
+            "heading": {
+              "label": "Heading"
+            },
+            "page": {
+              "label": "Page"
+            },
+            "source": {
+              "label": "Content",
+              "options__1": {
+                "label": "Text below"
+              },
+              "options__2": {
+                "label": "Product story (metafield custom.story)"
+              },
+              "options__3": {
+                "label": "How to wear (metafield custom.how_to_wear)"
+              },
+              "options__4": {
+                "label": "A page"
+              }
+            }
+          }
+        },
+        "description": {
+          "name": "Description"
+        },
+        "eyebrow": {
+          "name": "Eyebrow",
+          "settings": {
+            "text": {
+              "info": "Leave empty to show the product type.",
+              "label": "Text"
+            }
+          }
+        },
+        "notes": {
+          "name": "Fragrance notes",
+          "settings": {
+            "heading": {
+              "label": "Heading"
+            },
+            "paragraph": {
+              "content": "Shows the product metafields custom.notes_top, custom.notes_heart and custom.notes_base."
+            }
+          }
+        },
+        "price": {
+          "name": "Price"
+        },
+        "text": {
+          "name": "Text",
+          "settings": {
+            "text": {
+              "label": "Text"
+            }
+          }
+        },
+        "title": {
+          "name": "Title"
+        },
+        "variant_picker": {
+          "name": "Variant picker"
+        }
+      },
+      "name": "Product information",
+      "settings": {
+        "show_thumbs": {
+          "label": "Show image thumbnails"
+        }
+      }
+    },
+    "main-search": {
+      "name": "Search results"
+    },
+    "newsletter": {
+      "name": "Email signup",
+      "presets": {
+        "name": "Email signup"
+      },
+      "settings": {
+        "eyebrow": {
+          "label": "Eyebrow"
+        },
+        "heading": {
+          "label": "Heading"
+        },
+        "text": {
+          "label": "Text"
+        }
+      }
+    },
+    "product-recommendations": {
+      "name": "Product recommendations",
+      "settings": {
+        "heading": {
+          "label": "Heading"
+        },
+        "limit": {
+          "label": "Products to show"
+        }
+      }
+    },
+    "rich-text": {
+      "blocks": {
+        "button": {
+          "name": "Button",
+          "settings": {
+            "label": {
+              "label": "Label"
+            },
+            "link": {
+              "label": "Link"
+            }
+          }
+        },
+        "eyebrow": {
+          "name": "Eyebrow",
+          "settings": {
+            "text": {
+              "label": "Text"
+            }
+          }
+        },
+        "heading": {
+          "name": "Heading",
+          "settings": {
+            "heading": {
+              "label": "Heading"
+            },
+            "size": {
+              "label": "Size"
+            }
+          }
+        },
+        "text": {
+          "name": "Text",
+          "settings": {
+            "text": {
+              "label": "Text"
+            }
+          }
+        }
+      },
+      "name": "Rich text",
+      "presets": {
+        "name": "Rich text"
+      }
+    }
+  },
+  "settings_schema": {
+    "cart": {
+      "name": "Cart",
+      "settings": {
+        "cart_gift_wrap": {
+          "info": "Saved on the order as the attribute “Gift wrapping: Yes”.",
+          "label": "Offer gift wrapping"
+        },
+        "cart_note": {
+          "label": "Enable gift message / order note"
+        },
+        "cart_shipping_note": {
+          "label": "Short note under the totals"
+        },
+        "cart_type": {
+          "label": "Cart type",
+          "options__1": {
+            "label": "Drawer"
+          },
+          "options__2": {
+            "label": "Page"
+          }
+        }
+      }
+    },
+    "colors": {
+      "name": "Colours",
+      "settings": {
+        "color_apricot": {
+          "label": "Apricot"
+        },
+        "color_blush": {
+          "label": "Blush"
+        },
+        "color_card_bg": {
+          "info": "Behind product images when a product has no colour of its own (metafield custom.background_color).",
+          "label": "Product card background"
+        },
+        "color_cream": {
+          "label": "Cream (text on dark)"
+        },
+        "color_error": {
+          "label": "Error"
+        },
+        "color_ink": {
+          "label": "Ink (text)"
+        },
+        "color_ivory": {
+          "label": "Ivory (page background)"
+        },
+        "color_success": {
+          "label": "Success"
+        },
+        "color_wine": {
+          "label": "Wine"
+        },
+        "color_wine_deep": {
+          "label": "Deep wine (dark background)"
+        },
+        "header_accents": {
+          "content": "Accents"
+        },
+        "header_dark": {
+          "content": "Dark grounds"
+        },
+        "header_light": {
+          "content": "Light grounds"
+        }
+      }
+    },
+    "layout": {
+      "name": "Layout",
+      "settings": {
+        "button_radius": {
+          "label": "Button radius"
+        },
+        "page_width": {
+          "label": "Page width"
+        }
+      }
+    },
+    "logo": {
+      "name": "Logo",
+      "settings": {
+        "favicon": {
+          "label": "Favicon"
+        },
+        "logo": {
+          "info": "Leave empty to use the AZAL emblem. The name is always the store name.",
+          "label": "Logo"
+        },
+        "logo_width": {
+          "label": "Logo width"
+        }
+      }
+    },
+    "motion": {
+      "name": "Motion",
+      "settings": {
+        "enable_cursor": {
+          "label": "Custom cursor"
+        },
+        "enable_grain": {
+          "label": "Film grain"
+        },
+        "enable_loader": {
+          "label": "Opening loader on the home page"
+        },
+        "enable_page_transitions": {
+          "label": "Veil between pages"
+        },
+        "enable_petals": {
+          "label": "Floating petals"
+        },
+        "enable_smooth_scroll": {
+          "label": "Smooth scrolling"
+        },
+        "paragraph": {
+          "content": "Visitors who ask their device for reduced motion always get calm, still versions of every scene."
+        }
+      }
+    },
+    "products": {
+      "name": "Product cards",
+      "settings": {
+        "card_image_fit": {
+          "label": "Image fit",
+          "options__1": {
+            "label": "Whole bottle (contain)"
+          },
+          "options__2": {
+            "label": "Fill (cover)"
+          }
+        },
+        "card_quick_add": {
+          "label": "Show quick add"
+        },
+        "card_show_character": {
+          "label": "Show character (metafield custom.character)"
+        },
+        "card_show_vendor": {
+          "label": "Show vendor when there is no character"
+        },
+        "paragraph": {
+          "content": "Each product can carry its own colour and character through metafields — see the setup guide."
+        }
+      }
+    },
+    "social": {
+      "name": "Social media",
+      "settings": {
+        "social_facebook_link": {
+          "label": "Facebook"
+        },
+        "social_instagram_link": {
+          "label": "Instagram"
+        },
+        "social_pinterest_link": {
+          "label": "Pinterest"
+        },
+        "social_snapchat_link": {
+          "label": "Snapchat"
+        },
+        "social_tiktok_link": {
+          "label": "TikTok"
+        },
+        "social_twitter_link": {
+          "label": "X (Twitter)"
+        },
+        "social_whatsapp": {
+          "label": "WhatsApp link"
+        },
+        "social_youtube_link": {
+          "label": "YouTube"
+        }
+      }
+    },
+    "typography": {
+      "name": "Typography",
+      "settings": {
+        "heading_scale": {
+          "label": "Heading scale"
+        },
+        "type_body_font": {
+          "label": "Body font (custom)"
+        },
+        "type_header_font": {
+          "label": "Heading font (custom)"
+        },
+        "type_mode": {
+          "info": "House fonts: Cormorant and Hanken Grotesk, with Amiri and IBM Plex Sans Arabic for Arabic. Custom: pick from the Shopify font library.",
+          "label": "Fonts",
+          "options__1": {
+            "label": "House fonts"
+          },
+          "options__2": {
+            "label": "Custom"
+          }
+        }
+      }
+    }
+  }
+}

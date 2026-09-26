@@ -1,0 +1,37 @@
+<div class="page page--form">
+  <header class="page__head"><h1 class="page__title" tabindex="-1">{{ 'customer.login.title' | t }}</h1></header>
+
+  <div id="recover" class="acct-recover">
+    {%- form 'recover_customer_password' -%}
+      {%- if form.posted_successfully? -%}
+        <p class="co__notice" role="status">{{ 'customer.recover.success' | t }}</p>
+      {%- endif -%}
+      <h2 class="eyebrow">{{ 'customer.recover.title' | t }}</h2>
+      <p class="muted">{{ 'customer.recover.subtext' | t }}</p>
+      {%- if form.errors -%}<p class="field__err" role="alert">{{ form.errors | default_errors }}</p>{%- endif -%}
+      <label class="field"><span class="field__label">{{ 'customer.fields.email' | t }}</span><input type="email" name="email" autocomplete="email" required></label>
+      <button class="btn btn--solid" type="submit">{{ 'customer.recover.submit' | t }}</button>
+      <p><a class="link" href="#login">{{ 'customer.recover.cancel' | t }}</a></p>
+    {%- endform -%}
+  </div>
+
+  <div id="login" class="acct-login">
+    {%- form 'customer_login', novalidate: 'novalidate' -%}
+      {%- if form.errors -%}<p class="field__err" role="alert">{{ form.errors | default_errors }}</p>{%- endif -%}
+      <label class="field"><span class="field__label">{{ 'customer.fields.email' | t }}</span><input type="email" name="customer[email]" autocomplete="email" required></label>
+      {%- if form.password_needed -%}
+        <label class="field"><span class="field__label">{{ 'customer.fields.password' | t }}</span><input type="password" name="customer[password]" autocomplete="current-password" required></label>
+        <p><a class="link link--quiet" href="#recover">{{ 'customer.login.forgot' | t }}</a></p>
+      {%- endif -%}
+      <button class="btn btn--solid btn--full" type="submit">{{ 'customer.login.submit' | t }}</button>
+    {%- endform -%}
+    <p class="acct-alt"><a class="link" href="{{ routes.account_register_url }}">{{ 'customer.login.create' | t }}</a></p>
+    {%- if shop.checkout.guest_login -%}
+      {%- form 'guest_login' -%}<button class="link" type="submit">{{ 'customer.login.guest' | t }}</button>{%- endform -%}
+    {%- endif -%}
+  </div>
+</div>
+
+{% schema %}
+{ "name": "t:sections.customers.login", "settings": [] }
+{% endschema %}

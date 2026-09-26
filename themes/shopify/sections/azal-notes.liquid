@@ -1,0 +1,127 @@
+{%- comment -%}
+  04 — Inside the fragrance: the bottle fills layer by layer (top, heart, base) while each note's
+  ingredients rise behind it and the ground darkens. Notes come from the product's metafields
+  (custom.notes_top / notes_heart / notes_base) or from this section's own fields.
+{%- endcomment -%}
+{%- liquid
+  assign s = section.settings
+  assign p = s.product
+  assign v = p.selected_or_first_available_variant
+  assign title = s.title | default: p.title
+  assign top = p.metafields.custom.notes_top.value | default: s.notes_top
+  assign heart = p.metafields.custom.notes_heart.value | default: s.notes_heart
+  assign base = p.metafields.custom.notes_base.value | default: s.notes_base
+  assign names = s.name_top | append: '|' | append: s.name_heart | append: '|' | append: s.name_base | split: '|'
+  assign values = top | append: '|' | append: heart | append: '|' | append: base | split: '|'
+-%}
+{%- comment -%} ingredient art: [asset, x%, y%, width vw, depth 1 far..3 near, mobile x%, y%, width vw] {%- endcomment -%}
+{%- capture ing -%}
+fruit,57,13,8,1,70,20,22;saffron,33,30,10,2,8,30,26;pepper,57,64,7,2,72,58,18;slice,14,56,18,3,-6,60,42|jasmine,57,12,11,1,66,22,28;rose,40,7,7,1,10,26,18;rose,15,52,18,3,-8,58,44|amber,34,18,6,1,12,26,16;oud,58,16,9,1,68,22,24;amber,57,62,9,2,72,58,22;oud,12,60,21,3,-6,60,46
+{%- endcapture -%}
+{%- assign groups = ing | strip | split: '|' -%}
+
+<section class="notes" id="notes" data-notes data-section="notes" aria-labelledby="NotesTitle-{{ section.id }}"
+  data-tints="{{ s.tint_top }},{{ s.tint_heart }},{{ s.tint_base }}">
+  <div class="notes__stage">
+    <div class="notes__tint" data-notes-tint style="background: {{ s.tint_top }};"></div>
+    {%- if s.show_ingredients -%}
+      <div class="notes__ing" aria-hidden="true">
+        {%- for g in groups -%}
+          {%- assign gi = forloop.index0 -%}
+          {%- assign custom_img = nil -%}
+          {%- if gi == 0 -%}{%- assign custom_img = s.ing_top -%}{%- elsif gi == 1 -%}{%- assign custom_img = s.ing_heart -%}{%- else -%}{%- assign custom_img = s.ing_base -%}{%- endif -%}
+          <div class="ing-group" data-ing="{{ gi }}">
+            {%- assign items = g | split: ';' -%}
+            {%- for it in items -%}
+              {%- assign f = it | split: ',' -%}
+              {%- if custom_img != blank -%}
+                {%- assign src = custom_img | image_url: width: 900 -%}
+              {%- else -%}
+                {%- assign src = 'note-' | append: f[0] | append: '.webp' | asset_url -%}
+              {%- endif -%}
+              <img class="ing ing--d{{ f[4] }}" src="{{ src }}" alt="" decoding="async" loading="lazy" data-depth="{{ f[4] }}" width="600" height="600"
+                style="--x:{{ f[1] }}%;--y:{{ f[2] }}%;--w:{{ f[3] }}vw;--xm:{{ f[5] }}%;--ym:{{ f[6] }}%;--wm:{{ f[7] }}vw">
+            {%- endfor -%}
+          </div>
+        {%- endfor -%}
+        <div class="notes__petals" data-ing-petals>
+          {%- assign pk = 'a,b,c,a,b' | split: ',' -%}
+          {%- for k in pk -%}
+            {%- assign pn = 'petal-' | append: k | append: '.webp' -%}
+            <img class="notes__petal notes__petal--{{ forloop.index0 }}" src="{{ pn | asset_url }}" alt="" loading="lazy" width="120" height="120">
+          {%- endfor -%}
+        </div>
+      </div>
+    {%- endif -%}
+
+    <header class="notes__head">
+      <p class="eyebrow">{{ s.label | escape }}</p>
+      <h2 class="notes__title" id="NotesTitle-{{ section.id }}"><span class="ln"><span class="ln__in">{{ title | escape }}</span></span></h2>
+    </header>
+
+    <a class="notes__bottle" href="{{ p.url | default: routes.all_products_collection_url }}" data-view aria-label="{{ title | escape }}">
+      <div class="notes__halo" data-halo></div>
+      <span class="notes__stack">
+        {%- assign stack_assets = 'bottle-no1_top_front.webp,bottle-no1_heart_front.webp,bottle-no1_front.webp' | split: ',' -%}
+        {%- for k in (0..2) -%}
+          {%- if k == 0 -%}{%- assign im = s.bottle_top -%}{%- elsif k == 1 -%}{%- assign im = s.bottle_heart -%}{%- else -%}{%- assign im = s.bottle_full | default: p.featured_media.preview_image -%}{%- endif -%}
+          {%- assign alt = '' -%}{%- if k == 2 -%}{%- assign alt = title -%}{%- endif -%}
+          {%- if im != blank -%}
+            {%- assign st_attr = '<img data-st="' | append: k | append: '" ' -%}
+            {{ im | image_url: width: 1400 | image_tag: class: 'notes__st', loading: 'lazy', widths: '500, 900, 1400', sizes: '30vw', alt: alt | replace: '<img ', st_attr }}
+          {%- else -%}
+            <img class="notes__st" data-st="{{ k }}" src="{{ stack_assets[k] | asset_url }}" alt="{{ alt | escape }}" decoding="async" loading="lazy" width="1400" height="1800">
+          {%- endif -%}
+        {%- endfor -%}
+      </span>
+    </a>
+
+    <ol class="notes__list">
+      {%- for name in names -%}
+        <li class="notes__layer" data-layer-i="{{ forloop.index0 }}">
+          <span class="notes__n">{{ forloop.index | prepend: '0' | slice: -2, 2 }}</span><span class="notes__name">{{ name | escape }}</span><span class="notes__notes">{{ values[forloop.index0] | escape }}</span>
+        </li>
+      {%- endfor -%}
+    </ol>
+
+    {%- if p != blank and v.available -%}
+      <p class="notes__buy" data-buy>
+        <span>{{ p.title | escape }}{% unless p.has_only_default_variant %} · {{ v.title | escape }}{% endunless %} · {{ v.price | money }}</span>
+        <button class="btn btn--line btn--sm" type="button" data-add="{{ v.id }}">{{ 'products.product.add_to_cart' | t }}</button>
+      </p>
+    {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "t:sections.azal-notes.name",
+  "class": "section-notes",
+  "settings": [
+    { "type": "product", "id": "product", "label": "t:sections.azal-notes.settings.product.label" },
+    { "type": "text", "id": "label", "default": "04 — Inside the fragrance", "label": "t:sections.azal-notes.settings.label.label" },
+    { "type": "text", "id": "title", "default": "No. 1 — Rose & Oud", "label": "t:sections.azal-notes.settings.title.label", "info": "t:sections.azal-notes.settings.title.info" },
+    { "type": "header", "content": "t:sections.azal-notes.settings.header_notes.content" },
+    { "type": "paragraph", "content": "t:sections.azal-notes.settings.paragraph.content" },
+    { "type": "text", "id": "name_top", "default": "Top", "label": "t:sections.azal-notes.settings.name_top.label" },
+    { "type": "text", "id": "notes_top", "default": "Bergamot, Pink Pepper, Saffron", "label": "t:sections.azal-notes.settings.notes_top.label" },
+    { "type": "text", "id": "name_heart", "default": "Heart", "label": "t:sections.azal-notes.settings.name_heart.label" },
+    { "type": "text", "id": "notes_heart", "default": "Taif Rose, Jasmine", "label": "t:sections.azal-notes.settings.notes_heart.label" },
+    { "type": "text", "id": "name_base", "default": "Base", "label": "t:sections.azal-notes.settings.name_base.label" },
+    { "type": "text", "id": "notes_base", "default": "Oud, Amber, White Musk", "label": "t:sections.azal-notes.settings.notes_base.label" },
+    { "type": "header", "content": "t:sections.azal-notes.settings.header_bottle.content" },
+    { "type": "image_picker", "id": "bottle_top", "label": "t:sections.azal-notes.settings.bottle_top.label", "info": "t:sections.azal-notes.settings.bottle_top.info" },
+    { "type": "image_picker", "id": "bottle_heart", "label": "t:sections.azal-notes.settings.bottle_heart.label" },
+    { "type": "image_picker", "id": "bottle_full", "label": "t:sections.azal-notes.settings.bottle_full.label" },
+    { "type": "header", "content": "t:sections.azal-notes.settings.header_art.content" },
+    { "type": "checkbox", "id": "show_ingredients", "default": true, "label": "t:sections.azal-notes.settings.show_ingredients.label" },
+    { "type": "image_picker", "id": "ing_top", "label": "t:sections.azal-notes.settings.ing_top.label", "info": "t:sections.azal-notes.settings.ing_top.info" },
+    { "type": "image_picker", "id": "ing_heart", "label": "t:sections.azal-notes.settings.ing_heart.label" },
+    { "type": "image_picker", "id": "ing_base", "label": "t:sections.azal-notes.settings.ing_base.label" },
+    { "type": "color", "id": "tint_top", "default": "#e9cfc3", "label": "t:sections.azal-notes.settings.tint_top.label" },
+    { "type": "color", "id": "tint_heart", "default": "#b9636a", "label": "t:sections.azal-notes.settings.tint_heart.label" },
+    { "type": "color", "id": "tint_base", "default": "#3a1418", "label": "t:sections.azal-notes.settings.tint_base.label" }
+  ],
+  "presets": [ { "name": "t:sections.azal-notes.presets.name" } ]
+}
+{% endschema %}

@@ -1,0 +1,43 @@
+{%- if cart.item_count == 0 -%}
+  <div class="bag-empty">
+    <p>{{ 'cart.empty' | t }}</p>
+    <a class="link" href="{{ routes.all_products_collection_url }}">{{ 'cart.discover' | t }}</a>
+  </div>
+{%- else -%}
+  <ul class="bag-lines" role="list">
+    {%- for item in cart.items -%}
+      {%- assign bg = item.product.metafields.custom.background_color.value | default: settings.color_card_bg -%}
+      <li class="bag-line" data-line="{{ forloop.index }}">
+        <a class="bag-line__img" href="{{ item.url }}" style="--bg: {{ bg }};" tabindex="-1" aria-hidden="true">
+          {%- if item.image -%}
+            {{ item.image | image_url: width: 240 | image_tag: loading: 'lazy', alt: '' }}
+          {%- endif -%}
+        </a>
+        <div class="bag-line__info">
+          <p class="bag-line__name"><a href="{{ item.url }}">{{ item.product.title | escape }}</a></p>
+          {%- unless item.product.has_only_default_variant -%}
+            <p class="bag-line__meta">{{ item.variant.title | escape }}</p>
+          {%- endunless -%}
+          {%- for p in item.properties -%}
+            {%- unless p.last == blank or p.first contains '_' -%}
+              <p class="bag-line__meta">{{ p.first }}: {{ p.last }}</p>
+            {%- endunless -%}
+          {%- endfor -%}
+          {%- if item.selling_plan_allocation -%}<p class="bag-line__meta">{{ item.selling_plan_allocation.selling_plan.name }}</p>{%- endif -%}
+          <div class="qty qty--sm" role="group" aria-label="{{ 'products.product.quantity' | t }}">
+            <button type="button" data-qty-line="{{ forloop.index }}" data-to="{{ item.quantity | minus: 1 }}" aria-label="{{ 'products.product.decrease' | t }}">−</button>
+            <span>{{ item.quantity }}</span>
+            <button type="button" data-qty-line="{{ forloop.index }}" data-to="{{ item.quantity | plus: 1 }}" aria-label="{{ 'products.product.increase' | t }}">+</button>
+          </div>
+        </div>
+        <div class="bag-line__end">
+          <p class="bag-line__price">
+            {%- if item.original_line_price != item.final_line_price -%}<s class="muted">{{ item.original_line_price | money }}</s> {% endif -%}
+            {{ item.final_line_price | money }}
+          </p>
+          <button class="link link--quiet" type="button" data-qty-line="{{ forloop.index }}" data-to="0">{{ 'cart.remove' | t }}</button>
+        </div>
+      </li>
+    {%- endfor -%}
+  </ul>
+{%- endif -%}

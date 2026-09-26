@@ -1,0 +1,71 @@
+<footer class="footer" data-footer>
+  <svg class="footer__mark" viewBox="0 0 40 56" aria-hidden="true"><use href="#emblem" /></svg>
+
+  {%- for block in section.blocks -%}
+    {%- case block.type -%}
+      {%- when 'menu' -%}
+        <nav class="footer__links" aria-label="{{ block.settings.menu.title | escape }}" {{ block.shopify_attributes }}>
+          {%- for link in block.settings.menu.links -%}
+            <a href="{{ link.url }}">{{ link.title | escape }}</a>
+          {%- endfor -%}
+        </nav>
+      {%- when 'text' -%}
+        <div class="footer__text rte" {{ block.shopify_attributes }}>{{ block.settings.text }}</div>
+      {%- when 'newsletter' -%}
+        <div class="footer__news" {{ block.shopify_attributes }}>
+          {%- if block.settings.heading != blank -%}<p class="eyebrow">{{ block.settings.heading | escape }}</p>{%- endif -%}
+          {%- render 'newsletter-form', id: block.id -%}
+        </div>
+      {%- when 'social' -%}
+        {%- render 'social-links', attrs: block.shopify_attributes -%}
+    {%- endcase -%}
+  {%- endfor -%}
+
+  {%- if section.settings.show_payment -%}
+    <ul class="footer__pay" role="list" aria-label="{{ 'general.payment.methods' | t }}">
+      {%- for type in shop.enabled_payment_types -%}
+        <li>{{ type | payment_type_svg_tag: class: 'footer__pay-icon' }}</li>
+      {%- endfor -%}
+    </ul>
+  {%- endif -%}
+
+  <p class="footer__note">
+    <small>&copy; {{ 'now' | date: '%Y' }} {{ shop.name | link_to: routes.root_url }}</small>
+    {%- if section.settings.note != blank %} · {{ section.settings.note }}{% endif -%}
+    {%- if section.settings.show_powered_by %} · {{ powered_by_link }}{% endif -%}
+  </p>
+</footer>
+
+{% schema %}
+{
+  "name": "t:sections.footer.name",
+  "class": "section-footer",
+  "enabled_on": { "groups": ["footer"] },
+  "max_blocks": 8,
+  "settings": [
+    { "type": "richtext", "id": "note", "label": "t:sections.footer.settings.note.label" },
+    { "type": "checkbox", "id": "show_payment", "default": true, "label": "t:sections.footer.settings.show_payment.label" },
+    { "type": "checkbox", "id": "show_powered_by", "default": false, "label": "t:sections.footer.settings.show_powered_by.label" }
+  ],
+  "blocks": [
+    { "type": "menu", "name": "t:sections.footer.blocks.menu.name", "settings": [
+      { "type": "link_list", "id": "menu", "default": "footer", "label": "t:sections.footer.blocks.menu.settings.menu.label" }
+    ] },
+    { "type": "text", "name": "t:sections.footer.blocks.text.name", "settings": [
+      { "type": "richtext", "id": "text", "default": "<p>Share contact information, store details, and brand content with your customers.</p>", "label": "t:sections.footer.blocks.text.settings.text.label" }
+    ] },
+    { "type": "newsletter", "name": "t:sections.footer.blocks.newsletter.name", "limit": 1, "settings": [
+      { "type": "text", "id": "heading", "default": "Letters from the house", "label": "t:sections.footer.blocks.newsletter.settings.heading.label" }
+    ] },
+    { "type": "social", "name": "t:sections.footer.blocks.social.name", "limit": 1, "settings": [
+      { "type": "paragraph", "content": "t:sections.footer.blocks.social.settings.paragraph.content" }
+    ] }
+  ],
+  "default": {
+    "blocks": [
+      { "type": "menu" },
+      { "type": "social" }
+    ]
+  }
+}
+{% endschema %}

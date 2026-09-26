@@ -1,0 +1,103 @@
+{%- comment -%}
+  05 — The collection: the active bottle big in the centre, the others small, dim and soft on the sides.
+  Drag, arrows or keys. The ground takes each product's colour (metafield custom.background_color).
+  With no collection chosen it shows the theme's own bottles as a preview.
+{%- endcomment -%}
+{%- liquid
+  assign s = section.settings
+  assign c = s.collection
+  assign palette = '#efdcd2,#ead6c2,#ecebe6,#f0dcc0,#e6e0e6,#ece4da' | split: ','
+  assign glows = '#c9744f,#7a2e12,#e9e4da,#d9822b,#b7a9bf,#c9744f' | split: ','
+-%}
+<section class="collection" id="collection-{{ section.id }}" data-collection data-section="collection" aria-labelledby="CollectionTitle-{{ section.id }}">
+  <div class="collection__bg" data-coll-bg></div>
+  <header class="collection__head">
+    <p class="eyebrow">{{ s.label | escape }}</p>
+    <h2 class="collection__title" id="CollectionTitle-{{ section.id }}"><span class="ln"><span class="ln__in">{{ s.title | escape }}</span></span></h2>
+  </header>
+
+  <div class="cf" data-slider data-drag tabindex="0" aria-roledescription="carousel" aria-label="{{ s.title | escape }}">
+    <div class="cf__glow" data-glow aria-hidden="true"></div>
+    <ul class="cf__track" role="list">
+      {%- if c != blank and c.products_count > 0 -%}
+        {%- for p in c.products limit: s.limit -%}
+          {%- assign i = forloop.index0 | modulo: 6 -%}
+          {%- assign bg = p.metafields.custom.background_color.value | default: palette[i] -%}
+          {%- assign glow = p.metafields.custom.liquid_color.value | default: glows[i] -%}
+          <li class="cf__item" data-slide="{{ forloop.index0 }}" data-bg="{{ bg }}" data-glow-color="{{ glow }}">
+            <a href="{{ p.url }}" tabindex="-1" aria-hidden="true" draggable="false">
+              {%- if p.featured_media -%}
+                {{ p.featured_media.preview_image | image_url: width: 1100 | image_tag: loading: 'lazy', widths: '400, 700, 1100', sizes: '(max-aspect-ratio: 1/1) 60vw, 30vw', alt: '', draggable: 'false' }}
+              {%- else -%}
+                {{ 'product-1' | placeholder_svg_tag }}
+              {%- endif -%}
+            </a>
+          </li>
+        {%- endfor -%}
+      {%- else -%}
+        {%- assign demo = 'no1,no2,no3,no4,no5,set' | split: ',' -%}
+        {%- for d in demo -%}
+          {%- assign src = 'bottle-' | append: d | append: '_front.webp' -%}
+          <li class="cf__item" data-slide="{{ forloop.index0 }}" data-bg="{{ palette[forloop.index0] }}" data-glow-color="{{ glows[forloop.index0] }}">
+            <a href="{{ routes.all_products_collection_url }}" tabindex="-1" aria-hidden="true" draggable="false">
+              <img src="{{ src | asset_url }}" alt="" loading="lazy" width="1400" height="1800" draggable="false">
+            </a>
+          </li>
+        {%- endfor -%}
+      {%- endif -%}
+    </ul>
+    <button class="cf__arrow cf__arrow--prev" type="button" data-prev aria-label="{{ 'sections.collection.previous' | t }}"><span aria-hidden="true">←</span></button>
+    <button class="cf__arrow cf__arrow--next" type="button" data-next aria-label="{{ 'sections.collection.next' | t }}"><span aria-hidden="true">→</span></button>
+  </div>
+
+  <div class="cf__infos" aria-live="polite">
+    {%- if c != blank and c.products_count > 0 -%}
+      {%- for p in c.products limit: s.limit -%}
+        {%- assign v = p.selected_or_first_available_variant -%}
+        {%- assign character = p.metafields.custom.character.value -%}
+        <div class="cf__info" data-info="{{ forloop.index0 }}"{% unless forloop.first %} hidden{% endunless %}>
+          <h3 class="cf__name"><span class="ln"><span class="ln__in"><a href="{{ p.url }}">{{ p.title | escape }}</a></span></span></h3>
+          <p class="cf__char"><span class="ln"><span class="ln__in">{% if character != blank %}{{ character | escape }} · {% endif %}{% render 'price', product: p, from: true %}</span></span></p>
+          <p class="cf__actions">
+            <a class="link" href="{{ p.url }}">{{ 'sections.collection.discover' | t }}</a>
+            {%- if p.available -%}
+              {%- if p.variants.size == 1 -%}
+                <button class="link link--quiet" type="button" data-add="{{ v.id }}">{{ 'products.product.quick_add' | t }}</button>
+              {%- else -%}
+                <a class="link link--quiet" href="{{ p.url }}">{{ 'products.product.choose' | t }}</a>
+              {%- endif -%}
+            {%- endif -%}
+          </p>
+        </div>
+      {%- endfor -%}
+    {%- else -%}
+      {%- assign names = 'No. 1 — Rose & Oud|No. 2 — Amber Night|No. 3 — White Musk|No. 4 — Saffron Veil|No. 5 — Desert Iris|Discovery Set' | split: '|' -%}
+      {%- for n in names -%}
+        <div class="cf__info" data-info="{{ forloop.index0 }}"{% unless forloop.first %} hidden{% endunless %}>
+          <h3 class="cf__name"><span class="ln"><span class="ln__in"><a href="{{ routes.all_products_collection_url }}">{{ n }}</a></span></span></h3>
+          <p class="cf__char"><span class="ln"><span class="ln__in">{{ 'sections.collection.preview' | t }}</span></span></p>
+        </div>
+      {%- endfor -%}
+    {%- endif -%}
+  </div>
+
+  <div class="collection__foot">
+    <span class="slider__pos" data-pos>01</span>
+    <a class="link" href="{{ c.url | default: routes.all_products_collection_url }}">{{ s.view_all | escape }}</a>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "t:sections.azal-collection.name",
+  "class": "section-collection",
+  "settings": [
+    { "type": "collection", "id": "collection", "label": "t:sections.azal-collection.settings.collection.label" },
+    { "type": "range", "id": "limit", "min": 3, "max": 12, "step": 1, "default": 6, "label": "t:sections.azal-collection.settings.limit.label" },
+    { "type": "text", "id": "label", "default": "05 — The collection", "label": "t:sections.azal-collection.settings.label.label" },
+    { "type": "text", "id": "title", "default": "One house, five characters.", "label": "t:sections.azal-collection.settings.title.label" },
+    { "type": "text", "id": "view_all", "default": "View all fragrances", "label": "t:sections.azal-collection.settings.view_all.label" }
+  ],
+  "presets": [ { "name": "t:sections.azal-collection.presets.name" } ]
+}
+{% endschema %}

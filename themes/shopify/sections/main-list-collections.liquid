@@ -1,0 +1,35 @@
+<div class="page">
+  <header class="page__head">
+    <h1 class="page__title" tabindex="-1"><span class="ln"><span class="ln__in">{{ section.settings.title | escape }}</span></span></h1>
+  </header>
+  {%- paginate collections by 24 -%}
+    <ul class="grid" role="list">
+      {%- for c in collections -%}
+        <li class="card">
+          <a class="card__img" href="{{ c.url }}" style="--bg: {{ settings.color_card_bg }};" tabindex="-1" aria-hidden="true">
+            {%- assign img = c.featured_image | default: c.products.first.featured_media.preview_image -%}
+            {%- if img -%}
+              {{ img | image_url: width: 1200 | image_tag: loading: 'lazy', widths: '400, 800, 1200', sizes: '(min-width: 900px) 33vw, 100vw', alt: '' }}
+            {%- else -%}
+              {{ 'collection-1' | placeholder_svg_tag: 'card__ph' }}
+            {%- endif -%}
+          </a>
+          <div class="card__info">
+            <h2 class="card__name"><a href="{{ c.url }}">{{ c.title | escape }}</a></h2>
+            <p class="card__price">{{ 'collections.count' | t: count: c.products_count }}</p>
+          </div>
+        </li>
+      {%- endfor -%}
+    </ul>
+    {%- render 'pagination', paginate: paginate -%}
+  {%- endpaginate -%}
+</div>
+
+{% schema %}
+{
+  "name": "t:sections.main-list-collections.name",
+  "settings": [
+    { "type": "text", "id": "title", "default": "Collections", "label": "t:sections.main-list-collections.settings.title.label" }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,44 @@
+{%- comment -%}
+  The shop card: bottle on its own colour, name, character, price, quick add.
+  Accepts: product (required), wide (bool), index (number, for loading), heading_tag
+  Colour and character come from the product metafields custom.background_color and custom.character.
+{%- endcomment -%}
+{%- liquid
+  assign bg = product.metafields.custom.background_color.value | default: settings.color_card_bg
+  assign character = product.metafields.custom.character.value
+  assign loading = 'lazy'
+  if index and index < 3
+    assign loading = 'eager'
+  endif
+  assign h = heading_tag | default: 'h3'
+  assign img = product.featured_media.preview_image
+  assign fit = settings.card_image_fit
+-%}
+<li class="card{% if wide %} card--wide{% endif %} card--fit-{{ fit }}" style="--bg: {{ bg }};">
+  <a class="card__img" href="{{ product.url }}" data-view aria-label="{{ product.title | escape }}" tabindex="-1">
+    {%- if img -%}
+      {{ img | image_url: width: 1400 | image_tag: loading: loading, widths: '360, 540, 720, 960, 1200, 1400', sizes: '(min-width: 900px) 33vw, (min-width: 560px) 50vw, 100vw', alt: img.alt | default: product.title }}
+    {%- else -%}
+      {{ 'product-1' | placeholder_svg_tag: 'card__ph' }}
+    {%- endif -%}
+    <span class="card__sweep" aria-hidden="true"></span>
+    {%- unless product.available -%}<span class="card__badge">{{ 'products.product.sold_out' | t }}</span>{%- endunless -%}
+    {%- if product.compare_at_price > product.price and product.available -%}<span class="card__badge">{{ 'products.product.on_sale' | t }}</span>{%- endif -%}
+  </a>
+  <div class="card__info">
+    <{{ h }} class="card__name"><a href="{{ product.url }}">{{ product.title | escape }}</a></{{ h }}>
+    {%- if settings.card_show_character and character != blank -%}
+      <p class="card__char">{{ character | escape }}</p>
+    {%- elsif settings.card_show_vendor -%}
+      <p class="card__char">{{ product.vendor | escape }}</p>
+    {%- endif -%}
+    <p class="card__price">{% render 'price', product: product, from: true %}</p>
+    {%- if settings.card_quick_add and product.available -%}
+      {%- if product.has_only_default_variant or product.variants.size == 1 -%}
+        <button class="card__add link" type="button" data-add="{{ product.selected_or_first_available_variant.id }}" aria-label="{{ 'products.product.add_named' | t: title: product.title | escape }}">{{ 'products.product.quick_add' | t }}</button>
+      {%- else -%}
+        <a class="card__add link" href="{{ product.url }}">{{ 'products.product.choose' | t }}</a>
+      {%- endif -%}
+    {%- endif -%}
+  </div>
+</li>

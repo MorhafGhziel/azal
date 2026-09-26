@@ -1,0 +1,32 @@
+{%- comment -%} "You may also like" — loaded through the Product Recommendations API. {%- endcomment -%}
+<section class="also" data-recommendations data-url="{{ routes.product_recommendations_url }}?section_id={{ section.id }}&product_id={{ product.id }}&limit={{ section.settings.limit }}" aria-labelledby="AlsoTitle-{{ section.id }}">
+  {%- if recommendations.performed? and recommendations.products_count > 0 -%}
+    <h2 class="eyebrow" id="AlsoTitle-{{ section.id }}">{{ section.settings.heading | escape }}</h2>
+    <ul class="also__row" role="list">
+      {%- for p in recommendations.products -%}
+        {%- assign bg = p.metafields.custom.background_color.value | default: settings.color_card_bg -%}
+        <li style="--bg: {{ bg }};">
+          <a href="{{ p.url }}" data-view>
+            <span class="also__img">
+              {%- if p.featured_media -%}{{ p.featured_media.preview_image | image_url: width: 900 | image_tag: loading: 'lazy', widths: '300, 600, 900', sizes: '(min-width: 900px) 30vw, 100vw', alt: '' }}{%- endif -%}
+            </span>
+            <span class="also__name">{{ p.title | escape }}</span>
+            <span class="also__price">{% render 'price', product: p, from: true %}</span>
+          </a>
+        </li>
+      {%- endfor -%}
+    </ul>
+  {%- endif -%}
+</section>
+
+{% schema %}
+{
+  "name": "t:sections.product-recommendations.name",
+  "class": "section-recs",
+  "settings": [
+    { "type": "text", "id": "heading", "default": "You may also like", "label": "t:sections.product-recommendations.settings.heading.label" },
+    { "type": "range", "id": "limit", "min": 2, "max": 6, "step": 1, "default": 3, "label": "t:sections.product-recommendations.settings.limit.label" }
+  ],
+  "enabled_on": { "templates": ["product"] }
+}
+{% endschema %}

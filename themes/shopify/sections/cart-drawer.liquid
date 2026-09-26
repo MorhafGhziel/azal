@@ -1,0 +1,41 @@
+{%- comment -%}
+  The bag drawer. Re-rendered through the Section Rendering API after every change (see azal-cart.js).
+{%- endcomment -%}
+<div class="drawer" id="CartDrawer" data-drawer hidden>
+  <div class="drawer__dim" data-close></div>
+  <aside class="drawer__panel" role="dialog" aria-modal="true" aria-labelledby="CartDrawerTitle" tabindex="-1">
+    <header class="drawer__head">
+      <h2 class="drawer__title" id="CartDrawerTitle">{{ 'cart.title' | t }} ({{ cart.item_count }})</h2>
+      <button class="drawer__x" type="button" data-close aria-label="{{ 'cart.close' | t }}"><span aria-hidden="true">✕</span></button>
+    </header>
+    <div class="drawer__body" data-lenis-prevent data-cart-body>
+      {%- render 'cart-lines' -%}
+    </div>
+    {%- if cart.item_count > 0 -%}
+      <footer class="drawer__foot">
+        {%- render 'cart-extras', scope: 'drawer' -%}
+        <dl class="sums">
+          {%- if cart.cart_level_discount_applications.size > 0 -%}
+            {%- for d in cart.cart_level_discount_applications -%}
+              <div><dt>{{ d.title | escape }}</dt><dd>-{{ d.total_allocated_amount | money }}</dd></div>
+            {%- endfor -%}
+          {%- endif -%}
+          <div><dt>{{ 'cart.subtotal' | t }}</dt><dd>{{ cart.total_price | money_with_currency }}</dd></div>
+          <div><dt>{{ 'cart.shipping' | t }}</dt><dd class="muted">{{ 'cart.shipping_at_checkout' | t }}</dd></div>
+        </dl>
+        {%- if settings.cart_shipping_note != blank -%}<p class="sums__vat muted">{{ settings.cart_shipping_note | escape }}</p>{%- endif -%}
+        <form action="{{ routes.cart_url }}" method="post">
+          <button class="btn btn--solid btn--full" type="submit" name="checkout">{{ 'cart.checkout' | t }}</button>
+        </form>
+        <a class="link link--center" href="{{ routes.cart_url }}">{{ 'cart.view_full' | t }}</a>
+      </footer>
+    {%- endif -%}
+  </aside>
+</div>
+
+{% schema %}
+{
+  "name": "t:sections.cart-drawer.name",
+  "settings": []
+}
+{% endschema %}

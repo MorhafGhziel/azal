@@ -1,0 +1,39 @@
+<div class="page page--form">
+  <header class="page__head">
+    <p class="eyebrow"><a class="link" href="{{ routes.account_url }}">{{ 'customer.account.return' | t }}</a></p>
+    <h1 class="page__title" tabindex="-1">{{ 'customer.addresses.title' | t }}</h1>
+  </header>
+
+  {%- paginate customer.addresses by 10 -%}
+    {%- for address in customer.addresses -%}
+      <div class="acct__addr">
+        {%- if address == customer.default_address -%}<p class="eyebrow">{{ 'customer.addresses.default' | t }}</p>{%- endif -%}
+        {{ address | format_address }}
+        <details>
+          <summary class="link">{{ 'customer.addresses.edit' | t }}</summary>
+          {%- form 'customer_address', address -%}
+            {%- render 'address-fields', form: form, id: address.id -%}
+            <button class="btn btn--solid" type="submit">{{ 'customer.addresses.update' | t }}</button>
+          {%- endform -%}
+        </details>
+        <form method="post" action="{{ routes.account_addresses_url }}/{{ address.id }}" onsubmit="return confirm({{ 'customer.addresses.delete_confirm' | t | json | escape }});">
+          <input type="hidden" name="_method" value="delete">
+          <button class="link link--quiet" type="submit">{{ 'customer.addresses.delete' | t }}</button>
+        </form>
+      </div>
+    {%- endfor -%}
+    {%- render 'pagination', paginate: paginate -%}
+  {%- endpaginate -%}
+
+  <details class="acct__new">
+    <summary class="btn btn--line">{{ 'customer.addresses.add' | t }}</summary>
+    {%- form 'customer_address', customer.new_address -%}
+      {%- render 'address-fields', form: form, id: 'new' -%}
+      <button class="btn btn--solid" type="submit">{{ 'customer.addresses.add' | t }}</button>
+    {%- endform -%}
+  </details>
+</div>
+
+{% schema %}
+{ "name": "t:sections.customers.addresses", "settings": [] }
+{% endschema %}

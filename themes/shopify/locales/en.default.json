@@ -1,0 +1,276 @@
+{
+  "accessibility": {
+    "skip_to_content": "Skip to content",
+    "main_navigation": "Main",
+    "menu": "Menu",
+    "announcement": "Announcement"
+  },
+  "general": {
+    "nav": {
+      "menu": "Menu",
+      "close": "Close",
+      "bag": "Bag",
+      "search": "Search",
+      "account": "Account"
+    },
+    "cursor": {
+      "drag": "Drag",
+      "view": "View"
+    },
+    "meta": {
+      "tags": "Tagged \"{{ tags }}\"",
+      "page": "Page {{ page }}"
+    },
+    "pagination": {
+      "label": "Pagination",
+      "previous": "Previous",
+      "next": "Next",
+      "page": "Page {{ number }}"
+    },
+    "payment": {
+      "methods": "Payment methods"
+    },
+    "social": {
+      "instagram": "Instagram",
+      "tiktok": "TikTok",
+      "snapchat": "Snapchat",
+      "twitter": "X",
+      "facebook": "Facebook",
+      "pinterest": "Pinterest",
+      "youtube": "YouTube",
+      "whatsapp": "WhatsApp"
+    }
+  },
+  "localization": {
+    "country_label": "Country / currency",
+    "update": "Update"
+  },
+  "newsletter": {
+    "label": "Email",
+    "button": "Subscribe",
+    "success": "Thank you — you are on the list."
+  },
+  "products": {
+    "product": {
+      "add_to_cart": "Add to bag",
+      "adding": "Adding…",
+      "added": "Added ✓",
+      "quick_add": "+ Add",
+      "add_named": "Add {{ title }} to bag",
+      "choose": "Choose",
+      "sold_out": "Sold out",
+      "on_sale": "Sale",
+      "unavailable": "Unavailable",
+      "from_price": "From {{ price }}",
+      "regular_price": "Regular price",
+      "quantity": "Quantity",
+      "decrease": "Decrease quantity",
+      "increase": "Increase quantity",
+      "media": "Product images",
+      "show_media": "Show image {{ index }}",
+      "taxes_included": "Taxes included.",
+      "shipping_policy_html": "<a href=\"{{ link }}\">Shipping</a> calculated at checkout.",
+      "pickup_available": "Pickup available at {{ location }}. Usually ready in {{ time }}.",
+      "pickup_unavailable": "Pickup currently unavailable at {{ location }}."
+    },
+    "notes": {
+      "top": "Top",
+      "heart": "Heart",
+      "base": "Base"
+    }
+  },
+  "sections": {
+    "collection": {
+      "discover": "Discover",
+      "previous": "Previous",
+      "next": "Next",
+      "preview": "Choose a collection to show your products",
+      "view_all": "View all"
+    }
+  },
+  "collections": {
+    "empty": "Nothing here yet.",
+    "filters": {
+      "apply": "Apply",
+      "clear": "Clear all",
+      "from": "From",
+      "to": "To"
+    },
+    "sort": {
+      "label": "Sort"
+    },
+    "count": {
+      "one": "{{ count }} product",
+      "other": "{{ count }} products"
+    }
+  },
+  "cart": {
+    "title": "Your bag",
+    "count_label": "Bag ({{ count }})",
+    "empty": "Your bag is empty.",
+    "discover": "Discover the collection",
+    "remove": "Remove",
+    "gift": "Add gift wrapping — complimentary",
+    "note": "Gift message or order note (optional)",
+    "note_placeholder": "A few words for the card",
+    "subtotal": "Subtotal",
+    "shipping": "Delivery",
+    "shipping_at_checkout": "Calculated at checkout",
+    "taxes_included_shipping_at_checkout": "Taxes included. Delivery calculated at checkout.",
+    "taxes_and_shipping_at_checkout": "Taxes and delivery calculated at checkout.",
+    "checkout": "Checkout",
+    "view_full": "View bag",
+    "close": "Close bag",
+    "toast": "Added to bag",
+    "view": "View bag",
+    "error": "Something went wrong. Please try again.",
+    "login_html": "Have an account? <a href=\"{{ link }}\">Log in</a> to check out faster."
+  },
+  "search": {
+    "title": "Search",
+    "label": "Search the store",
+    "placeholder": "Rose, oud, amber…",
+    "submit": "Search",
+    "results": {
+      "one": "{{ count }} result for “{{ terms }}”",
+      "other": "{{ count }} results for “{{ terms }}”"
+    }
+  },
+  "templates": {
+    "404": {
+      "title": "This page drifted away.",
+      "subtext": "The page you were looking for does not exist.",
+      "link": "Back to the fragrances"
+    },
+    "contact": {
+      "name": "Name",
+      "email": "Email",
+      "phone": "Phone",
+      "message": "Message",
+      "send": "Send",
+      "success": "Thank you. We will reply soon."
+    },
+    "password": {
+      "enter": "Enter with a password",
+      "label": "Password",
+      "submit": "Enter",
+      "owner_html": "Are you the store owner? <a href=\"{{ link }}\">Log in here</a>"
+    }
+  },
+  "blogs": {
+    "article": {
+      "back": "Back to {{ title }}"
+    },
+    "comments": {
+      "name": "Name",
+      "email": "Email",
+      "message": "Comment",
+      "post": "Post comment",
+      "success": "Your comment was posted.",
+      "success_moderated": "Your comment will appear once it is approved.",
+      "title": {
+        "one": "{{ count }} comment",
+        "other": "{{ count }} comments"
+      }
+    }
+  },
+  "customer": {
+    "fields": {
+      "first_name": "First name",
+      "last_name": "Last name",
+      "email": "Email",
+      "password": "Password",
+      "password_confirm": "Confirm password",
+      "company": "Company",
+      "address1": "Address",
+      "address2": "Apartment, building, etc.",
+      "city": "City",
+      "zip": "Postal code",
+      "country": "Country",
+      "province": "Region",
+      "phone": "Phone"
+    },
+    "login": {
+      "title": "Log in",
+      "submit": "Log in",
+      "forgot": "Forgot your password?",
+      "create": "Create an account",
+      "guest": "Continue as a guest"
+    },
+    "recover": {
+      "title": "Reset your password",
+      "subtext": "We will send you an email to reset your password.",
+      "submit": "Send",
+      "cancel": "Cancel",
+      "success": "We have sent you an email with a link to update your password."
+    },
+    "register": {
+      "title": "Create an account",
+      "submit": "Create",
+      "login": "Already have an account? Log in"
+    },
+    "account": {
+      "title": "Account",
+      "logout": "Log out",
+      "details": "Account details",
+      "return": "Back to account",
+      "addresses": {
+        "one": "View address ({{ count }})",
+        "other": "View addresses ({{ count }})"
+      }
+    },
+    "orders": {
+      "title": "Orders",
+      "order": "Order",
+      "date": "Date",
+      "fulfillment": "Status",
+      "total": "Total",
+      "none": "You have not placed any orders yet."
+    },
+    "order": {
+      "title": "Order {{ name }}",
+      "cancelled": "Cancelled on {{ date }}",
+      "product": "Product",
+      "quantity": "Quantity",
+      "total": "Total",
+      "subtotal": "Subtotal",
+      "shipping": "Delivery",
+      "track": "Track shipment",
+      "shipping_address": "Delivery address",
+      "billing_address": "Billing address"
+    },
+    "addresses": {
+      "title": "Addresses",
+      "default": "Default",
+      "edit": "Edit",
+      "update": "Update address",
+      "delete": "Delete",
+      "delete_confirm": "Delete this address?",
+      "add": "Add a new address",
+      "set_default": "Set as default address"
+    },
+    "activate": {
+      "title": "Activate your account",
+      "subtext": "Create a password to activate your account.",
+      "submit": "Activate account",
+      "decline": "Decline invitation"
+    },
+    "reset": {
+      "title": "Reset your password",
+      "subtext": "Enter a new password.",
+      "submit": "Reset password"
+    }
+  },
+  "gift_cards": {
+    "issued": {
+      "title": "Here is your {{ value }} gift card for {{ shop }}!",
+      "subtext": "Your gift card",
+      "expired": "Expired",
+      "expires_on": "Expires on {{ expires_on }}",
+      "code": "Gift card code",
+      "shop_link": "Visit the store",
+      "add_to_apple_wallet": "Add to Apple Wallet",
+      "print": "Print"
+    }
+  }
+}

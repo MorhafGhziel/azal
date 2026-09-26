@@ -1,0 +1,16 @@
+{%- assign form_id = 'Newsletter-' | append: id -%}
+{%- form 'customer', id: form_id, class: 'news' -%}
+  <input type="hidden" name="contact[tags]" value="newsletter">
+  {%- if form.posted_successfully? -%}
+    <p class="news__ok" role="status">{{ 'newsletter.success' | t }}</p>
+  {%- else -%}
+    <div class="news__row">
+      <label class="visually-hidden" for="NewsletterEmail-{{ id }}">{{ 'newsletter.label' | t }}</label>
+      <input id="NewsletterEmail-{{ id }}" type="email" name="contact[email]" autocomplete="email" required placeholder="{{ 'newsletter.label' | t }}"{% if form.errors %} aria-invalid="true" aria-describedby="NewsletterErr-{{ id }}"{% endif %}>
+      <button class="pill" type="submit">{{ 'newsletter.button' | t }}</button>
+    </div>
+    {%- if form.errors -%}
+      <p class="field__err" id="NewsletterErr-{{ id }}">{{ form.errors.translated_fields.email | capitalize }} {{ form.errors.messages.email }}</p>
+    {%- endif -%}
+  {%- endif -%}
+{%- endform -%}

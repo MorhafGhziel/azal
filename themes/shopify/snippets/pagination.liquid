@@ -1,0 +1,23 @@
+{%- if paginate.pages > 1 -%}
+  <nav class="pager" aria-label="{{ 'general.pagination.label' | t }}">
+    {%- if paginate.previous -%}
+      <a class="link" href="{{ paginate.previous.url }}" rel="prev">{{ 'general.pagination.previous' | t }}</a>
+    {%- endif -%}
+    <ol class="pager__pages" role="list">
+      {%- for part in paginate.parts -%}
+        <li>
+          {%- if part.is_link -%}
+            <a href="{{ part.url }}" aria-label="{{ 'general.pagination.page' | t: number: part.title }}">{{ part.title }}</a>
+          {%- elsif part.title == paginate.current_page -%}
+            <span aria-current="page">{{ part.title }}</span>
+          {%- else -%}
+            <span>{{ part.title }}</span>
+          {%- endif -%}
+        </li>
+      {%- endfor -%}
+    </ol>
+    {%- if paginate.next -%}
+      <a class="link" href="{{ paginate.next.url }}" rel="next">{{ 'general.pagination.next' | t }}</a>
+    {%- endif -%}
+  </nav>
+{%- endif -%}

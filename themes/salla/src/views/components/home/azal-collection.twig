@@ -1,0 +1,62 @@
+{#
+  AZAL 05 — the collection: the active bottle big in the centre, the others small, dim and soft on the sides.
+  Fields (twilight.json → home.azal-collection): label, title, products, colors (one hex per line), view_all_url.
+#}
+{% set palette = (component.colors ?: "#efdcd2\n#ead6c2\n#ecebe6\n#f0dcc0\n#e6e0e6\n#ece4da")|split("\n") %}
+{% set glows = ['#c9744f', '#7a2e12', '#e9e4da', '#d9822b', '#b7a9bf', '#c9744f'] %}
+{% set products = component.products ?: [] %}
+{% set demo = products|length == 0 %}
+{% set demo_items = ['no1', 'no2', 'no3', 'no4', 'no5', 'set'] %}
+{% set count = demo ? 6 : products|length %}
+<div class="az" component-id="{{ componentId }}">
+<section class="collection" data-collection data-section="collection">
+  <div class="collection__bg" data-coll-bg></div>
+  <header class="collection__head">
+    {% if component.label %}<p class="eyebrow">{{ component.label }}</p>{% endif %}
+    <h2 class="collection__title"><span class="ln"><span class="ln__in">{{ component.title }}</span></span></h2>
+  </header>
+
+  <div class="cf" data-slider data-drag tabindex="0" aria-roledescription="carousel" aria-label="{{ component.title }}">
+    <div class="cf__glow" data-glow aria-hidden="true"></div>
+    <ul class="cf__track">
+      {% for i in 0..(count - 1) %}
+        {% set bg = palette[i % palette|length]|trim %}
+        <li class="cf__item" data-slide="{{ i }}" data-bg="{{ bg }}" data-glow-color="{{ glows[i % 6] }}">
+          {% if demo %}
+            <a href="{{ store.url }}" tabindex="-1" aria-hidden="true" draggable="false"><img src="{{ ('azal/bottle-' ~ demo_items[i] ~ '_front.webp')|asset }}" alt="" loading="lazy" draggable="false"></a>
+          {% else %}
+            {% set p = products[i] %}
+            <a href="{{ p.url }}" tabindex="-1" aria-hidden="true" draggable="false"><img src="{{ p.image.url }}" alt="" loading="lazy" draggable="false"></a>
+          {% endif %}
+        </li>
+      {% endfor %}
+    </ul>
+    <button class="cf__arrow cf__arrow--prev" type="button" data-prev aria-label="{{ trans('azal.previous') }}"><span aria-hidden="true">←</span></button>
+    <button class="cf__arrow cf__arrow--next" type="button" data-next aria-label="{{ trans('azal.next') }}"><span aria-hidden="true">→</span></button>
+  </div>
+
+  <div class="cf__infos" aria-live="polite">
+    {% for i in 0..(count - 1) %}
+      <div class="cf__info" data-info="{{ i }}"{{ i > 0 ? ' hidden' : '' }}>
+        {% if demo %}
+          <h3 class="cf__name"><span class="ln"><span class="ln__in">{{ trans('azal.demo_name') }} {{ i + 1 }}</span></span></h3>
+          <p class="cf__char"><span class="ln"><span class="ln__in">{{ trans('azal.choose_products') }}</span></span></p>
+        {% else %}
+          {% set p = products[i] %}
+          <h3 class="cf__name"><span class="ln"><span class="ln__in"><a href="{{ p.url }}">{{ p.name }}</a></span></span></h3>
+          <p class="cf__char"><span class="ln"><span class="ln__in">{{ p.subtitle ? p.subtitle ~ ' · ' : '' }}{{ p.price|money }}</span></span></p>
+          <p class="cf__actions">
+            <a class="link" href="{{ p.url }}">{{ trans('azal.discover') }}</a>
+            <salla-add-product-button product-id="{{ p.id }}" product-status="{{ p.status }}" product-type="{{ p.type }}" class="az-add az-add--quiet">{{ trans('azal.add') }}</salla-add-product-button>
+          </p>
+        {% endif %}
+      </div>
+    {% endfor %}
+  </div>
+
+  <div class="collection__foot">
+    <span class="slider__pos" data-pos>01</span>
+    {% if component.view_all_url %}<a class="link" href="{{ component.view_all_url }}">{{ trans('azal.view_all') }}</a>{% endif %}
+  </div>
+</section>
+</div>

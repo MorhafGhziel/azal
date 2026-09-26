@@ -1,0 +1,41 @@
+<article class="page page--narrow article">
+  <header class="page__head">
+    <p class="eyebrow">{{ article.published_at | time_tag: format: 'date' }}{% if article.author != blank %} · {{ article.author }}{% endif %}</p>
+    <h1 class="page__title" tabindex="-1"><span class="ln"><span class="ln__in">{{ article.title | escape }}</span></span></h1>
+  </header>
+  {%- if article.image -%}
+    <figure class="article__hero">
+      {{ article.image | image_url: width: 2000 | image_tag: loading: 'eager', widths: '750, 1100, 1500, 2000', sizes: '(min-width: 900px) 900px, 100vw', alt: article.image.alt | default: article.title }}
+    </figure>
+  {%- endif -%}
+  <div class="rte">{{ article.content }}</div>
+
+  {%- if blog.comments_enabled? -%}
+    <section class="article__comments">
+      <h2 class="eyebrow">{{ 'blogs.comments.title' | t: count: article.comments_count }}</h2>
+      {%- paginate article.comments by 20 -%}
+        {%- for comment in article.comments -%}
+          <div class="article__comment rte">{{ comment.content }}<p class="muted">{{ comment.author }} · {{ comment.created_at | time_tag: format: 'date' }}</p></div>
+        {%- endfor -%}
+        {%- render 'pagination', paginate: paginate -%}
+      {%- endpaginate -%}
+      {%- form 'new_comment', article -%}
+        {%- if form.posted_successfully? -%}
+          <p role="status">{% if blog.moderated? %}{{ 'blogs.comments.success_moderated' | t }}{% else %}{{ 'blogs.comments.success' | t }}{% endif %}</p>
+        {%- endif -%}
+        {%- if form.errors -%}<p class="field__err" role="alert">{{ form.errors | default_errors }}</p>{%- endif -%}
+        <div class="field-row">
+          <label class="field"><span class="field__label">{{ 'blogs.comments.name' | t }}</span><input type="text" name="comment[author]" value="{{ form.author }}" required autocomplete="name"></label>
+          <label class="field"><span class="field__label">{{ 'blogs.comments.email' | t }}</span><input type="email" name="comment[email]" value="{{ form.email }}" required autocomplete="email"></label>
+        </div>
+        <label class="field"><span class="field__label">{{ 'blogs.comments.message' | t }}</span><textarea name="comment[body]" rows="5" required>{{ form.body }}</textarea></label>
+        <button class="btn btn--solid" type="submit">{{ 'blogs.comments.post' | t }}</button>
+      {%- endform -%}
+    </section>
+  {%- endif -%}
+  <p><a class="link" href="{{ blog.url }}">{{ 'blogs.article.back' | t: title: blog.title }}</a></p>
+</article>
+
+{% schema %}
+{ "name": "t:sections.main-article.name", "settings": [] }
+{% endschema %}

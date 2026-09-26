@@ -1,0 +1,80 @@
+{#
+  AZAL 01 + 02 — the sky, the descent through the clouds, the bottle turning, the manifesto.
+  Fields (twilight.json → home.azal-sky): eyebrow, heading, tagline, cta, scroll_label, manifesto_label,
+  manifesto, product, bottle_image, sky_image. Empty images fall back to the theme's painted artwork.
+  Animation: assets/js/azal/home.js (initSky).
+#}
+{% set a = 'azal/' %}
+{% set p = component.product is iterable ? component.product|first : component.product %}
+{% set bottle_url = p ? p.url : store.url %}
+{% set word = component.heading ?: store.name %}
+
+<div class="az" component-id="{{ componentId }}">
+<section class="sky" id="sky-{{ position }}" data-sky data-section="sky">
+  <div class="stage" data-stage>
+    <div class="layer layer--sky" data-layer="sky" data-depth="4">
+      <div class="layer__in">
+        {% if component.sky_image %}
+          <picture><img src="{{ component.sky_image }}" alt="" loading="eager" fetchpriority="high"></picture>
+        {% else %}
+          {% include 'pages.partials.azal.scene' with { d: 'sky-d-dawn_sky.webp', m: 'sky-m-dawn_sky.webp', eager: true } %}
+        {% endif %}
+      </div>
+    </div>
+    <div class="layer layer--far" data-layer="far" data-depth="7"><div class="layer__in">{% include 'pages.partials.azal.scene' with { d: 'sky-d-dawn_far.webp', m: 'sky-m-dawn_far.webp', eager: true } %}</div></div>
+    <div class="petals petals--back" data-petals="back" aria-hidden="true"></div>
+    <div class="layer layer--mid" data-layer="mid" data-depth="12"><div class="layer__in">{% include 'pages.partials.azal.scene' with { d: 'sky-d-dawn_mid.webp', m: 'sky-m-dawn_mid.webp', eager: true } %}</div></div>
+    <div class="dusken" data-dusken aria-hidden="true"></div>
+
+    <div class="hero-copy" data-hero-copy>
+      {% if component.eyebrow %}<p class="eyebrow"><span class="ln"><span class="ln__in">{{ component.eyebrow }}</span></span></p>{% endif %}
+      <h2 class="hero-copy__title">
+        <span class="hero-copy__word"><span class="ln"><span class="ln__in">{{ word }}</span></span></span>
+        {% if component.tagline %}<span class="hero-copy__tag"><span class="ln"><span class="ln__in">{{ component.tagline }}</span></span></span>{% endif %}
+      </h2>
+      {% if component.cta %}<div class="hero-copy__cta"><a class="pill" href="#manifesto-{{ position }}" data-begin>{{ component.cta }}</a></div>{% endif %}
+    </div>
+
+    <div class="ground" data-ground>
+      <div class="ground__wine"><span class="ground__clouds">{% include 'pages.partials.azal.scene' with { d: 'sky-d-wine_back.webp', m: 'sky-m-wine_back.webp', eager: false } %}</span></div>
+      <div class="layer layer--near" data-layer="near" data-depth="18"><div class="layer__in">{% include 'pages.partials.azal.scene' with { d: 'sky-d-dawn_near.webp', m: 'sky-m-dawn_near.webp', eager: true } %}</div></div>
+    </div>
+
+    <a class="bottle" data-bottle href="{{ bottle_url }}" tabindex="-1" aria-hidden="true">
+      <div class="bottle__glow" aria-hidden="true"></div>
+      <div class="bottle__frame">
+        {% if component.bottle_image %}
+          <img class="bottle__still" src="{{ component.bottle_image }}" alt="">
+          <div class="bottle__sweep" data-sweep aria-hidden="true" style="--bottle-mask: url('{{ component.bottle_image }}');"></div>
+        {% else %}
+          {% set frames = [] %}
+          {% for i in 0..24 %}{% set frames = frames|merge([('azal/hero-turn-' ~ ('%04d'|format(i)) ~ '.webp')|asset]) %}{% endfor %}
+          <canvas class="bottle__seq" data-bottle-seq data-frames="{{ frames|json_encode|e('html_attr') }}" width="1000" height="1286" role="img" aria-label="{{ word }}"></canvas>
+          <div class="bottle__sweep" data-sweep aria-hidden="true" style="--bottle-mask: url('{{ 'azal/hero-turn-0012.webp'|asset }}');"></div>
+        {% endif %}
+      </div>
+      <div class="bottle__shadow" aria-hidden="true"></div>
+    </a>
+
+    <div class="petals petals--front" data-petals="front" aria-hidden="true"></div>
+    <div class="layer layer--front" data-layer="front" data-depth="26"><div class="layer__in">{% include 'pages.partials.azal.scene' with { d: 'sky-d-dawn_front.webp', m: 'sky-m-dawn_front.webp', eager: true } %}</div></div>
+    <div class="mist" data-mist aria-hidden="true">
+      <div class="mist__card mist__card--a"><img src="{{ 'azal/sky-mist_a.webp'|asset }}" alt="" decoding="async"></div>
+      <div class="mist__card mist__card--b"><img src="{{ 'azal/sky-mist_b.webp'|asset }}" alt="" decoding="async"></div>
+    </div>
+
+    <div class="manifesto" id="manifesto-{{ position }}" data-manifesto>
+      {% if component.manifesto_label %}<p class="eyebrow manifesto__label">{{ component.manifesto_label }}</p>{% endif %}
+      <p class="manifesto__text">
+        {% for line in (component.manifesto ?: '')|split("\n") %}
+          {% if line|trim %}<span class="ln"><span class="ln__in">{{ line|trim }}</span></span>{% endif %}
+        {% endfor %}
+      </p>
+    </div>
+
+    {% if component.scroll_label %}
+      <div class="corner corner--start" data-scroll-cue><span class="corner__tick"></span><span>{{ component.scroll_label }}</span></div>
+    {% endif %}
+  </div>
+</section>
+</div>

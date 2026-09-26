@@ -1,0 +1,126 @@
+{%- comment -%}
+  01 + 02 — the sky, the descent through the clouds, the bottle and the manifesto, on one sticky stage.
+  Animation: assets/azal-home.js (initSky). With reduced motion it becomes a composed still.
+{%- endcomment -%}
+{%- liquid
+  assign s = section.settings
+  assign word = s.heading | default: shop.name
+  assign bottle_product = s.product
+  assign bottle_url = bottle_product.url | default: routes.all_products_collection_url
+-%}
+<section class="sky" id="sky-{{ section.id }}" data-sky data-section="sky" style="--sky-length: {{ s.length }}svh;">
+  <div class="stage" data-stage>
+    <div class="layer layer--sky" data-layer="sky" data-depth="4">
+      <div class="layer__in">{% render 'scene-picture', image: s.image_sky, d: 'sky-d-dawn_sky.webp', m: 'sky-m-dawn_sky.webp', loading: 'eager', priority: true %}</div>
+    </div>
+    {%- if s.image_sky == blank or s.keep_clouds -%}
+      <div class="layer layer--far" data-layer="far" data-depth="7">
+        <div class="layer__in">{% render 'scene-picture', d: 'sky-d-dawn_far.webp', m: 'sky-m-dawn_far.webp', loading: 'eager' %}</div>
+      </div>
+      <div class="petals petals--back" data-petals="back" aria-hidden="true"></div>
+      <div class="layer layer--mid" data-layer="mid" data-depth="12">
+        <div class="layer__in">{% render 'scene-picture', d: 'sky-d-dawn_mid.webp', m: 'sky-m-dawn_mid.webp', loading: 'eager' %}</div>
+      </div>
+    {%- else -%}
+      <div class="petals petals--back" data-petals="back" aria-hidden="true"></div>
+    {%- endif -%}
+    <div class="dusken" data-dusken aria-hidden="true"></div>
+
+    <div class="hero-copy" data-hero-copy>
+      {%- if s.eyebrow != blank -%}<p class="eyebrow"><span class="ln"><span class="ln__in">{{ s.eyebrow | escape }}</span></span></p>{%- endif -%}
+      <h1 class="hero-copy__title">
+        <span class="hero-copy__word"><span class="ln"><span class="ln__in">{{ word | escape }}</span></span></span>
+        {%- if s.tagline != blank -%}<span class="hero-copy__tag"><span class="ln"><span class="ln__in">{{ s.tagline | escape }}</span></span></span>{%- endif -%}
+      </h1>
+      {%- if s.cta_label != blank -%}
+        <div class="hero-copy__cta"><a class="pill" href="#manifesto-{{ section.id }}" data-begin>{{ s.cta_label | escape }}</a></div>
+      {%- endif -%}
+    </div>
+
+    <div class="ground" data-ground>
+      <div class="ground__wine">
+        <span class="ground__clouds">{% render 'scene-picture', d: 'sky-d-wine_back.webp', m: 'sky-m-wine_back.webp' %}</span>
+      </div>
+      <div class="layer layer--near" data-layer="near" data-depth="18">
+        <div class="layer__in">{% render 'scene-picture', d: 'sky-d-dawn_near.webp', m: 'sky-m-dawn_near.webp', loading: 'eager' %}</div>
+      </div>
+    </div>
+
+    <a class="bottle" data-bottle href="{{ bottle_url }}" tabindex="-1" aria-hidden="true">
+      <div class="bottle__glow" aria-hidden="true"></div>
+      <div class="bottle__frame">
+        {%- if s.bottle_image != blank -%}
+          {{ s.bottle_image | image_url: width: 1400 | image_tag: loading: 'eager', class: 'bottle__still', widths: '600, 1000, 1400', sizes: '46vw', alt: s.bottle_image.alt | default: '' }}
+          <div class="bottle__sweep" data-sweep aria-hidden="true" style="--bottle-mask: url('{{ s.bottle_image | image_url: width: 1000 }}');"></div>
+        {%- else -%}
+          {%- capture frames -%}
+            [{%- for i in (0..24) -%}{%- assign nm = i | prepend: '000' | slice: -4, 4 | prepend: 'hero-turn-' | append: '.webp' -%}"{{ nm | asset_url }}"{%- unless forloop.last -%},{%- endunless -%}{%- endfor -%}]
+          {%- endcapture -%}
+          <canvas class="bottle__seq" data-bottle-seq data-frames="{{ frames | strip | escape }}" width="1000" height="1286" role="img" aria-label="{{ s.bottle_alt | escape }}"></canvas>
+          <div class="bottle__sweep" data-sweep aria-hidden="true" style="--bottle-mask: url('{{ 'hero-turn-0012.webp' | asset_url }}');"></div>
+        {%- endif -%}
+      </div>
+      <div class="bottle__shadow" aria-hidden="true"></div>
+    </a>
+
+    <div class="petals petals--front" data-petals="front" aria-hidden="true"></div>
+
+    {%- if s.image_sky == blank or s.keep_clouds -%}
+      <div class="layer layer--front" data-layer="front" data-depth="26">
+        <div class="layer__in">{% render 'scene-picture', d: 'sky-d-dawn_front.webp', m: 'sky-m-dawn_front.webp', loading: 'eager' %}</div>
+      </div>
+    {%- endif -%}
+    <div class="mist" data-mist aria-hidden="true">
+      <div class="mist__card mist__card--a"><img src="{{ 'sky-mist_a.webp' | asset_url }}" alt="" decoding="async" width="1600" height="1800"></div>
+      <div class="mist__card mist__card--b"><img src="{{ 'sky-mist_b.webp' | asset_url }}" alt="" decoding="async" width="1600" height="1800"></div>
+    </div>
+
+    <div class="manifesto" id="manifesto-{{ section.id }}" data-manifesto>
+      {%- if s.manifesto_label != blank -%}<p class="eyebrow manifesto__label">{{ s.manifesto_label | escape }}</p>{%- endif -%}
+      <p class="manifesto__text">
+        {%- assign lines = s.manifesto | newline_to_br | split: '<br />' -%}
+        {%- for line in lines -%}
+          {%- assign t = line | strip -%}
+          {%- if t != blank -%}<span class="ln"><span class="ln__in">{{ t | escape }}</span></span>{%- endif -%}
+        {%- endfor -%}
+      </p>
+      {%- if s.manifesto_link_label != blank -%}
+        <a class="link manifesto__link" href="{{ bottle_url }}">{{ s.manifesto_link_label | escape }}</a>
+      {%- endif -%}
+    </div>
+
+    {%- if s.scroll_label != blank -%}
+      <div class="corner corner--start" data-scroll-cue><span class="corner__tick"></span><span>{{ s.scroll_label | escape }}</span></div>
+    {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "t:sections.azal-sky.name",
+  "class": "section-sky",
+  "limit": 1,
+  "settings": [
+    { "type": "paragraph", "content": "t:sections.azal-sky.settings.paragraph.content" },
+    { "type": "text", "id": "eyebrow", "default": "Maison de Parfum", "label": "t:sections.azal-sky.settings.eyebrow.label" },
+    { "type": "text", "id": "heading", "default": "AZAL", "label": "t:sections.azal-sky.settings.heading.label", "info": "t:sections.azal-sky.settings.heading.info" },
+    { "type": "text", "id": "tagline", "default": "Scent, remembered.", "label": "t:sections.azal-sky.settings.tagline.label" },
+    { "type": "text", "id": "cta_label", "default": "Begin the journey", "label": "t:sections.azal-sky.settings.cta_label.label" },
+    { "type": "text", "id": "scroll_label", "default": "Scroll", "label": "t:sections.azal-sky.settings.scroll_label.label" },
+    { "type": "header", "content": "t:sections.azal-sky.settings.header_bottle.content" },
+    { "type": "product", "id": "product", "label": "t:sections.azal-sky.settings.product.label" },
+    { "type": "image_picker", "id": "bottle_image", "label": "t:sections.azal-sky.settings.bottle_image.label", "info": "t:sections.azal-sky.settings.bottle_image.info" },
+    { "type": "text", "id": "bottle_alt", "default": "A heavy arched glass bottle with rose-amber perfume and an ivory stone cap", "label": "t:sections.azal-sky.settings.bottle_alt.label" },
+    { "type": "header", "content": "t:sections.azal-sky.settings.header_manifesto.content" },
+    { "type": "text", "id": "manifesto_label", "default": "Manifesto", "label": "t:sections.azal-sky.settings.manifesto_label.label" },
+    { "type": "textarea", "id": "manifesto", "default": "Every scent begins far from the bottle —\nin a field at dawn, in a hand that picks it,\nin the patience of the ones who make it.", "label": "t:sections.azal-sky.settings.manifesto.label", "info": "t:sections.azal-sky.settings.manifesto.info" },
+    { "type": "text", "id": "manifesto_link_label", "label": "t:sections.azal-sky.settings.manifesto_link_label.label" },
+    { "type": "header", "content": "t:sections.azal-sky.settings.header_scene.content" },
+    { "type": "image_picker", "id": "image_sky", "label": "t:sections.azal-sky.settings.image_sky.label", "info": "t:sections.azal-sky.settings.image_sky.info" },
+    { "type": "checkbox", "id": "keep_clouds", "default": true, "label": "t:sections.azal-sky.settings.keep_clouds.label" },
+    { "type": "range", "id": "length", "min": 250, "max": 500, "step": 10, "unit": "vh", "default": 390, "label": "t:sections.azal-sky.settings.length.label" }
+  ],
+  "presets": [ { "name": "t:sections.azal-sky.presets.name" } ],
+  "enabled_on": { "templates": ["index", "page"] }
+}
+{% endschema %}

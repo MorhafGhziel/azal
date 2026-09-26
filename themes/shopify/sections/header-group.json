@@ -1,0 +1,18 @@
+{
+  "type": "header",
+  "name": "Header group",
+  "sections": {
+    "announcement": {
+      "type": "announcement-bar",
+      "disabled": true,
+      "blocks": { "a1": { "type": "announcement", "settings": { "text": "Complimentary gift wrapping on every order" } } },
+      "block_order": ["a1"],
+      "settings": {}
+    },
+    "header": {
+      "type": "header",
+      "settings": { "menu": "main-menu", "split_menu": true, "show_language": true, "show_currency": true }
+    }
+  },
+  "order": ["announcement", "header"]
+}

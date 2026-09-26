@@ -1,0 +1,15 @@
+{%- comment -%} Gift wrapping (a cart attribute, shown on the order) and the note. {%- endcomment -%}
+{%- if settings.cart_gift_wrap -%}
+  {%- assign wrapped = false -%}
+  {%- if cart.attributes['Gift wrapping'] == 'Yes' -%}{%- assign wrapped = true -%}{%- endif -%}
+  <label class="check">
+    <input type="checkbox" data-cart-attr="Gift wrapping" {% if wrapped %}checked{% endif %}>
+    <span>{{ 'cart.gift' | t }}</span>
+  </label>
+{%- endif -%}
+{%- if settings.cart_note -%}
+  <div class="gift-msg">
+    <label class="field__label" for="CartNote-{{ scope | default: 'page' }}">{{ 'cart.note' | t }}</label>
+    <textarea id="CartNote-{{ scope | default: 'page' }}" name="note" rows="2" maxlength="500" data-cart-note placeholder="{{ 'cart.note_placeholder' | t }}">{{ cart.note }}</textarea>
+  </div>
+{%- endif -%}

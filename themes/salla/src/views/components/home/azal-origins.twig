@@ -1,0 +1,43 @@
+{#
+  AZAL 03 — Origins: a pinned stage, one chapter per item. Images wipe up, lines rise in their masks.
+  Fields (twilight.json → home.azal-origins): label, chapters[ image, name, title, text ].
+#}
+{% set defaults = ['land', 'hand', 'craft', 'time'] %}
+{% set chapters = component.chapters ?: [] %}
+{% set total = chapters|length %}
+<div class="az" component-id="{{ componentId }}">
+<section class="origins" id="story" data-origins data-section="origins" style="--origins-length: {{ total * 80 }}svh;">
+  <div class="origins__stage" data-light>
+    <div class="origins__media">
+      {% for ch in chapters %}
+        {% set key = defaults[loop.index0 % 4] %}
+        <figure class="origins__img" data-ch-img="{{ loop.index0 }}">
+          <picture>
+            {% if ch.image %}
+              <img src="{{ ch.image }}" alt="{{ ch.title }}" loading="lazy">
+            {% else %}
+              <source media="(max-aspect-ratio: 1/1)" srcset="{{ ('azal/origins-' ~ key ~ '_m.webp')|asset }}">
+              <img src="{{ ('azal/origins-' ~ key ~ '_d.webp')|asset }}" alt="{{ ch.title }}" loading="lazy" width="2560" height="1440">
+            {% endif %}
+          </picture>
+        </figure>
+      {% endfor %}
+    </div>
+    <div class="origins__copy">
+      {% if component.label %}<p class="eyebrow">{{ component.label }}</p>{% endif %}
+      <div class="origins__texts">
+        {% for ch in chapters %}
+          <article class="origins__ch" data-ch="{{ loop.index0 }}">
+            <p class="origins__num"><span class="ln"><span class="ln__in">{{ '%02d'|format(loop.index) }} / {{ '%02d'|format(total) }} · {{ ch.name }}</span></span></p>
+            <h2 class="origins__title"><span class="ln"><span class="ln__in">{{ ch.title }}</span></span></h2>
+            <p class="origins__line"><span class="ln"><span class="ln__in">{{ ch.text }}</span></span></p>
+          </article>
+        {% endfor %}
+      </div>
+      <ol class="origins__index" aria-hidden="true">
+        {% for ch in chapters %}<li data-ch-dot="{{ loop.index0 }}"><span>{{ '%02d'|format(loop.index) }}</span>{{ ch.name }}</li>{% endfor %}
+      </ol>
+    </div>
+  </div>
+</section>
+</div>

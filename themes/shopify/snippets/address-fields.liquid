@@ -1,0 +1,19 @@
+{%- if form.errors -%}<p class="field__err" role="alert">{{ form.errors | default_errors }}</p>{%- endif -%}
+<div class="field-row">
+  <label class="field"><span class="field__label">{{ 'customer.fields.first_name' | t }}</span><input type="text" name="address[first_name]" value="{{ form.first_name }}" autocomplete="given-name"></label>
+  <label class="field"><span class="field__label">{{ 'customer.fields.last_name' | t }}</span><input type="text" name="address[last_name]" value="{{ form.last_name }}" autocomplete="family-name"></label>
+</div>
+<label class="field"><span class="field__label">{{ 'customer.fields.company' | t }}</span><input type="text" name="address[company]" value="{{ form.company }}" autocomplete="organization"></label>
+<label class="field"><span class="field__label">{{ 'customer.fields.address1' | t }}</span><input type="text" name="address[address1]" value="{{ form.address1 }}" autocomplete="address-line1"></label>
+<label class="field"><span class="field__label">{{ 'customer.fields.address2' | t }}</span><input type="text" name="address[address2]" value="{{ form.address2 }}" autocomplete="address-line2"></label>
+<div class="field-row">
+  <label class="field"><span class="field__label">{{ 'customer.fields.city' | t }}</span><input type="text" name="address[city]" value="{{ form.city }}" autocomplete="address-level2"></label>
+  <label class="field"><span class="field__label">{{ 'customer.fields.zip' | t }}</span><input type="text" name="address[zip]" value="{{ form.zip }}" autocomplete="postal-code"></label>
+</div>
+<div class="field-row">
+  <label class="field"><span class="field__label">{{ 'customer.fields.country' | t }}</span>
+    <select name="address[country]" autocomplete="country" data-default="{{ form.country }}">{{ all_country_option_tags }}</select></label>
+  <label class="field"><span class="field__label">{{ 'customer.fields.province' | t }}</span><input type="text" name="address[province]" value="{{ form.province }}" autocomplete="address-level1"></label>
+</div>
+<label class="field"><span class="field__label">{{ 'customer.fields.phone' | t }}</span><input type="tel" name="address[phone]" value="{{ form.phone }}" autocomplete="tel"></label>
+<label class="check"><input type="checkbox" name="address[default]" value="1" {% if form.set_as_default_checkbox %}checked{% endif %}> <span>{{ 'customer.addresses.set_default' | t }}</span></label>

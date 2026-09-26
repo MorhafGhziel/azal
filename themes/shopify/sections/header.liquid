@@ -1,0 +1,83 @@
+{%- liquid
+  assign menu = section.settings.menu
+  assign links = menu.links
+  assign n = links.size
+  assign half = n | plus: 1 | divided_by: 2
+  if section.settings.split_menu == false
+    assign half = n
+  endif
+-%}
+<header class="nav{% if section.settings.ink_on_home %} nav--ink-home{% endif %}" data-nav>
+  <nav class="nav__pill" aria-label="{{ 'accessibility.main_navigation' | t }}">
+    <span class="nav__side nav__side--start">
+      {%- for link in links limit: half -%}
+        <a class="nav__link nav__wide" href="{{ link.url }}"{% if link.current %} aria-current="page"{% endif %}>{{ link.title | escape }}</a>
+      {%- endfor -%}
+      <button class="nav__link nav__menu" type="button" data-menu-open aria-expanded="false" aria-controls="Menu">{{ 'general.nav.menu' | t }}</button>
+    </span>
+
+    <a class="nav__mark" href="{{ routes.root_url }}" aria-label="{{ shop.name | escape }}">
+      {%- if settings.logo != blank -%}
+        {%- assign logo_style = 'width: ' | append: settings.logo_width | append: 'px' -%}
+        {{ settings.logo | image_url: width: 320 | image_tag: loading: 'eager', widths: '80, 160, 320', style: logo_style, alt: shop.name, class: 'nav__logo' }}
+      {%- else -%}
+        <svg viewBox="0 0 40 56" aria-hidden="true"><use href="#emblem" /></svg>
+      {%- endif -%}
+    </a>
+
+    <span class="nav__side nav__side--end">
+      {%- for link in links offset: half -%}
+        <a class="nav__link nav__wide" href="{{ link.url }}"{% if link.current %} aria-current="page"{% endif %}>{{ link.title | escape }}</a>
+      {%- endfor -%}
+      {%- if section.settings.show_search -%}
+        <a class="nav__link nav__wide" href="{{ routes.search_url }}">{{ 'general.nav.search' | t }}</a>
+      {%- endif -%}
+      {%- if shop.customer_accounts_enabled and section.settings.show_account -%}
+        <a class="nav__link nav__wide" href="{% if customer %}{{ routes.account_url }}{% else %}{{ routes.account_login_url }}{% endif %}">{{ 'general.nav.account' | t }}</a>
+      {%- endif -%}
+      <a class="nav__link nav__bag" href="{{ routes.cart_url }}" data-bag aria-label="{{ 'cart.count_label' | t: count: cart.item_count }}">
+        <span>{{ 'general.nav.bag' | t }}</span>
+        <span class="nav__count">(<span class="tick" data-bag-count><span>{{ cart.item_count }}</span></span>)</span>
+      </a>
+      {%- if section.settings.show_language and localization.available_languages.size > 1 -%}
+        {%- render 'language-toggle', class: 'nav__link nav__lang nav__wide' -%}
+      {%- endif -%}
+    </span>
+  </nav>
+</header>
+
+<div class="menu" id="Menu" data-menu hidden>
+  <button class="menu__x nav__link" type="button" data-menu-close>{{ 'general.nav.close' | t }}</button>
+  <nav class="menu__list" aria-label="{{ 'accessibility.menu' | t }}">
+    {%- for link in links -%}
+      <a href="{{ link.url }}">{{ link.title | escape }}</a>
+    {%- endfor -%}
+    {%- if section.settings.show_search -%}<a href="{{ routes.search_url }}">{{ 'general.nav.search' | t }}</a>{%- endif -%}
+    {%- if shop.customer_accounts_enabled and section.settings.show_account -%}
+      <a href="{% if customer %}{{ routes.account_url }}{% else %}{{ routes.account_login_url }}{% endif %}">{{ 'general.nav.account' | t }}</a>
+    {%- endif -%}
+    {%- if section.settings.show_language and localization.available_languages.size > 1 -%}
+      {%- render 'language-toggle', class: 'menu__lang', long: true -%}
+    {%- endif -%}
+    {%- if section.settings.show_currency and localization.available_countries.size > 1 -%}
+      {%- render 'country-selector' -%}
+    {%- endif -%}
+  </nav>
+</div>
+
+{% schema %}
+{
+  "name": "t:sections.header.name",
+  "class": "section-header",
+  "enabled_on": { "groups": ["header"] },
+  "settings": [
+    { "type": "link_list", "id": "menu", "default": "main-menu", "label": "t:sections.header.settings.menu.label" },
+    { "type": "checkbox", "id": "split_menu", "default": true, "label": "t:sections.header.settings.split_menu.label", "info": "t:sections.header.settings.split_menu.info" },
+    { "type": "checkbox", "id": "show_search", "default": false, "label": "t:sections.header.settings.show_search.label" },
+    { "type": "checkbox", "id": "show_account", "default": false, "label": "t:sections.header.settings.show_account.label" },
+    { "type": "checkbox", "id": "show_language", "default": true, "label": "t:sections.header.settings.show_language.label" },
+    { "type": "checkbox", "id": "show_currency", "default": true, "label": "t:sections.header.settings.show_currency.label" },
+    { "type": "checkbox", "id": "ink_on_home", "default": false, "label": "t:sections.header.settings.ink_on_home.label", "info": "t:sections.header.settings.ink_on_home.info" }
+  ]
+}
+{% endschema %}

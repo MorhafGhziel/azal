@@ -1,0 +1,14 @@
+{%- liquid
+  assign nets = 'instagram,tiktok,snapchat,twitter,facebook,pinterest,youtube' | split: ','
+-%}
+<ul class="footer__social" role="list" {{ attrs }}>
+  {%- for net in nets -%}
+    {%- assign key = 'social_' | append: net | append: '_link' -%}
+    {%- if settings[key] != blank -%}
+      <li><a href="{{ settings[key] }}" target="_blank" rel="noopener">{%- assign label_key = 'general.social.' | append: net -%}{{ label_key | t }}</a></li>
+    {%- endif -%}
+  {%- endfor -%}
+  {%- if settings.social_whatsapp != blank -%}
+    <li><a href="{{ settings.social_whatsapp }}" target="_blank" rel="noopener">{{ 'general.social.whatsapp' | t }}</a></li>
+  {%- endif -%}
+</ul>

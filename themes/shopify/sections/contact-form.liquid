@@ -1,0 +1,33 @@
+<div class="page page--narrow">
+  <header class="page__head">
+    <h2 class="page__title h-section">{{ section.settings.heading | escape }}</h2>
+  </header>
+  {%- form 'contact', id: 'ContactForm', class: 'contact' -%}
+    {%- if form.posted_successfully? -%}
+      <p class="co__notice" role="status" tabindex="-1" autofocus>{{ 'templates.contact.success' | t }}</p>
+    {%- elsif form.errors -%}
+      <p class="field__err" role="alert">{{ form.errors | default_errors }}</p>
+    {%- endif -%}
+    <div class="field-row">
+      <label class="field"><span class="field__label">{{ 'templates.contact.name' | t }}</span>
+        <input type="text" name="contact[{{ 'templates.contact.name' | t }}]" value="{% if form.name %}{{ form.name }}{% elsif customer %}{{ customer.name }}{% endif %}" autocomplete="name"></label>
+      <label class="field"><span class="field__label">{{ 'templates.contact.email' | t }} *</span>
+        <input type="email" name="contact[email]" value="{% if form.email %}{{ form.email }}{% elsif customer %}{{ customer.email }}{% endif %}" autocomplete="email" required aria-required="true"></label>
+    </div>
+    <label class="field"><span class="field__label">{{ 'templates.contact.phone' | t }}</span>
+      <input type="tel" name="contact[{{ 'templates.contact.phone' | t }}]" value="{{ form.phone }}" autocomplete="tel"></label>
+    <label class="field"><span class="field__label">{{ 'templates.contact.message' | t }}</span>
+      <textarea name="contact[{{ 'templates.contact.message' | t }}]" rows="6">{{ form.body }}</textarea></label>
+    <button class="btn btn--solid" type="submit">{{ 'templates.contact.send' | t }}</button>
+  {%- endform -%}
+</div>
+
+{% schema %}
+{
+  "name": "t:sections.contact-form.name",
+  "settings": [
+    { "type": "text", "id": "heading", "default": "Write to the house", "label": "t:sections.contact-form.settings.heading.label" }
+  ],
+  "presets": [ { "name": "t:sections.contact-form.presets.name" } ]
+}
+{% endschema %}

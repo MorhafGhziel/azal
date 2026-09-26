@@ -1,0 +1,40 @@
+<div class="page">
+  <header class="page__head">
+    <p class="eyebrow"><a class="link" href="{{ routes.account_url }}">{{ 'customer.account.return' | t }}</a></p>
+    <h1 class="page__title" tabindex="-1">{{ 'customer.order.title' | t: name: order.name }}</h1>
+    <p class="page__lead">{{ order.created_at | time_tag: format: 'date_at_time' }}</p>
+    {%- if order.cancelled -%}<p class="field__err">{%- assign cancelled_on = order.cancelled_at | date: format: 'date' -%}{{ 'customer.order.cancelled' | t: date: cancelled_on }}</p>{%- endif -%}
+  </header>
+  <div class="acct">
+    <section>
+      <table class="acct__table">
+        <thead><tr><th scope="col">{{ 'customer.order.product' | t }}</th><th scope="col">{{ 'customer.order.quantity' | t }}</th><th scope="col">{{ 'customer.order.total' | t }}</th></tr></thead>
+        <tbody>
+          {%- for li in order.line_items -%}
+            <tr>
+              <td>{{ li.title | link_to: li.product.url }}{%- if li.fulfillment -%}<br><small class="muted">{{ li.fulfillment.created_at | time_tag: format: 'date' }}{% if li.fulfillment.tracking_url %} · <a href="{{ li.fulfillment.tracking_url }}">{{ 'customer.order.track' | t }}</a>{% endif %}</small>{%- endif -%}</td>
+              <td>{{ li.quantity }}</td>
+              <td>{{ li.final_line_price | money }}</td>
+            </tr>
+          {%- endfor -%}
+        </tbody>
+        <tfoot>
+          <tr><th scope="row" colspan="2">{{ 'customer.order.subtotal' | t }}</th><td>{{ order.line_items_subtotal_price | money }}</td></tr>
+          {%- for s in order.shipping_methods -%}<tr><th scope="row" colspan="2">{{ 'customer.order.shipping' | t }} ({{ s.title }})</th><td>{{ s.price | money }}</td></tr>{%- endfor -%}
+          {%- for t in order.tax_lines -%}<tr><th scope="row" colspan="2">{{ t.title }} ({{ t.rate_percentage }}%)</th><td>{{ t.price | money }}</td></tr>{%- endfor -%}
+          <tr><th scope="row" colspan="2">{{ 'customer.order.total' | t }}</th><td>{{ order.total_net_amount | money_with_currency }}</td></tr>
+        </tfoot>
+      </table>
+    </section>
+    <aside>
+      <h2 class="eyebrow">{{ 'customer.order.shipping_address' | t }}</h2>
+      {{ order.shipping_address | format_address }}
+      <h2 class="eyebrow">{{ 'customer.order.billing_address' | t }}</h2>
+      {{ order.billing_address | format_address }}
+    </aside>
+  </div>
+</div>
+
+{% schema %}
+{ "name": "t:sections.customers.order", "settings": [] }
+{% endschema %}

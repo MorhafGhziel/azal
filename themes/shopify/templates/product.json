@@ -1,0 +1,24 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-product",
+      "blocks": {
+        "eyebrow": { "type": "eyebrow", "settings": {} },
+        "title": { "type": "title", "settings": {} },
+        "character": { "type": "character", "settings": {} },
+        "price": { "type": "price", "settings": {} },
+        "picker": { "type": "variant_picker", "settings": {} },
+        "buy": { "type": "buy_buttons", "settings": { "show_dynamic_checkout": true, "show_pickup": true } },
+        "desc": { "type": "description", "settings": {} },
+        "notes": { "type": "notes", "settings": { "heading": "Notes" } },
+        "story": { "type": "collapsible", "settings": { "heading": "The story", "source": "story" } },
+        "wear": { "type": "collapsible", "settings": { "heading": "How to wear", "source": "wear" } },
+        "delivery": { "type": "collapsible", "settings": { "heading": "Delivery & returns", "source": "text" } }
+      },
+      "block_order": ["eyebrow", "title", "character", "price", "picker", "buy", "desc", "notes", "story", "wear", "delivery"],
+      "settings": {}
+    },
+    "recs": { "type": "product-recommendations", "settings": {} }
+  },
+  "order": ["main", "recs"]
+}
