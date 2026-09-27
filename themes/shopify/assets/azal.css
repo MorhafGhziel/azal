@@ -217,6 +217,8 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
 /* ---------- mobile composition ---------- */
 @media (max-aspect-ratio: 1/1) {
   .layer--far { top: 27%; }
+  /* keep the cloud band (about 36–52% of the portrait artwork) whole on near-square screens */
+  .layer--far .layer__in img { object-position: 50% 45%; }
   .hero-copy { padding-top: clamp(150px, 24svh, 230px); }
   .hero-copy__word { font-size: clamp(76px, 25vw, 200px); letter-spacing: 0.12em; margin-inline-start: 0.12em; }
   .bottle, :root[lang='ar'] .bottle { left: 50%; width: min(74vw, 46svh); }
