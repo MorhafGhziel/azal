@@ -77,7 +77,7 @@
                   {%- if section.settings.show_excerpt -%}
                     <p class="card__char">{{ article.excerpt_or_content | strip_html | truncatewords: 26 }}</p>
                   {%- endif -%}
-                  <a class="link card__more" href="{{ article.url }}" aria-label="{{ 'store.blog.read_more_label' | t: title: article.title | escape }}">
+                  <a class="link card__more" href="{{ article.url }}" aria-label="{{ 'store.blog.read_more_label' | t: title: article.title }}">
                     {{- 'store.blog.read_more' | t -}}
                   </a>
                 </div>

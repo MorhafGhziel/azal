@@ -17,7 +17,7 @@
 <div class="pdp-qty" {{ block.shopify_attributes }}>
   <label class="field__label" for="Quantity-{{ section.id }}">{{ 'products.product.quantity' | t }}</label>
   <div class="qty pdp-qty__control" data-qty>
-    <button type="button" class="qty__btn" data-qty-step="-1" aria-label="{{ 'products.product.decrease' | t: product: product.title | escape }}" disabled>&minus;</button>
+    <button type="button" class="qty__btn" data-qty-step="-1" aria-label="{{ 'products.product.decrease' | t: product: product.title }}" disabled>&minus;</button>
     <input
       class="qty__input"
       type="number"
@@ -33,14 +33,14 @@
       form="{{ form_id }}"
       data-qty-input
     >
-    <button type="button" class="qty__btn" data-qty-step="1" aria-label="{{ 'products.product.increase' | t: product: product.title | escape }}">+</button>
+    <button type="button" class="qty__btn" data-qty-step="1" aria-label="{{ 'products.product.increase' | t: product: product.title }}">+</button>
   </div>
   <p
     class="pdp-qty__rules muted"
     data-qty-rules
-    data-tpl-step="{{ 'products.product.increments_of' | t: step: '[n]' | escape }}"
-    data-tpl-min="{{ 'products.product.minimum_of' | t: min: '[n]' | escape }}"
-    data-tpl-max="{{ 'products.product.maximum_of' | t: max: '[n]' | escape }}"
+    data-tpl-step="{{ 'products.product.increments_of' | t: step: '[n]' }}"
+    data-tpl-min="{{ 'products.product.minimum_of' | t: min: '[n]' }}"
+    data-tpl-max="{{ 'products.product.maximum_of' | t: max: '[n]' }}"
     {% unless has_rules %}
       hidden
     {% endunless %}

@@ -233,7 +233,7 @@
     var tints = (root.dataset.tints || '#e9cfc3,#b9636a,#3a1418').split(',');
     if (env.reduced) { gsap.set(layers, { opacity: 1 }); return; }
     var tl = gsap.timeline({ defaults: { ease: 'none' } });
-    gsap.set(layers, { opacity: 0.18 });
+    gsap.set(layers, { opacity: 0.72 });
     gsap.set($('[data-buy]', root), { opacity: 0, y: 12 });
     tl.fromTo($('.notes__stack', root), { y: 40, scale: 0.94 }, { y: 0, scale: 1, duration: 0.6, ease: 'power2.out' }, 0);
     var st = $$('[data-st]', root), groups = $$('[data-ing]', root);
@@ -254,7 +254,7 @@
     });
     layers.forEach(function (l, i) {
       tl.to(l, { opacity: 1, duration: 0.3 }, 0.4 + i);
-      if (i) tl.to(layers[i - 1], { opacity: 0.45, duration: 0.3 }, 0.4 + i);
+      if (i) tl.to(layers[i - 1], { opacity: 0.72, duration: 0.3 }, 0.4 + i);
       tl.to(tint, { backgroundColor: tints[i] || tints[tints.length - 1], duration: 0.6 }, 0.2 + i);
       tl.to(halo, { scale: 1 + i * 0.35, opacity: 0.55 + i * 0.12, duration: 0.6 }, 0.2 + i);
     });

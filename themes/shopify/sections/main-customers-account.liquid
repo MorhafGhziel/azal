@@ -5,7 +5,7 @@
     <header class="page__head acct-head">
       <p class="eyebrow">{{ 'store.customer.account.title' | t }}</p>
       <h1 class="page__title" tabindex="-1">
-        <span class="ln"><span class="ln__in">{{ 'store.customer.account.greeting' | t: name: greeting_name | escape }}</span></span>
+        <span class="ln"><span class="ln__in">{{ 'store.customer.account.greeting' | t: name: greeting_name }}</span></span>
       </h1>
       <p class="page__lead"><a class="link" href="{{ routes.account_logout_url }}">{{ 'store.customer.account.logout' | t }}</a></p>
     </header>
@@ -31,7 +31,7 @@
                   {%- for order in customer.orders -%}
                     <tr>
                       <th scope="row">
-                        <a class="link link--quiet" href="{{ order.customer_url }}" aria-label="{{ 'store.customer.orders.view' | t: name: order.name | escape }}">{{ order.name }}</a>
+                        <a class="link link--quiet" href="{{ order.customer_url }}" aria-label="{{ 'store.customer.orders.view' | t: name: order.name }}">{{ order.name }}</a>
                       </th>
                       <td>{{ order.created_at | time_tag: format: 'date' }}</td>
                       <td>{{ order.financial_status_label }}</td>

@@ -12,13 +12,15 @@
   class="recs recs--{{ section.settings.intent }} color-{{ section.settings.color_scheme }}"
   data-recommendations
   data-url="{{ recs_url }}"
-  {% if section.settings.heading != blank %}
-    role="region"
-    aria-labelledby="{{ heading_id }}"
-  {% endif %}
 >
   {%- if recommendations.performed? and recommendations.products_count > 0 -%}
-    <div class="recs__in" data-recommendations-loaded>
+    <div
+      class="recs__in"
+      data-recommendations-loaded
+      {% if section.settings.heading != blank %}
+        role="region" aria-labelledby="{{ heading_id }}"
+      {% endif %}
+    >
       {%- if section.settings.heading != blank -%}
         <h2 class="recs__title eyebrow" id="{{ heading_id }}">{{ section.settings.heading | escape }}</h2>
       {%- endif -%}

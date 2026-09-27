@@ -41,7 +41,7 @@
             <address class="acct__address">{{ address | format_address }}</address>
             <div class="acct__addr-actions">
               <details class="acct__edit">
-                <summary class="link" aria-label="{{ 'store.customer.addresses.edit_label' | t: address: address.address1 | escape }}">
+                <summary class="link" aria-label="{{ 'store.customer.addresses.edit_label' | t: address: address.address1 }}">
                   {{- 'store.customer.addresses.edit' | t -}}
                 </summary>
                 <div class="acct__form">
@@ -60,7 +60,7 @@
                 data-confirm="{{ 'store.customer.addresses.delete_confirm' | t | escape }}"
               >
                 <input type="hidden" name="_method" value="delete">
-                <button class="link link--quiet" type="submit" aria-label="{{ 'store.customer.addresses.delete_label' | t: address: address.address1 | escape }}">
+                <button class="link link--quiet" type="submit" aria-label="{{ 'store.customer.addresses.delete_label' | t: address: address.address1 }}">
                   {{- 'store.customer.addresses.delete' | t -}}
                 </button>
               </form>

@@ -20,7 +20,7 @@ fruit,57,13,8,1,70,20,22;saffron,33,30,10,2,8,30,26;pepper,57,64,7,2,72,58,18;sl
 {%- endcapture -%}
 {%- assign groups = ing | strip | split: '|' -%}
 
-<section class="notes" id="notes" data-notes data-section="notes" aria-labelledby="NotesTitle-{{ section.id }}"
+<section class="notes" id="notes" data-notes data-section="notes" aria-labelledby="NotesTitle-{{ section.id }}" style="background-color: {{ s.tint_top }};"
   data-tints="{{ s.tint_top }},{{ s.tint_heart }},{{ s.tint_base }}">
   <div class="notes__stage">
     <div class="notes__tint" data-notes-tint style="background: {{ s.tint_top }};"></div>

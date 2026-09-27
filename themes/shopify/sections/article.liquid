@@ -4,7 +4,7 @@
     <header class="page__head article__head">
       <p class="eyebrow">
         {{- article.published_at | time_tag: format: 'date' -}}
-        {%- if section.settings.show_author and article.author != blank %} · {{ 'store.article.by' | t: author: article.author | escape }}{% endif -%}
+        {%- if section.settings.show_author and article.author != blank %} · {{ 'store.article.by' | t: author: article.author }}{% endif -%}
       </p>
       <h1 class="page__title" tabindex="-1">
         <span class="ln"><span class="ln__in">{{ article.title | escape }}</span></span>

@@ -68,7 +68,7 @@ a.pager__step[rel='next']:hover .pager__arrow { transform: translateX(3px); }
   display: inline-grid; place-items: center; min-width: 44px; height: 44px; padding: 0 6px; border-radius: 99px;
   font-size: 15px; text-decoration: none; transition: background-color 0.3s;
 }
-a.pager__num { opacity: 0.6; }
+a.pager__num { opacity: 0.72; }
 a.pager__num:hover { opacity: 1; background: color-mix(in srgb, currentColor 7%, transparent); }
 .pager__num.is-current { border: 1px solid color-mix(in srgb, currentColor 40%, transparent); }
 .pager__gap { opacity: 0.45; }
@@ -86,7 +86,7 @@ a.pager__num:hover { opacity: 1; background: color-mix(in srgb, currentColor 7%,
 .card--collection .card__img, .card--article .card__img { background: var(--card-bg); }
 .card__ph { position: absolute; inset: 0; }
 .card--article .card__info { grid-template-columns: 1fr; row-gap: 8px; }
-.card--article .card__date { opacity: 0.6; }
+.card--article .card__date { opacity: 0.72; }
 .card--article .card__name, .card--article .card__char { grid-column: 1; }
 .card__more { justify-self: start; margin-top: 6px; }
 @media (max-width: 900px) {
@@ -115,7 +115,7 @@ a.pager__num:hover { opacity: 1; background: color-mix(in srgb, currentColor 7%,
 /* ---------- cart page ---------- */
 .cart-page__grid { display: grid; grid-template-columns: minmax(0, 1.5fr) minmax(300px, 1fr); gap: clamp(30px, 6vw, 110px); align-items: start; }
 .cart-page__aside { display: grid; gap: 14px; background: color-mix(in srgb, var(--card-bg) 70%, transparent); }
-.cart-page__aside-title { opacity: 0.65; }
+.cart-page__aside-title { opacity: 0.72; }
 .cart-page__continue { justify-self: center; }
 .cart-page__error:not(:empty), .drawer__error:not(:empty) { margin: 0 0 12px; }
 .drawer__error:not(:empty) { padding: 12px 28px 0; }
@@ -133,7 +133,7 @@ a.pager__num:hover { opacity: 1; background: color-mix(in srgb, currentColor 7%,
 .bag-line__img { position: relative; overflow: hidden; background: var(--card-bg); }
 .bag-line__img .card__ph { padding: 8px; }
 .bag-line__name a:hover { text-decoration: underline; text-underline-offset: 3px; }
-.cart-line__vendor { margin: 0 0 4px; opacity: 0.6; }
+.cart-line__vendor { margin: 0 0 4px; opacity: 0.72; }
 .cart-line__each { margin-bottom: 6px; }
 .cart-line__each s { opacity: 0.7; }
 .cart-line__opts { margin: 0 0 8px; display: grid; gap: 2px; font-size: 13px; opacity: 0.72; }
@@ -183,7 +183,7 @@ a.pager__num:hover { opacity: 1; background: color-mix(in srgb, currentColor 7%,
 
 /* drawer */
 .cart-drawer .drawer__panel { background: var(--scheme-bg, var(--ivory)); color: var(--scheme-fg, var(--ink)); }
-.drawer__count { font-family: var(--sans); font-size: 15px; opacity: 0.6; font-variant-numeric: tabular-nums; }
+.drawer__count { font-family: var(--sans); font-size: 15px; opacity: 0.72; font-variant-numeric: tabular-nums; }
 .drawer__x { display: inline-grid; place-items: center; }
 .cart-drawer .drawer__foot { max-height: 60vh; overflow-y: auto; display: grid; gap: 10px; }
 .cart-drawer .bag-line__img .card__ph { padding: 6px; }
@@ -198,7 +198,7 @@ a.pager__num:hover { opacity: 1; background: color-mix(in srgb, currentColor 7%,
 
 /* ---------- customer accounts ---------- */
 .account-page .page__title { font-size: clamp(40px, 5vw, 84px); }
-.acct__h { margin: 0 0 14px; opacity: 0.65; }
+.acct__h { margin: 0 0 14px; opacity: 0.72; }
 .acct aside .acct__h:not(:first-child) { margin-top: 26px; }
 .acct__scroll { overflow-x: auto; }
 .acct__scroll:focus-visible { outline: 1px solid currentColor; outline-offset: 4px; }
@@ -268,7 +268,7 @@ a.acct__item-title:hover { text-decoration: underline; text-underline-offset: 3p
 .article__content { font-size: 17px; }
 .article__tags { display: flex; flex-wrap: wrap; gap: 6px 22px; margin: 44px 0 0; padding: 0; list-style: none; }
 .article__comments { margin: 80px 0 60px; padding-top: 50px; border-top: 1px solid color-mix(in srgb, currentColor 12%, transparent); display: grid; gap: 26px; }
-.article__comments-title { opacity: 0.65; }
+.article__comments-title { opacity: 0.72; }
 .article__comment-list { margin: 0; padding: 0; list-style: none; display: grid; gap: 22px; }
 .article__comment { padding-bottom: 20px; border-bottom: 1px solid color-mix(in srgb, currentColor 12%, transparent); }
 .article__comment .small { margin: 10px 0 0; }
@@ -312,7 +312,7 @@ a.acct__item-title:hover { text-decoration: underline; text-underline-offset: 3p
   width: min(620px, 100%); display: grid; justify-items: center; gap: 22px; padding: clamp(30px, 6vw, 60px);
   border: 1px solid color-mix(in srgb, currentColor 15%, transparent); border-radius: 22px; background: color-mix(in srgb, var(--card-bg) 55%, transparent);
 }
-.gift__card .eyebrow { opacity: 0.6; }
+.gift__card .eyebrow { opacity: 0.72; }
 .gift__title { font-size: clamp(38px, 5vw, 66px); }
 .gift__note { display: grid; gap: 10px; max-width: 34rem; }
 .gift__for { margin: 0; font-size: 15px; }

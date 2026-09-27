@@ -149,7 +149,7 @@
           class="card__add link"
           type="button"
           data-add="{{ first_variant.id }}"
-          aria-label="{{ 'products.card.add_named' | t: title: product.title | escape }}"
+          aria-label="{{ 'products.card.add_named' | t: title: product.title }}"
         >
           {{- 'products.card.quick_add' | t -}}
         </button>
@@ -157,7 +157,7 @@
         <a
           class="card__add link"
           href="{{ product.url }}"
-          aria-label="{{ 'products.card.choose_named' | t: title: product.title | escape }}"
+          aria-label="{{ 'products.card.choose_named' | t: title: product.title }}"
         >
           {{- 'products.card.choose_options' | t -}}
         </a>

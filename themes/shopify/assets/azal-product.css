@@ -28,7 +28,7 @@
 .pdp__visual::before { z-index: 0; pointer-events: none; }
 .pdp__info { min-width: 0; }
 .pdp__info > * + * { margin-block-start: 0; }
-.pdp__eyebrow { opacity: 0.6; }
+.pdp__eyebrow { opacity: 0.72; }
 .pdp__name { margin-block: 16px 0; overflow-wrap: anywhere; }
 .pdp__name a { text-decoration: none; }
 .pdp__name--featured { font-size: clamp(40px, 4.4vw, 76px); }
@@ -204,7 +204,7 @@
   overflow: hidden;
   border: 1px solid transparent;
   background: color-mix(in srgb, var(--ivory) 50%, transparent);
-  opacity: 0.6;
+  opacity: 0.72;
   transition: opacity 0.3s, border-color 0.3s;
 }
 .pdp-media__thumb img { width: 100%; height: 100%; object-fit: contain; }
@@ -354,7 +354,7 @@
 .plans__input:checked + .plans__label { border-color: currentColor; }
 .plans__input:focus-visible + .plans__label { outline: 1px solid var(--ink); outline-offset: 3px; }
 .plans__name { display: grid; gap: 2px; font-size: 15px; }
-.plans__desc { font-size: 12px; opacity: 0.65; }
+.plans__desc { font-size: 12px; opacity: 0.72; }
 .plans__price { font-variant-numeric: tabular-nums; white-space: nowrap; }
 
 /* gift card recipient */
@@ -553,4 +553,21 @@
 @media (max-width: 560px) {
   .recs__grid { grid-template-columns: none; grid-auto-flow: column; grid-auto-columns: 78%; overflow-x: auto; scroll-snap-type: x mandatory; padding-block-end: 8px; }
   .recs__grid > .card { scroll-snap-align: start; }
+}
+
+/* Unbranded "Buy it now": an outlined pill in the AZAL style (Shopify's default blue fails contrast). */
+.shopify-payment-button__button--unbranded {
+  background-color: transparent !important;
+  color: var(--scheme-fg, var(--ink)) !important;
+  border: 1px solid currentColor !important;
+  border-radius: var(--radius-btn) !important;
+  font-family: var(--sans);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+.shopify-payment-button__button--unbranded:hover:not([disabled]) {
+  background-color: var(--scheme-fg, var(--ink)) !important;
+  color: var(--scheme-bg, var(--ivory)) !important;
 }

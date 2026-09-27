@@ -24,7 +24,7 @@
       <link rel="icon" type="image/png" href="{{ settings.favicon | image_url: width: 64, height: 64 }}">
     {%- endif -%}
     <title>{{ 'store.gift_card.title' | t: value: gc_initial, shop: shop.name }}</title>
-    <meta name="description" content="{{ 'store.gift_card.summary' | t: shop: shop.name | escape }}">
+    <meta name="description" content="{{ 'store.gift_card.summary' | t: shop: shop.name }}">
 
     {% render 'css-variables' %}
     {{ 'critical.css' | asset_url | stylesheet_tag }}

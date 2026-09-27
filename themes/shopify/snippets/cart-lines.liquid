@@ -120,14 +120,14 @@
 
           <div class="cart-line__controls">
             <div class="qty qty--sm cart-qty">
-              <label class="visually-hidden" for="{{ qty_id }}">{{ 'store.cart.quantity_for' | t: title: item.product.title | escape }}</label>
+              <label class="visually-hidden" for="{{ qty_id }}">{{ 'store.cart.quantity_for' | t: title: item.product.title }}</label>
               <button
                 type="button"
                 class="cart-qty__btn"
                 data-qty-line="{{ line }}"
                 data-to="{{ dec_to }}"
                 data-dir="-1"
-                aria-label="{{ 'store.cart.decrease' | t: title: item.product.title | escape }}"
+                aria-label="{{ 'store.cart.decrease' | t: title: item.product.title }}"
                 aria-controls="{{ qty_id }}"
               >
                 <span aria-hidden="true">&minus;</span>
@@ -155,7 +155,7 @@
                 data-qty-line="{{ line }}"
                 data-to="{{ inc_to }}"
                 data-dir="1"
-                aria-label="{{ 'store.cart.increase' | t: title: item.product.title | escape }}"
+                aria-label="{{ 'store.cart.increase' | t: title: item.product.title }}"
                 aria-controls="{{ qty_id }}"
                 {% if rule.max != null and item.quantity >= rule.max %}
                   disabled
@@ -169,7 +169,7 @@
               href="{{ item.url_to_remove }}"
               data-qty-line="{{ line }}"
               data-to="0"
-              aria-label="{{ 'store.cart.remove_title' | t: title: item.product.title | escape }}"
+              aria-label="{{ 'store.cart.remove_title' | t: title: item.product.title }}"
             >
               {{- 'store.cart.remove' | t -}}
             </a>
